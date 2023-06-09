@@ -20,8 +20,8 @@ client = MongoClient(MONGODB_CONNECTION_STRING)
 db = client.dbprojectakhir
 
 @app.route('/')
-def index():
-    return render_template('index.html')
+def home():
+    return render_template('home.html')
 
 @app.route('/login')
 def login():
@@ -31,9 +31,7 @@ def login():
 def register():
     return render_template('register.html')
 
-@app.route('/home')
-def home():
-    return render_template('home.html')
+
 
 
 if __name__ == "__main__":
