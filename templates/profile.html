@@ -25,7 +25,7 @@
         background-size: 100rem;
     }
 
-    .container > #edit-profile {
+    .container>#edit-profile {
         margin-right: 20px;
     }
 
@@ -88,23 +88,23 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-primary">
             <!-- Container wrapper -->
             <div class="container-fluid">
-                <a class="navbar-brand mt-2 mt-lg-0" href="#">
+                <a class="navbar-brand mt-2 mt-lg-0" href="/">
                     <img src="/static/LaporBang!.png" height="10px" alt="laporbanglogo" loading="lazy" width="150px"
                         style="width:150px; height: 30px;" />
                 </a>
                 <!-- Left links -->
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="#" style="color: white;">Beranda</a>
+                        <a class="nav-link" href="/" style="color: white;">Beranda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" style="color: white;">Berita</a>
+                        <a class="nav-link" href="/berita" style="color: white;">Berita</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" style="color: white;">Profil</a>
+                        <a class="nav-link" href="/profile" style="color: white;">Profil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" style="color: white;">Tentang Kami</a>
+                        <a class="nav-link" href="/about" style="color: white;">Tentang Kami</a>
                     </li>
                 </ul>
                 <!-- Left links -->
@@ -123,7 +123,7 @@
             <div class="d-flex align-items-center">
                 <!-- Avatar -->
                 <div class="dropdown">
-                    <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#"
+                    <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="/profile"
                         id="navbarDropdownMenuAvatar" role="button" data-mdb-toggle="dropdown" aria-expanded="true">
                         <img src="/static/about/dharma.jpg" class="rounded-circle" height="25" width="50px"
                             alt="Black and White Portrait of a Man" loading="lazy" />
@@ -149,14 +149,46 @@
     </section>
 
     <section>
-        <div class="card col-6 offset-3 card my-5" style="width: 50%;">
-            <form class="card-body cardbody-color p-lg-5">
-                <div class="mb-3">
-                    <h1>Profile</h1>
-                    <button class="btn btn-primary" id="edit-profile">Edit Profile</button>
+        <div class="card col-6 offset-3 card my-5">
+            <div class="rounded-top text-white d-flex flex-row bg-primary" style="height:200px;">
+                <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
+                    <img src="/static/about/dharma.jpg" alt="Generic placeholder image"
+                        class="img-fluid img-thumbnail rounded-circle mt-5 mb-2" style="width: 150px; z-index: 1">
+                    <a href="/profile-edit" type="button" class="btn btn-outline-primary" data-mdb-ripple-color="dark"
+                        style="z-index: 1;">
+                        Edit profile
+                    </a>
                 </div>
-            </form>
-        </div>
+                <div class="ms-3" style="margin-top: 130px;">
+                    <h4>Darmaji</h4>
+                </div>
+            </div>
+            <div class="p-4 text-black" style="background-color: #f8f9fa;">
+                <div class="d-flex justify-content-end text-center py-1">
+                    <div>
+                        <p class="mb-1 h5">253</p>
+                        <p class="small text-muted mb-0">Photos</p>
+                    </div>
+                    <div class="px-3">
+                        <p class="mb-1 h5">1026</p>
+                        <p class="small text-muted mb-0">Followers</p>
+                    </div>
+                    <div>
+                        <p class="mb-1 h5">478</p>
+                        <p class="small text-muted mb-0">Following</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-4 text-black">
+                <div class="mb-5">
+                    <p class="lead fw-normal mb-1">About</p>
+                    <div class="p-4" style="background-color: #f8f9fa;">
+                        <p class="font-italic mb-1">Web Developer</p>
+                        <p class="font-italic mb-1">Lives in New York</p>
+                        <p class="font-italic mb-0">Photographer</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -164,7 +196,7 @@
         <div class="card col-6 offset-3 card my-5" style="width: 50%;">
             <form class="card-body cardbody-color p-lg-5">
                 <div class="mb-3">
-                    <img src="/static/zhongli.webp" class="rounded-circle" style="max-width: 10%" alt="..." />
+                    <img src="/static/about/dharma.jpg" class="rounded-circle" style="max-width: 10%" alt="..." />
                     <img src="/static/zhongliwp.jpg" class="img-fluid" alt="...">
                     <h3>Ini Zhongli</h3>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat error quibusdam
@@ -189,7 +221,7 @@
                 </div>
                 <br>
                 <div class="mb-3">
-                    <img src="/static/zhongli.webp" class="rounded-circle" style="max-width: 10%" alt="..." />
+                    <img src="/static/about/dharma.jpg" class="rounded-circle" style="max-width: 10%" alt="..." />
                     <img src="/static/zhongliwp.jpg" class="img-fluid" alt="...">
                     <h3>Ini Zhongli</h3>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat error quibusdam
@@ -214,7 +246,7 @@
                 </div>
                 <br>
                 <div class="mb-3">
-                    <img src="/static/zhongli.webp" class="rounded-circle" style="max-width: 10%" alt="..." />
+                    <img src="/static/about/dharma.jpg" class="rounded-circle" style="max-width: 10%" alt="..." />
                     <img src="/static/zhongliwp.jpg" class="img-fluid" alt="...">
                     <h3>Ini Zhongli</h3>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat error quibusdam
