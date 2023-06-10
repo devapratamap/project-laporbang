@@ -25,6 +25,14 @@
         background-size: 100rem;
     }
 
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100vh;
+    }
+
     .sidebar {
         height: 100%;
         width: 250px;
@@ -66,165 +74,168 @@
     }
 </style>
 
-<!-- <script>
-    function openNav() {
-        document.getElementById("mySidebar").style.width = "250px";
-        document.getElementById("main").style.marginLeft = "250px";
-    }
-
-    function closeNav() {
-        document.getElementById("mySidebar").style.width = "0";
-        document.getElementById("main").style.marginLeft = "0";
-    }
-</script> -->
-
 <body>
     <section>
-        <div class="sidebar">
-            <a href="#home"><i class="fa fa-fw fa-home"></i> Home</a>
-            <a href="#services"><i class="fa fa-fw fa-wrench"></i> Services</a>
-            <a href="#clients"><i class="fa fa-fw fa-user"></i> Clients</a>
-            <a href="#contact"><i class="fa fa-fw fa-envelope"></i> Contact</a>
-        </div>
-        <!-- <div id="main">
-            <button class="openbtn" onclick="openNav()">&#9776;</button>
-        </div> -->
-    </section>
-
-    <section>
-        <div class="search-box d-flex justify-content-center">
-            <input id="input-word" class="form-control" style="margin-right: 0.5rem; width: 50rem;" />
-            <button class="btn btn-light" onclick="find_word()">
-                <a href="/detail">
-                    <i class="fa fa-search">Search</i>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+            <!-- Container wrapper -->
+            <div class="container-fluid">
+                <a class="navbar-brand mt-2 mt-lg-0" href="#">
+                    <img src="/static/LaporBang!.png" height="10px" alt="laporbanglogo" loading="lazy" width="150px" style="width:150px; height: 30px;" />
                 </a>
-            </button>
+                <!-- Left links -->
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" style="color: white;">Beranda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" style="color: white;">Berita</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" style="color: white;">Profil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" style="color: white;">Tentang Kami</a>
+                    </li>
+                </ul>
+                <!-- Left links -->
+            </div>
+            <!-- Search form -->
+            <form class="input-group w-auto my-auto d-none d-sm-flex">
+                <input autocomplete="off" type="search" class="form-control rounded" placeholder="Search"
+                    style="min-width: 125px;" />
+                <span class="input-group-text border-0 d-none d-lg-flex" style="margin-right: 10px;"><i class="fa fa-search"></i></span>
+            </form>
+            </div>
+            <!-- Collapsible wrapper -->
+
+            <!-- Right elements -->
+            <div class="d-flex align-items-center">
+                <!-- Avatar -->
+                <div class="dropdown">
+                    <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#"
+                        id="navbarDropdownMenuAvatar" role="button" data-mdb-toggle="dropdown" aria-expanded="true">
+                        <img src="/static/about/dharma.jpg" class="rounded-circle" height="25" width="50px"
+                            alt="Black and White Portrait of a Man" loading="lazy" />
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+                        <li>
+                            <a class="dropdown-item" href="#">My profile</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#">Settings</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Right elements -->
+            </div>
+            <!-- Container wrapper -->
+        </nav>
+        <!-- Navbar -->
+    </section>
+
+    <section>
+        <div class="card col-6 offset-3 text-center card my-5" style="width: 50%;">
+            <form class="card-body cardbody-color p-lg-5">
+                <div class="mb-3">
+                    <h2>Lapor Yuk!</h2>
+                    <input type="text" class="form-control" id="alamat" placeholder="Alamat">
+                    <input type="text" class="form-control" id="provinsi" placeholder="Provinsi">
+                    <input type="text" class="form-control" id="kotakab" placeholder="Kota/Kab">
+                    <input type="text" class="form-control" id="kecamatan" placeholder="Kecamatan">
+                    <div class="mb-3">
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 27rem;">Post</button>
+                </div>
+            </form>
+        </div>
         </div>
     </section>
 
     <section>
-        <div class="container d-flex text-center">
-            <div class="row">
-                <div class="col-md-5 offset-md-4">
-                    <div class="card my-5">
-                        <form class="card-body cardbody-color p-lg-5">
-                            <div class="mb-3">
-                                <h3>Lapor Yuk!</h3>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat error quibusdam
-                                    quasi
-                                    non explicabo libero exercitationem quo voluptatibus cum. Natus, facilis sunt?
-                                    Voluptas
-                                    non harum similique? Ullam fugiat modi repellendus?</p>
-                                <input type="text" class="form-control" id="alamat"
-                                    placeholder="Alamat">
-                                <input type="text" class="form-control" id="provinsi"
-                                    placeholder="Provinsi">
-                                <input type="text" class="form-control" id="kotakab"
-                                    placeholder="Kota/Kab">
-                                <input type="text" class="form-control" id="kecamatan"
-                                    placeholder="Kecamatan">
-                                <div class="mb-3">
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-primary" style="width: 27rem;">Post</button>
-                            </div>
-
-
-                    </div>
-                    </form>
+        <div class="card col-6 offset-3 card my-5" style="width: 50%;">
+            <form class="card-body cardbody-color p-lg-5">
+                <div class="mb-3">
+                    <img src="/static/zhongli.webp" class="rounded-circle" style="max-width: 10%" alt="..." />
+                    <img src="/static/zhongliwp.jpg" class="img-fluid" alt="...">
+                    <h3>Ini Zhongli</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat error quibusdam
+                        quasi
+                        non explicabo libero exercitationem quo voluptatibus cum. Natus, facilis sunt?
+                        Voluptas
+                        non harum similique? Ullam fugiat modi repellendus?</p>
+                    <a href="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-heart" viewBox="0 0 16 16">
+                            <path
+                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z">
+                            </path>
+                        </svg>1000</a>
+                    <a href="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-chat-right" viewBox="0 0 16 16">
+                            <path
+                                d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z">
+                            </path>
+                        </svg>1000</a>
                 </div>
-            </div>
-        </div>
-        </div>
-    </section>
-
-    <section>
-        <div class="login-container d-flex">
-            <div class="row">
-                <div class="col-md-5 offset-md-4">
-                    <div class="card my-3">
-                        <form class="card-body cardbody-color p-lg-5">
-                            <div class="mb-3">
-                                <img src="/static/zhongli.webp" class="rounded-circle" style="max-width: 10%"
-                                    alt="..." />
-                                <img src="/static/zhongliwp.jpg" class="img-fluid" alt="...">
-                                <h3>Ini Zhongli</h3>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat error quibusdam
-                                    quasi
-                                    non explicabo libero exercitationem quo voluptatibus cum. Natus, facilis sunt?
-                                    Voluptas
-                                    non harum similique? Ullam fugiat modi repellendus?</p>
-                                <a href="">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                        class="bi bi-heart" viewBox="0 0 16 16">
-                                        <path
-                                            d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z">
-                                        </path>
-                                    </svg>1000</a>
-                                <a href="">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                        class="bi bi-chat-right" viewBox="0 0 16 16">
-                                        <path
-                                            d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z">
-                                        </path>
-                                    </svg>1000</a>
-                            </div>
-                            <br>
-                            <div class="mb-3">
-                                <img src="/static/zhongli.webp" class="rounded-circle" style="max-width: 10%"
-                                    alt="..." />
-                                <img src="/static/zhongliwp.jpg" class="img-fluid" alt="...">
-                                <h3>Ini Zhongli</h3>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat error quibusdam
-                                    quasi
-                                    non explicabo libero exercitationem quo voluptatibus cum. Natus, facilis sunt?
-                                    Voluptas
-                                    non harum similique? Ullam fugiat modi repellendus?</p>
-                                <a href="">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                        class="bi bi-heart" viewBox="0 0 16 16">
-                                        <path
-                                            d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z">
-                                        </path>
-                                    </svg>1000</a>
-                                <a href="">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                        class="bi bi-chat-right" viewBox="0 0 16 16">
-                                        <path
-                                            d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z">
-                                        </path>
-                                    </svg>1000</a>
-                            </div>
-                            <br>
-                            <div class="mb-3">
-                                <img src="/static/zhongli.webp" class="rounded-circle" style="max-width: 10%"
-                                    alt="..." />
-                                <img src="/static/zhongliwp.jpg" class="img-fluid" alt="...">
-                                <h3>Ini Zhongli</h3>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat error quibusdam
-                                    quasi
-                                    non explicabo libero exercitationem quo voluptatibus cum. Natus, facilis sunt?
-                                    Voluptas
-                                    non harum similique? Ullam fugiat modi repellendus?</p>
-                                <a href="">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                        class="bi bi-heart" viewBox="0 0 16 16">
-                                        <path
-                                            d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z">
-                                        </path>
-                                    </svg>1000</a>
-                                <a href="">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                        class="bi bi-chat-right" viewBox="0 0 16 16">
-                                        <path
-                                            d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z">
-                                        </path>
-                                    </svg>1000</a>
-                            </div>
-                        </form>
-                    </div>
+                <br>
+                <div class="mb-3">
+                    <img src="/static/zhongli.webp" class="rounded-circle" style="max-width: 10%" alt="..." />
+                    <img src="/static/zhongliwp.jpg" class="img-fluid" alt="...">
+                    <h3>Ini Zhongli</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat error quibusdam
+                        quasi
+                        non explicabo libero exercitationem quo voluptatibus cum. Natus, facilis sunt?
+                        Voluptas
+                        non harum similique? Ullam fugiat modi repellendus?</p>
+                    <a href="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-heart" viewBox="0 0 16 16">
+                            <path
+                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z">
+                            </path>
+                        </svg>1000</a>
+                    <a href="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-chat-right" viewBox="0 0 16 16">
+                            <path
+                                d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z">
+                            </path>
+                        </svg>1000</a>
                 </div>
-            </div>
+                <br>
+                <div class="mb-3">
+                    <img src="/static/zhongli.webp" class="rounded-circle" style="max-width: 10%" alt="..." />
+                    <img src="/static/zhongliwp.jpg" class="img-fluid" alt="...">
+                    <h3>Ini Zhongli</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat error quibusdam
+                        quasi
+                        non explicabo libero exercitationem quo voluptatibus cum. Natus, facilis sunt?
+                        Voluptas
+                        non harum similique? Ullam fugiat modi repellendus?</p>
+                    <a href="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-heart" viewBox="0 0 16 16">
+                            <path
+                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z">
+                            </path>
+                        </svg>1000</a>
+                    <a href="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-chat-right" viewBox="0 0 16 16">
+                            <path
+                                d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z">
+                            </path>
+                        </svg>1000</a>
+                </div>
+            </form>
+        </div>
         </div>
     </section>
 
