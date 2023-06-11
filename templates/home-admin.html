@@ -119,22 +119,14 @@
             <div class="d-flex align-items-center">
                 <!-- Avatar -->
                 <div class="dropdown">
-                    <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="/profile"
-                        id="navbarDropdownMenuAvatar" role="button" data-mdb-toggle="dropdown" aria-expanded="true">
-                        <img src="/static/about/dharma.jpg" class="rounded-circle" height="25" width="50px"
-                            alt="Black and White Portrait of a Man" loading="lazy" />
+                    <a class="dropdown-toggle d-flex align-items" href="#" id="navbarDropdownMenuAvatar" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="/static/about/dharma.jpg" class="rounded-circle" style="width: 50px; margin-right: 100px;" />
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
-                        <li>
-                            <a class="dropdown-item" href="#">My profile</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#">Settings</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#">Logout</a>
-                        </li>
-                    </ul>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/profile">My profile</a>
+                        <a class="dropdown-item" href="#">Logout</a>
+                    </div>
                 </div>
             </div>
             <!-- Right elements -->
@@ -248,6 +240,9 @@
         </div>
     </section>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 
 </html>
