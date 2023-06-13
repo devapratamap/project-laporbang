@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" />
     <!-- Font Awesome CSS -->
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-    
+
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
@@ -17,91 +17,124 @@
 
 </head>
 
-    <!-- navbar -->
-    <body class="has-navbar-fixed-top">
-        <nav class="navbar is-fixed-top custom-navbar" role="navigation" aria-label="main navigation">
-            <div class="navbar-brand">
-                <a class="navbar-item" href="/">
-                    <img src="{{ url_for('static', filename='logo.png') }}" />
-                </a>
-    
-                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
-                    data-target="navbarMenu">
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                </a>
+<!-- navbar -->
+
+<body class="has-navbar-fixed-top">
+    <nav class="navbar is-fixed-top custom-navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/">
+                <img src="{{ url_for('static', filename='logo.png') }}" />
+            </a>
+
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+                data-target="navbarMenu">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarMenu" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="/">Home</a>
+                <a class="navbar-item" href="/news">News</a>
+                <a class="navbar-item" href="/about">About</a>
             </div>
-    
-            <div id="navbarMenu" class="navbar-menu">
-                <div class="navbar-start">
-                    <a class="navbar-item" href="/">Home</a>
-                    <a class="navbar-item" href="/news">News</a>
-                    <a class="navbar-item" href="/about">About</a>
-                </div>
-    
-                <div class="navbar-end">
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link">
-                            <img src="{{ url_for('static', filename='blank.png') }}" class="avatar-image" />
-                        </a>
-    
-                        <div class="navbar-dropdown is-right">
-                            <a class="navbar-item" href="/user/{{ user_info.username }}">Profile</a>
-                            <a class="navbar-item" onclick="sign_out()">Logout</a>
-                        </div>
+
+            <div class="navbar-end">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        <img src="{{ url_for('static', filename='blank.png') }}" class="avatar-image" />
+                    </a>
+
+                    <div class="navbar-dropdown is-right">
+                        <a class="navbar-item" href="/user/{{ user_info.username }}">Profile</a>
+                        <a class="navbar-item" onclick="sign_out()">Logout</a>
                     </div>
                 </div>
             </div>
-        </nav>
-        <!-- navbar end -->
+        </div>
+    </nav>
+    <!-- navbar end -->
 
     <section class="section">
         <div class="container">
-            <div class="columns">
-                <div class="column is-one-third">
-                    <div class="card">
-                        <div class="card-image">
-                            <figure class="image is-4by3">
-                                <img src="/static/about/dharma.jpg" alt="Darmaji">
-                            </figure>
-                        </div>
-                        <div class="card-content">
-                            <div class="content has-text-centered">
-                                <h2 class="title is-4">Darmaji</h2>
+            <div class="card">
+                <div class="card-content">
+                    <h1 class="subtitle">Kelompok 3</h1>
+                    <h3 class="text">LaporBang! merupakan sebuah website untuk pelaporan,
+                        mengenai jalan berlubang. User dapat membagikan pengalaman dan keluh kesah,
+                        dan saling berinteraksi kepada sesama user. Website ini ditujukan kepada masyarakat Indonesia
+                        agar pengalaman perjalan menjadi lebih nyaman dan aman</h3>
+                    <br>
+                    <div class="columns">
+                        <div class="column is-one-third">
+                            <div class="card">
+                                <div class="card-image">
+                                    <figure class="image is-4by3">
+                                        <img src="/static/about/dharma.jpg">
+                                    </figure>
+                                </div>
+                                <div class="card-content">
+                                    <div class="media">
+                                        <div class="media-content">
+                                            <p class="title is-5">Darmaji</p>
+                                            <p class="subtitle is-6">@darmaji</p>
+                                        </div>
+                                    </div>
+                                    <div class="content">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                        Phasellus nec iaculis mauris.
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="column is-one-third">
-                    <div class="card">
-                        <div class="card-image">
-                            <figure class="image is-4by3">
-                                <img src="/static/about/deva.jpg" alt="Deva Pratama">
-                            </figure>
-                        </div>
-                        <div class="card-content">
-                            <div class="content has-text-centered">
-                                <h2 class="title is-4">Deva Pratama</h2>
+                        <div class="column is-one-third">
+                            <div class="card">
+                                <div class="card-image">
+                                    <figure class="image is-4by3">
+                                        <img src="/static/about/deva.jpg">
+                                    </figure>
+                                </div>
+                                <div class="card-content">
+                                    <div class="media">
+                                        <div class="media-content">
+                                            <p class="title is-5">Deva Pratama</p>
+                                            <p class="subtitle is-6">@deva</p>
+                                        </div>
+                                    </div>
+                                    <div class="content">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                        Phasellus nec iaculis mauris.
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="column is-one-third">
-                    <div class="card">
-                        <div class="card-image">
-                            <figure class="image is-4by3">
-                                <img src="/static/about/dimas.jpg" alt="Dimas Budiman">
-                            </figure>
-                        </div>
-                        <div class="card-content">
-                            <div class="content has-text-centered">
-                                <h2 class="title is-4">Dimas Budiman</h2>
+                        <div class="column is-one-third">
+                            <div class="card">
+                                <div class="card-image">
+                                    <figure class="image is-4by3">
+                                        <img src="/static/about/dimas.jpg">
+                                    </figure>
+                                </div>
+                                <div class="card-content">
+                                    <div class="media">
+                                        <div class="media-content">
+                                            <p class="title is-5">Dimas budiman</p>
+                                            <p class="subtitle is-6">@dimas</p>
+                                        </div>
+                                    </div>
+                                    <div class="content">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                        Phasellus nec iaculis mauris.
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
 </body>
