@@ -3,6 +3,7 @@ function sign_out() {
     // Menghapus cookie mytoken saat sign out
     $.removeCookie("mytoken", { path: "/" });
     alert("Logged out!");
+    
     // Mengarahkan pengguna ke halaman login setelah sign out
     window.location.href = "/login";
 }

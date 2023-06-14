@@ -14,6 +14,7 @@
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ url_for('static', filename='myjs.js') }}"></script>
     <link href="{{ url_for('static', filename='mystyle.css') }}" rel="stylesheet">
 
@@ -52,7 +53,8 @@
             <div class="navbar-end">
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">
-                        <img src="{{ url_for('static', filename='blank.png') }}" class="avatar-image" />
+                        <img src="{{ url_for('static', filename=user_info.profile_pic_real )
+                    }}" class="avatar-image" />
                     </a>
 
                     <div class="navbar-dropdown is-right">
@@ -136,6 +138,18 @@
             </div>
         </article>
     </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+                const $notification = $delete.parentNode;
+
+                $delete.addEventListener('click', () => {
+                    $notification.parentNode.removeChild($notification);
+                });
+            });
+        });
+    </script>
 
 </body>
 
