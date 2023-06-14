@@ -1,28 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <title>Login | LaporBang</title>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<head>
+    <title>Login | LaporBang</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-        <!-- Bulma CSS -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" />
-        <!-- Font Awesome CSS -->
-        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        <!-- JS -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-        <script src="{{ url_for('static', filename='myjs.js') }}"></script>
-        <link href="{{ url_for('static', filename='mystyle.css') }}" rel="stylesheet">
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" />
+    <!-- Font Awesome CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script src="{{ url_for('static', filename='myjs.js') }}"></script>
+    <link href="{{ url_for('static', filename='mystyle.css') }}" rel="stylesheet">
 
 
-        <script>
+    <script>
         // {% if msg %}
         //     alert("{{ msg }}")
         // {% endif %}
-        
+
         function sign_in() {
             // Mendapatkan nilai username dan password dari input
             let username = $("#input-username").val();
@@ -30,7 +32,7 @@
 
             // Memvalidasi input username
             if (username === "") {
-                $("#help-id-login").text("Please input your id.");
+                $("#help-id-login").text("Masukkan nama pengguna Anda");
                 $("#input-username").focus();
                 return;
             } else {
@@ -39,7 +41,7 @@
 
             // Memvalidasi input password
             if (password === "") {
-                $("#help-password").text("Please input your password.");
+                $("#help-password").text("Masukkan kata sandi Anda");
                 $("#input-password").focus();
                 return;
             } else {
@@ -61,11 +63,26 @@
                         // Mengarahkan pengguna ke halaman utama
                         window.location.replace("/");
                     } else {
-                        alert(response["msg"]);
+                        // alert(response["msg"]);
+
+                        Swal.fire({
+                            title: 'Login Failed!',
+                            text: 'Kombinasi Nama Pengguna dan Kata Sandi tidak ditemukan',
+                            icon: 'warning'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "/login";
+                            }
+                        });
+
+                        // Mengarahkan pengguna ke halaman login setelah berhasil mendaftar
+                        // window.location.replace("/login");
                     }
                 },
             });
+
         }
+
 
         function sign_up() {
             // Mendapatkan nilai username, password, dan password2 dari input
@@ -76,17 +93,25 @@
 
             // Memvalidasi input username
             if ($("#help-id").hasClass("is-danger")) {
-                alert("Please check your id");
+                Swal.fire(
+                    'Warning!',
+                    'Nama Pengguna sudak digunakan',
+                    'warning'
+                );
                 return;
             } else if (!$("#help-id").hasClass("is-success")) {
-                alert("Please double check your id");
+                Swal.fire(
+                    'Warning!',
+                    'Silakan periksa nama pengguna Anda',
+                    'warning'
+                );
                 return;
             }
 
             // Memvalidasi input password
             if (password === "") {
                 $("#help-password")
-                    .text("Please enter your password")
+                    .text("Masukkan kata sandi Anda")
                     .removeClass("is-safe")
                     .addClass("is-danger");
                 $("#input-password").focus();
@@ -94,7 +119,7 @@
             } else if (!is_password(password)) {
                 $("#help-password")
                     .text(
-                        "Please check your password. For your password, please enter 8-20 English characters, numbers, or the following special characters (!@#$%^&*)"
+                        "Silakan periksa kata sandi Anda. Untuk kata sandi Anda, masukkan 8-20 karakter bahasa Inggris, angka, atau karakter khusus berikut (!@#$%^&*)"
                     )
                     .removeClass("is-safe")
                     .addClass("is-danger");
@@ -102,7 +127,7 @@
                 return;
             } else {
                 $("#help-password")
-                    .text("This password can be used!")
+                    .text("Kata sandi ini dapat digunakan!")
                     .removeClass("is-danger")
                     .addClass("is-success");
             }
@@ -110,21 +135,21 @@
             // Memvalidasi input password2
             if (password2 === "") {
                 $("#help-password2")
-                    .text("Please enter your password")
+                    .text("Masukkan kata sandi Anda")
                     .removeClass("is-safe")
                     .addClass("is-danger");
                 $("#input-password2").focus();
                 return;
             } else if (password2 !== password) {
                 $("#help-password2")
-                    .text("Your passwords do not match")
+                    .text("Kata sandi Anda tidak cocok")
                     .removeClass("is-safe")
                     .addClass("is-danger");
                 $("#input-password2").focus();
                 return;
             } else {
                 $("#help-password2")
-                    .text("Your passwords match")
+                    .text("Kata sandi Anda cocok")
                     .removeClass("is-danger")
                     .addClass("is-success");
             }
@@ -138,12 +163,22 @@
                     password_give: password,
                 },
                 success: function (response) {
-                    alert("You are signed up! Nice!");
+                    Swal.fire({
+                        title: 'Anda sudah mendaftar!',
+                        text: 'Silakan masuk!',
+                        icon: 'success'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "/login";
+                        }
+                    });
+
                     // Mengarahkan pengguna ke halaman login setelah berhasil mendaftar
-                    window.location.replace("/login");
+                    // window.location.replace("/login");
                 },
             });
         }
+
 
         function toggle_sign_up() {
             // Toggle tampilan kotak sign up dan elemen terkait
@@ -175,7 +210,7 @@
             // Memvalidasi input username
             if (username === "") {
                 $("#help-id")
-                    .text("Enter in your id")
+                    .text("Masukkan Nama Pengguna anda!")
                     .removeClass("is-safe")
                     .addClass("is-danger");
                 $("#input-username").focus();
@@ -186,7 +221,7 @@
             if (!is_nickname(username)) {
                 $("#help-id")
                     .text(
-                        "Please check your id. For your id, please enter 2-10 English characters, numbers, or the following special characters (._-)"
+                        "Silakan periksa id Anda. Untuk id Anda, masukkan 2-10 karakter bahasa Inggris, angka, atau karakter khusus berikut (._-)"
                     )
                     .removeClass("is-safe")
                     .addClass("is-danger");
@@ -208,14 +243,14 @@
                     if (response['exists']) {
                         // Jika username sudah digunakan
                         $("#help-id")
-                            .text("This id is already in use.")
+                            .text("Nama pengguna ini sudah digunakan.")
                             .removeClass("is-safe")
                             .addClass("is-danger");
                         $("#input-username").focus();
                     } else {
                         // Jika username tersedia
                         $("#help-id")
-                            .text("This id is available!")
+                            .text("Nama pengguna ini tersedia!")
                             .removeClass("is-danger")
                             .addClass("is-success");
                     }
@@ -241,122 +276,99 @@
     </style>
 
 
-    </head>
+</head>
 
-    <body>
-            <div class="hero-body has-text-centered" style="padding-bottom: 1rem; margin: auto">
-                <img src="/static/logo.png" style="width: 500px">
-                <h1 class="subtitle is-white">Website Pelaporan Jalan Rusak dan Berlubang</h>
-            </div>
+<body>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="hero-body has-text-centered" style="padding-bottom: 1rem; margin: auto">
+        <img src="/static/logo.png" style="width: 500px">
+        <h1 class="subtitle is-white">Website Pelaporan Jalan Rusak dan Berlubang</h>
+    </div>
 
-        <section class="section">
-            <div class="container">
-                <div class="box" style="max-width: 480px; margin: auto">
-                    <article class="media">
-                        <div class="media-content">
-                            <div class="content">
-                                <div class="field has-addons">
-                                    <div class="control has-icons-left"
-                                        style="width: 100%">
-                                        <input id="input-username" class="input"
-                                            type="text" placeholder="id" />
-                                        <span class="icon is-small is-left"><i
-                                                class="fa fa-user"></i></span>
-                                    </div>
-                                    <div id="btn-check-dup notification is-link"
-                                        class="control is-hidden">
-                                        <button class="button is-blue"
-                                            onclick="check_dup()">
-                                            Check your id
-                                        </button>
-                                    </div>
+    <section class="section">
+        <div class="container">
+            <div class="box" style="max-width: 480px; margin: auto">
+                <article class="media">
+                    <div class="media-content">
+                        <div class="content">
+                            <div class="field has-addons">
+                                <div class="control has-icons-left" style="width: 100%">
+                                    <input id="input-username" class="input" type="text" placeholder="Nama Pengguna" />
+                                    <span class="icon is-small is-left"><i class="fa fa-user"></i></span>
                                 </div>
-                                <p id="help-id" class="help is-hidden">
-                                    For your id, please enter 2-10 English
-                                    characters, numbers, or
-                                    the following special characters (._-)
-                                </p>
-                                <p id="help-id-login" class="help is-danger"></p>
+                                <div id="btn-check-dup" class="control is-hidden">
+                                    <button class="button is-blue" onclick="check_dup()">
+                                        Cek Ketersediaan
+                                    </button>
+                                </div>
+                            </div>
+                            <p id="help-id" class="help is-hidden">
+                                Untuk nama pengguna Anda, masukkan 2-10 karakter, angka, atau karakter khusus.
+                            </p>
+                            <p id="help-id-login" class="help is-danger"></p>
 
+                            <div class="field">
+                                <div class="control has-icons-left">
+                                    <input id="input-password" class="input" type="password" placeholder="Kata Sandi" />
+                                    <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
+                                </div>
+                                <p id="help-password" class="help is-hidden">
+                                    Untuk kata sandi Anda, masukkan 2-10 karakter, angka, atau karakter khusus.
+                                </p>
+                            </div>
+                        </div>
+                        <div id="div-sign-in-or-up" class="has-text-centered">
+                            <nav class="level is-mobile">
+                                <button class="level-item button is-blue" onclick="sign_in()">
+                                    Masuk
+                                </button>
+                                <button class="level-item button is-blue is-outlined" onclick="clearInputs()">
+                                    Hapus
+                                </button>
+                            </nav>
+                            <hr />
+                            <h4 class="mb-3">Jika Anda belum mendaftar</h4>
+                            <nav class="level is-mobile">
+                                <button class="level-item button is-blue is-outlined" onclick="toggle_sign_up()">
+                                    Daftar
+                                </button>
+                            </nav>
+                        </div>
+
+                        <div id="sign-up-box" class="is-hidden">
+                            <div class="mb-5">
                                 <div class="field">
-                                    <div class="control has-icons-left">
-                                        <input id="input-password" class="input"
-                                            type="password"
-                                            placeholder="password" />
-                                        <span class="icon is-small is-left"><i
-                                                class="fa fa-lock"></i></span>
+                                    <div class="control has-icons-left" style="width: 100%">
+                                        <input id="input-password2" class="input" type="password"
+                                            placeholder="Konfirmasikan kata sandi Anda" />
+                                        <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
                                     </div>
-                                    <p id="help-password" class="help is-hidden">
-                                        For your password, please enter 8-20
-                                        English characters,
-                                        numbers, or the following special
-                                        characters (!@#$%^&*)
+                                    <p id="help-password2" class="help">
+                                        Masukkan kembali kata sandi Anda
                                     </p>
                                 </div>
                             </div>
-                            <div id="div-sign-in-or-up"
-                                class="has-text-centered">
-                                <nav class="level is-mobile">
-                                    <button class="level-item button is-blue"
-                                        onclick="sign_in()">
-                                        Sign In
-                                    </button>
-                                    <button
-                                        class="level-item button is-blue is-outlined"
-                                        onclick="clearInputs()">
-                                        Clear
-                                    </button>
-                                </nav>
-                                <hr />
-                                <h4 class="mb-3">If you have not yet signed up</h4>
-                                <nav class="level is-mobile">
-                                    <button
-                                        class="level-item button is-blue is-outlined"
-                                        onclick="toggle_sign_up()">
-                                        Sign Up
-                                    </button>
-                                </nav>
-                            </div>
-
-                            <div id="sign-up-box" class="is-hidden">
-                                <div class="mb-5">
-                                    <div class="field">
-                                        <div class="control has-icons-left"
-                                            style="width: 100%">
-                                            <input id="input-password2"
-                                                class="input" type="password"
-                                                placeholder="Confirm your password" />
-                                            <span class="icon is-small is-left"><i
-                                                    class="fa fa-lock"></i></span>
-                                        </div>
-                                        <p id="help-password2" class="help">
-                                            Please enter in your password again
-                                        </p>
-                                    </div>
-                                </div>
-                                <nav class="level is-mobile">
-                                    <button class="level-item button is-blue"
-                                        onclick="sign_up()">
-                                        Sign Up
-                                    </button>
-                                    <button
-                                        class="level-item button is-blue is-outlined"
-                                        onclick="toggle_sign_up()">
-                                        Cancel
-                                    </button>
-                                    <button
-                                        class="level-item button is-blue is-outlined"
-                                        onclick="clearInputs()">
-                                        Clear
-                                    </button>
-                                </nav>
-                            </div>
+                            <nav class="level is-mobile">
+                                <button class="level-item button is-blue" onclick="sign_up()">
+                                    Daftar
+                                </button>
+                                <button class="level-item button is-blue is-outlined" onclick="toggle_sign_up()">
+                                    Kembali
+                                </button>
+                                <button class="level-item button is-blue is-outlined" onclick="clearInputs()">
+                                    Hapus
+                                </button>
+                            </nav>
                         </div>
-                    </article>
-                </div>
+                    </div>
+                </article>
             </div>
-        </section>
-    </body>
-    
+        </div>
+    </section>
+</body>
 
 </html>

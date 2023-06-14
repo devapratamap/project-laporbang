@@ -1,27 +1,27 @@
 // Fungsi hapus cookie dan logout
 function sign_out() {
     // Menghapus cookie mytoken saat sign out
-    $.removeCookie("mytoken", { path: "/" });
+    // $.removeCookie("mytoken", { path: "/" });
     Swal.fire({
-        title: 'Anda yakin?',
-        text: "Anda akan logout!",
+        title: 'Apakah Anda yakin?',
+        text: "Anda akan logout dari akun ini!",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes'
-      }).then((result) => {
+        confirmButtonText: 'OK!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire(
-            'Deleted!',
-            'Your file has been deleted.',
-            'success'
-          )
+            $.removeCookie("mytoken", { path: "/", });
+            window.location.href = "/login";
+            // Kode JavaScript yang dieksekusi saat tombol "OK" diklik
+            // Atau panggil fungsi lain di sini
         }
-      })
-    
+    });
+
     // Mengarahkan pengguna ke halaman login setelah sign out
-    window.location.href = "/login";
+    
 }
 
 // Mengirimkan permintaan AJAX POST untuk mengirim komentar dan tanggal posting ke server,

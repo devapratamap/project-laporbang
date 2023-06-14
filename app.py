@@ -112,7 +112,7 @@ def sign_in():
         return jsonify(
             {
                 "result": "fail",
-                "msg": "We could not find a user with that id/password combination",
+                # "msg": "Kami tidak menemukan kombinasi Nama Pengguna/Kata Sandi tersebut",
             }
         )
 
@@ -130,7 +130,7 @@ def sign_up():
         "password": password_hash,
         "profile_name": username_receive,
         "profile_pic": "",
-        "profile_pic_real": "profile_pics/profile_placeholder.png",
+        "profile_pic_real": "profile_pics/default.png",
         "profile_info": ""
     }
     db.users.insert_one(doc)
@@ -170,7 +170,7 @@ def save_img():
             new_doc["profile_pic_real"] = file_path
         # Memperbarui informasi profil user dalam database
         db.users.update_one({"username": payload["id"]}, {"$set": new_doc})
-        return jsonify({"result": "success", "msg": "Profile updated!"})
+        return jsonify({"result": "success"})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
     
