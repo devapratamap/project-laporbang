@@ -2,7 +2,23 @@
 function sign_out() {
     // Menghapus cookie mytoken saat sign out
     $.removeCookie("mytoken", { path: "/" });
-    alert("Logged out!");
+    Swal.fire({
+        title: 'Anda yakin?',
+        text: "Anda akan logout!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          )
+        }
+      })
     
     // Mengarahkan pengguna ke halaman login setelah sign out
     window.location.href = "/login";
