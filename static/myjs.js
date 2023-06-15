@@ -255,3 +255,5 @@ function toggle_thumbsup(post_id, type) {
         });
     }
 }
+
+

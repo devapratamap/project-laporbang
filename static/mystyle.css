@@ -15,6 +15,10 @@ body {
     color: white;
 }
 
+.navbar-start {
+    color: #004ABA;
+}
+
 .custom-navbar .navbar-item:hover {
     color: #abcdef;
 }
