@@ -27,7 +27,6 @@
 </head>
 
 <!-- navbar -->
-
 <body class="has-navbar-fixed-top">
     <nav class="navbar is-fixed-top custom-navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
@@ -95,7 +94,7 @@
                                                     placeholder="Kota/Kab">
                                                 <input class="input" type="text" style="width: 184px;" id="kecamatan"
                                                     placeholder="Kecamatan">
-                                                <textarea class="textarea" placeholder="Deskripsi"></textarea>
+                                                <textarea id= "deskripsi" class="textarea" placeholder="Deskripsi"></textarea>
                                             </p>
                                             <div class="file has-name is-fullwidth">
                                                 <label class="file-label">
@@ -138,6 +137,37 @@
             </div>
         </article>
     </section>
+
+    <!-- content -->
+    <section class="section">
+        <div id="post-box" class="container">
+            <div class="box">
+                <article class="media">
+                    <div class="media-left">
+                        <a class="image is-64x64" href="#">
+                            <img class="is-rounded"
+                                src="{{ url_for('static', filename='profile_pics/profile_placeholder.png' ) }}"
+                                alt="Image">
+                        </a>
+                    </div>
+                    <div class="media-content">
+                        <div class="content">
+                            <!-- isi-content -->
+                        </div>
+                        <nav class="level is-mobile">
+                            <div class="level-left">
+                                <a class="level-item is-sparta" aria-label="heart" onclick="toggle_like('', 'heart')">
+                                    <span class="icon is-small"><i class="fa fa-heart"
+                                            aria-hidden="true"></i></span>&nbsp;<span class="like-num">2.7k</span>
+                                </a>
+                            </div>
+                        </nav>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+    <!-- end content -->
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {

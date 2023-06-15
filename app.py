@@ -174,6 +174,128 @@ def save_img():
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
     
+@app.route('/posting', methods=['POST'])
+def posting():
+    token_receive = request.cookies.get(TOKEN_KEY)
+    try:
+        payload =jwt.decode(
+            token_receive,
+            SECRET_KEY,
+            algorithms=['HS256']
+        )
+        user_info = db.users.find_one({"username": payload["id"]})
+        alamat = request.form["alamat"]
+        provinsi = request.form["provinsi"]
+        kotakab = request.form["kotakab"]
+        kecamatan  = request.form["kecamatan"]
+        deskripsi = request.form["deskripsi"]
+        
+        date_receive = request.form["date_give"]
+        doc = {
+            "username": user_info["username"],
+            "profile_name": user_info["profile_name"],
+            "profile_pic_real": user_info["profile_pic_real"],
+            "alamat": alamat,
+            "provinsi": provinsi,
+            "kotakab": kotakab,
+            "kecamatan": kecamatan,
+            "deskripsi": deskripsi,
+            
+            "date": date_receive,
+        }
+        db.posts.insert_one(doc)
+        return jsonify({
+            'result' : 'success',
+            'msg' : 'Posting success'
+        })
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for('home'))
+    
+    
+@app.route('/get_posts', methods = ['GET'])
+def get_posts():
+    token_receive = request.cookies.get(TOKEN_KEY)
+    try:
+        payload = jwt.decode(
+            token_receive,
+            SECRET_KEY,
+            algorithms=['HS256']
+        )
+        username_receive = request.args.get("username_give")
+        if username_receive == "":
+            posts = list(db.posts.find({}).sort("date", -1).limit(20))
+        else:
+            posts = list(
+                db.posts.find({"username": username_receive}).sort("date", -1).limit(20)
+            )
+
+        for post in posts:
+            post["_id"] = str(post["_id"])
+            post["count_heart"] = db.likes.count_documents(
+                {"post_id": post["_id"], "type": "heart"}
+            )
+            post["count_star"] = db.likes.count_documents(
+                {"post_id": post["_id"], "type": "star"}
+            )
+            post["count_thumbsup"] = db.likes.count_documents(
+                {"post_id": post["_id"], "type": "thumbsup"}
+            )
+            post["heart_by_me"] = bool(
+                db.likes.find_one(
+                    {"post_id": post["_id"], "type": "heart", "username": payload["id"]}
+                )
+            )
+            post["star_by_me"] = bool(
+                db.likes.find_one(
+                    {"post_id": post["_id"], "type": "star", "username": payload["id"]}
+                )
+            )
+            post["thumbsup_by_me"] = bool(
+                db.likes.find_one(
+                    {"post_id": post["_id"], "type": "thumbsup", "username": payload["id"]}
+                )
+            )
+        return jsonify({
+            'result' : 'success',
+            'msg' : 'Success fetched all post',
+            "posts": posts
+        })
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for('home'))
+    
+    
+# @app.route('/post', methods=['POST'])
+# def post():
+#     alamat = request.form.get('alamat')
+#     provinsi = request.form.get('provinsi')
+#     kotakab = request.form.get('kotakab')
+#     kecamatan = request.form.get('kecamatan')
+#     deskripsi = request.form.get('deskripsi')
+#     file = request.files['resume']
+
+#     # Simpan file jika diperlukan
+#     # file.save('path/to/save/file')
+
+#     # Buat data postingan
+#     posting_data = {
+#         'alamat': alamat,
+#         'provinsi': provinsi,
+#         'kotakab': kotakab,
+#         'kecamatan': kecamatan,
+#         'deskripsi': deskripsi,
+#         # Jika Anda menyimpan file, tambahkan path file ke dalam data postingan
+#         # 'file_path': 'path/to/save/file'
+#     }
+
+#     # Simpan data postingan ke dalam MongoDB
+#     result = collection.insert_one(posting_data)
+
+#     return jsonify({'message': 'Postingan berhasil disimpan', 'post_id': str(result.inserted_id)})
+
+    
+    
+    
+    
 @app.route('/about', methods=['GET'])
 def about():
     # Mendapatkan token dari cookie
