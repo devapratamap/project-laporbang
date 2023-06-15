@@ -110,44 +110,48 @@ function get_posts(username) {
                     let class_heart = post['heart_by_me'] ? "fa-heart" : "fa-heart-o";
                     let class_star = post['star_by_me'] ? "fa-star" : "fa-star-o";
                     let class_thumbsup = post['thumbsup_by_me'] ? "fa-thumbs-up" : "fa-thumbs-o-up";
-                    let html_temp = `<div class="box" id="${post["_id"]}">
-                                <article class="media">
-                                    <div class="media-left">
-                                        <a class="image is-64x64" href="/user/${post["username"]}">
-                                            <img class="is-rounded" src="/static/${post["profile_pic_real"]}" alt="Image">
-                                        </a>
-                                    </div>
-                                    <div class="media-content">
-                                        <div class="content">
-                                            <p>
-                                                <strong>${post["profile_name"]}</strong>
-                                                <small>@${post["username"]}</small>
-                                                <small>${time_before}</small>
-                                                <br>
-                                                ${post["alamat"]}
-                                                ${post["provinsi"]}
-                                                ${post["kotakab"]}
-                                                ${post["kecamatan"]}
-                                                ${post["deskripsi"]}
-                                            </p>
-                                        </div>
-                                        <nav class="level is-mobile">
-                                            <div class="level-left">
-                                                <a class="level-item is-sparta" aria-label="heart" onclick="toggle_like('${post["_id"]}', 'heart')">
-                                                    <span class="icon is-small"><i class="fa ${class_heart}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post['count_heart'])}</span>
-                                                </a>
-                                                <a class="level-item is-sparta" aria-label="star" onclick="toggle_star('${post["_id"]}', 'star')">
-                                                    <span class="icon is-small"><i class="fa ${class_star}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post['count_star'])}</span>
-                                                </a>
-                                                <a class="level-item is-sparta" aria-label="thumbsup" onclick="toggle_thumbsup('${post["_id"]}', 'thumbsup')">
-                                                    <span class="icon is-small"><i class="fa ${class_thumbsup}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post['count_thumbsup'])}</span>
-                                                </a>
-                                            </div>
-
-                                        </nav>
-                                    </div>
-                                </article>
-                            </div>`;
+                    let html_temp = `<div class="card" id="${post["_id"]}">
+                    <div class="card-image">
+                        <figure class="image is-4by3">
+                            <img src="/static/${post["profile_pic_real"]}" alt="Placeholder image">
+                        </figure>
+                    </div>
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-left">
+                                <figure class="image is-48x48">
+                                    <img src="/static/${post["profile_pic_real"]}">
+                                </figure>
+                            </div>
+                            <div class="media-content">
+                                <p class="title is-4">${post["profile_name"]}</p>
+                                <p class="subtitle is-6">${post["username"]}</p>
+                            </div>
+                        </div>
+        
+                        <div class="content">
+                            <p>Alamat: ${post["alamat"]}</p>
+                            <p>Provinsi: ${post["provinsi"]}</p>
+                            <p>Kota/Kab: ${post["kotakab"]}</p>
+                            <p>Kecamatan: ${post["kecamatan"]}</p>
+                            ${post["deskripsi"]}
+                            <time datetime="2016-1-1">${time_before}</time>
+                        </div>
+                        <nav class="level is-mobile">
+                            <div class="level-left">
+                                <a class="level-item is-sparta" aria-label="heart" onclick="toggle_like('${post["_id"]}', 'heart')">
+                                    <span class="icon is-small"><i class="fa ${class_heart}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post['count_heart'])}</span>
+                                </a>
+                                <a class="level-item is-sparta" aria-label="star" onclick="toggle_star('${post["_id"]}', 'star')">
+                                    <span class="icon is-small"><i class="fa ${class_star}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post['count_star'])}</span>
+                                </a>
+                                <a class="level-item is-sparta" aria-label="thumbsup" onclick="toggle_thumbsup('${post["_id"]}', 'thumbsup')">
+                                    <span class="icon is-small"><i class="fa ${class_thumbsup}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post['count_thumbsup'])}</span>
+                                </a>
+                            </div>
+                        </nav>
+                    </div>
+                </div>`;
                     $("#post-box").append(html_temp);
                 }
             }

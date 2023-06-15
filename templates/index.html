@@ -27,6 +27,7 @@
 </head>
 
 <!-- navbar -->
+
 <body class="has-navbar-fixed-top">
     <nav class="navbar is-fixed-top custom-navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
@@ -94,7 +95,8 @@
                                                     placeholder="Kota/Kab">
                                                 <input class="input" type="text" style="width: 184px;" id="kecamatan"
                                                     placeholder="Kecamatan">
-                                                <textarea id= "deskripsi" class="textarea" placeholder="Deskripsi"></textarea>
+                                                <textarea id="deskripsi" class="textarea"
+                                                    placeholder="Deskripsi"></textarea>
                                             </p>
                                             <div class="file has-name is-fullwidth">
                                                 <label class="file-label">
@@ -139,34 +141,52 @@
     </section>
 
     <!-- content -->
-    <section class="section">
-        <div id="post-box" class="container">
-            <div class="box">
-                <article class="media">
+    <!-- <section class="section">
+        <div class="card" id="${post["_id"]}">
+            <div class="card-image">
+                <figure class="image is-4by3">
+                    <img src="/static/${post["profile_pic_real"]}" alt="Placeholder image">
+                </figure>
+            </div>
+            <div class="card-content">
+                <div class="media">
                     <div class="media-left">
-                        <a class="image is-64x64" href="#">
-                            <img class="is-rounded"
-                                src="{{ url_for('static', filename='profile_pics/profile_placeholder.png' ) }}"
-                                alt="Image">
-                        </a>
+                        <figure class="image is-48x48">
+                            <img src="${post["profile_pic_real"]}">
+                        </figure>
                     </div>
                     <div class="media-content">
-                        <div class="content">
-                            <!-- isi-content -->
-                        </div>
-                        <nav class="level is-mobile">
-                            <div class="level-left">
-                                <a class="level-item is-sparta" aria-label="heart" onclick="toggle_like('', 'heart')">
-                                    <span class="icon is-small"><i class="fa fa-heart"
-                                            aria-hidden="true"></i></span>&nbsp;<span class="like-num">2.7k</span>
-                                </a>
-                            </div>
-                        </nav>
+                        <p class="title is-4">${post["profile_name"]}</p>
+                        <p class="subtitle is-6">${post["username"]}</p>
                     </div>
-                </article>
+                </div>
+
+                <div class="content">
+                    ${post["alamat"]}
+                    ${post["provinsi"]}
+                    ${post["kotakab"]}
+                    ${post["kecamatan"]}
+                    ${post["deskripsi"]}
+                    <br>
+                    <time datetime="2016-1-1">${time_before}</time>
+                </div>
+                <nav class="level is-mobile">
+                    <div class="level-left">
+                        <a class="level-item is-sparta" aria-label="heart" onclick="toggle_like('${post["_id"]}', 'heart')">
+                            <span class="icon is-small"><i class="fa ${class_heart}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post['count_heart'])}</span>
+                        </a>
+                        <a class="level-item is-sparta" aria-label="star" onclick="toggle_star('${post["_id"]}', 'star')">
+                            <span class="icon is-small"><i class="fa ${class_star}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post['count_star'])}</span>
+                        </a>
+                        <a class="level-item is-sparta" aria-label="thumbsup" onclick="toggle_thumbsup('${post["_id"]}', 'thumbsup')">
+                            <span class="icon is-small"><i class="fa ${class_thumbsup}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post['count_thumbsup'])}</span>
+                        </a>
+                    </div>
+                </nav>
             </div>
         </div>
-    </section>
+
+    </section> -->
     <!-- end content -->
 
     <script>
@@ -186,7 +206,7 @@
         burgerIcon.addEventListener('click', () => {
             navbarMenu.classList.toggle('is-active');
         });
-        
+
     </script>
 
 </body>
