@@ -27,13 +27,22 @@ function sign_out() {
 // Mengirimkan permintaan AJAX POST untuk mengirim komentar dan tanggal posting ke server,
 // lalu memperbarui halaman setelah berhasil.
 function post() {
-    let comment = $("#textarea-post").val()
+    let alamat = $("#alamat").val()
+    let provinsi = $("#provinsi").val()
+    let kotakab = $("#kotakab").val()
+    let kecamatan = $("#kecamatan").val()
+    let deskripsi = $("#deskripsi").val()
+
     let today = new Date().toISOString()
     $.ajax({
         type: "POST",
         url: "/posting",
         data: {
-            comment_give: comment,
+            alamat: alamat,
+            provinsi: provinsi,
+            kotakab: kotakab,
+            kecamatan: kecamatan,
+            deskripsi: deskripsi,
             date_give: today
         },
         success: function (response) {
@@ -95,6 +104,7 @@ function get_posts(username) {
                 let posts = response["posts"];
                 for (let i = 0; i < posts.length; i++) {
                     let post = posts[i];
+                    console.log(post);
                     let time_post = new Date(post["date"]);
                     let time_before = time2str(time_post);
                     let class_heart = post['heart_by_me'] ? "fa-heart" : "fa-heart-o";
@@ -110,9 +120,15 @@ function get_posts(username) {
                                     <div class="media-content">
                                         <div class="content">
                                             <p>
-                                                <strong>${post["profile_name"]}</strong> <small>@${post["username"]}</small> <small>${time_before}</small>
+                                                <strong>${post["profile_name"]}</strong>
+                                                <small>@${post["username"]}</small>
+                                                <small>${time_before}</small>
                                                 <br>
-                                                ${post["comment"]}
+                                                ${post["alamat"]}
+                                                ${post["provinsi"]}
+                                                ${post["kotakab"]}
+                                                ${post["kecamatan"]}
+                                                ${post["deskripsi"]}
                                             </p>
                                         </div>
                                         <nav class="level is-mobile">
