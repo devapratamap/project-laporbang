@@ -21,7 +21,7 @@ function sign_out() {
     });
 
     // Mengarahkan pengguna ke halaman login setelah sign out
-    
+
 }
 
 // Mengirimkan permintaan AJAX POST untuk mengirim komentar dan tanggal posting ke server,
