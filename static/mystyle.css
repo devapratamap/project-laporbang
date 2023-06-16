@@ -20,13 +20,18 @@ body {
 }
 
 .custom-navbar .navbar-item:hover {
-    color: #abcdef;
+    color: black;
 }
 .custom-navbar .navbar-dropdown {
-    background-color: #345678;
+    background-color: white;
 }
+
+.custom-navbar .navbar-dropdown {
+    display: active;
+}
+
 .custom-navbar .navbar-dropdown a.navbar-item {
-    color: white;
+    color: black;
 }
 .custom-navbar .navbar-dropdown a.navbar-item:hover {
     background-color: #abcdef;
@@ -117,3 +122,4 @@ input::-webkit-calendar-picker-indicator {
 .media-profile .media-left{
     margin-bottom: 2rem;
 }
+

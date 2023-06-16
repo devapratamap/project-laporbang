@@ -134,8 +134,9 @@ function get_posts(username) {
                             <br>
                             ${post["provinsi"]}, ${post["kotakab"]}, ${post["kecamatan"]}
                             <br>
-                            ${post["deskripsi"]}
-                            <br>
+                            <div class="box">
+                                <b>${post["deskripsi"]}</b>
+                            </div>
                             <time datetime="2016-1-1">${time_before}</time>
                         </div>
                         <nav class="level is-mobile">

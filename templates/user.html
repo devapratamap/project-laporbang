@@ -118,8 +118,8 @@
                 </div>
             </article>
         </div>
-        <nav id="btns-me has-text-centered" class="level is-mobile" style="margin-top: 2rem">
-            <a class="button level-item has-text-centered is-sparta" aria-label="edit"
+        <nav id="btns-me has-text-centered is-centered" class="level is-mobile" style="width: 200px;">
+            <a class="button level-item has-text-centered " aria-label="edit"
                 onclick='$("#modal-edit").addClass("is-active")'>
                 Edit Profil&nbsp;&nbsp;&nbsp;<span class="icon is-small"><i class="fa fa-pencil"
                         aria-hidden="true"></i></span>
@@ -150,7 +150,8 @@
                                                     <span class="file-label">Pilih File</span>
                                                 </span>
                                                 <span id="file-name" class="file-name"
-                                                    style="width: 100%; max-width: 100%">{{ user_info.profile_pic }}</span>
+                                                    style="width: 100%; max-width: 100%">{{ user_info.profile_pic
+                                                    }}</span>
                                             </label>
                                         </div>
                                     </div>
@@ -217,7 +218,8 @@
                                                     placeholder="Kota/Kab">
                                                 <input class="input" type="text" style="width: 184px;" id="kecamatan"
                                                     placeholder="Kecamatan">
-                                                <textarea class="textarea" placeholder="Deskripsi" id="deskripsi"></textarea>
+                                                <textarea class="textarea" placeholder="Deskripsi"
+                                                    id="deskripsi"></textarea>
                                             </p>
                                             <div class="file has-name is-fullwidth">
                                                 <label class="file-label">
@@ -232,7 +234,7 @@
                                                     </span>
                                                     <span class="file-name">
 
-                                                  </span>
+                                                    </span>
                                                 </label>
                                             </div>
                                         </div>
@@ -317,7 +319,12 @@
         burgerIcon.addEventListener('click', () => {
             navbarMenu.classList.toggle('is-active');
         });
-        
+
+        function toggleDropdown() {
+            var dropdown = document.getElementById('click', ("dropdown"));
+            dropdown.classList.toggle("is-active");
+        }
+
     </script>
 
 </body>
