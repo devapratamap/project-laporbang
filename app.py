@@ -221,54 +221,6 @@ def posting():
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for('home'))
 
-
-
-
-
-
-
-
-
-
-
-
-# @app.route('/posting', methods=['POST'])
-# def posting():
-#     token_receive = request.cookies.get(TOKEN_KEY)
-#     try:
-#         payload =jwt.decode(
-#             token_receive,
-#             SECRET_KEY,
-#             algorithms=['HS256']
-#         )
-#         user_info = db.users.find_one({"username": payload["id"]})
-#         alamat = request.form["alamat"]
-#         provinsi = request.form["provinsi"]
-#         kotakab = request.form["kotakab"]
-#         kecamatan  = request.form["kecamatan"]
-#         deskripsi = request.form["deskripsi"]
-        
-#         date_receive = request.form["date_give"]
-#         doc = {
-#             "username": user_info["username"],
-#             "profile_name": user_info["profile_name"],
-#             "profile_pic_real": user_info["profile_pic_real"],
-#             "alamat": alamat,
-#             "provinsi": provinsi,
-#             "kotakab": kotakab,
-#             "kecamatan": kecamatan,
-#             "deskripsi": deskripsi,
-            
-#             "date": date_receive,
-#         }
-#         db.posts.insert_one(doc)
-#         return jsonify({
-#             'result' : 'success',
-#             'msg' : 'Posting success'
-#         })
-#     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-#         return redirect(url_for('home'))
-    
     
 @app.route('/get_posts', methods = ['GET'])
 def get_posts():
