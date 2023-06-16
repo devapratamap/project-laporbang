@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>{{ user_info.name }} | LaporBang</title>
+    <title>{{ user_info.username }} | LaporBang</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
@@ -150,8 +150,7 @@
                                                     <span class="file-label">Pilih File</span>
                                                 </span>
                                                 <span id="file-name" class="file-name"
-                                                    style="width: 100%; max-width: 100%">{{ user_info.profile_pic
-                                                    }}</span>
+                                                    style="width: 100%; max-width: 100%">{{ user_info.profile_pic }}</span>
                                             </label>
                                         </div>
                                     </div>
@@ -168,7 +167,7 @@
                                     <div class="level-left"></div>
                                     <div class="level-right">
                                         <div class="level-item">
-                                            <a class="button is-sparta" onclick="update_profile()">Update</a>
+                                            <a class="button is-link" onclick="update_profile()">Update</a>
                                         </div>
                                         <div class="level-item">
                                             <a class="button is-sparta is-outlined"
@@ -218,7 +217,7 @@
                                                     placeholder="Kota/Kab">
                                                 <input class="input" type="text" style="width: 184px;" id="kecamatan"
                                                     placeholder="Kecamatan">
-                                                <textarea class="textarea" placeholder="Deskripsi"></textarea>
+                                                <textarea class="textarea" placeholder="Deskripsi" id="deskripsi"></textarea>
                                             </p>
                                             <div class="file has-name is-fullwidth">
                                                 <label class="file-label">
@@ -233,7 +232,7 @@
                                                     </span>
                                                     <span class="file-name">
 
-                                                    </span>
+                                                  </span>
                                                 </label>
                                             </div>
                                         </div>

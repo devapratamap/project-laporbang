@@ -130,13 +130,9 @@ function get_posts(username) {
                         </div>
         
                         <div class="content">
-                            Alamat: ${post["alamat"]}
+                            ${post["alamat"]}
                             <br>
-                            Provinsi: ${post["provinsi"]}
-                            <br>
-                            Kota/Kab: ${post["kotakab"]}
-                            <br>
-                            Kecamatan: ${post["kecamatan"]}
+                            ${post["provinsi"]}, ${post["kotakab"]}, ${post["kecamatan"]}
                             <br>
                             ${post["deskripsi"]}
                             <br>
