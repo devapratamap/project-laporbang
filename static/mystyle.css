@@ -15,8 +15,8 @@ body {
     color: white;
 }
 
-.navbar-start {
-    color: #004ABA;
+.custom-navbar .navbar-start {
+    background-color: #004ABA;
 }
 
 .custom-navbar .navbar-item:hover {

@@ -130,11 +130,16 @@ function get_posts(username) {
                         </div>
         
                         <div class="content">
-                            <p>Alamat: ${post["alamat"]}</p>
-                            <p>Provinsi: ${post["provinsi"]}</p>
-                            <p>Kota/Kab: ${post["kotakab"]}</p>
-                            <p>Kecamatan: ${post["kecamatan"]}</p>
+                            Alamat: ${post["alamat"]}
+                            <br>
+                            Provinsi: ${post["provinsi"]}
+                            <br>
+                            Kota/Kab: ${post["kotakab"]}
+                            <br>
+                            Kecamatan: ${post["kecamatan"]}
+                            <br>
                             ${post["deskripsi"]}
+                            <br>
                             <time datetime="2016-1-1">${time_before}</time>
                         </div>
                         <nav class="level is-mobile">
