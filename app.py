@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import jwt
 import hashlib
 from flask import (Flask, render_template, jsonify, request, redirect, url_for)
+from flask_pymongo import PyMongo
 from pymongo import MongoClient
 from datetime import datetime, timedelta
 from werkzeug.utils import secure_filename
@@ -15,6 +16,7 @@ load_dotenv(dotenv_path)
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['UPLOAD_FOLDER'] = './static/profile_pics'
+app.config['UPLOAD_POST'] = './static/post'
 
 MONGODB_URI = os.environ.get("MONGODB_URI")
 DB_NAME =  os.environ.get("DB_NAME")
@@ -172,12 +174,14 @@ def save_img():
         return jsonify({"result": "success"})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
-    
+
+
+
 @app.route('/posting', methods=['POST'])
 def posting():
     token_receive = request.cookies.get(TOKEN_KEY)
     try:
-        payload =jwt.decode(
+        payload = jwt.decode(
             token_receive,
             SECRET_KEY,
             algorithms=['HS256']
@@ -186,10 +190,17 @@ def posting():
         alamat = request.form["alamat"]
         provinsi = request.form["provinsi"]
         kotakab = request.form["kotakab"]
-        kecamatan  = request.form["kecamatan"]
+        kecamatan = request.form["kecamatan"]
         deskripsi = request.form["deskripsi"]
-        
         date_receive = request.form["date_give"]
+
+        image = request.files['image']
+        filename = image.filename
+
+        # Save the image file to the specified folder
+        image_path = os.path.join(app.config['UPLOAD_POST'], filename)
+        image.save(image_path)
+
         doc = {
             "username": user_info["username"],
             "profile_name": user_info["profile_name"],
@@ -199,16 +210,64 @@ def posting():
             "kotakab": kotakab,
             "kecamatan": kecamatan,
             "deskripsi": deskripsi,
-            
             "date": date_receive,
+            "image_filename": filename
         }
         db.posts.insert_one(doc)
         return jsonify({
-            'result' : 'success',
-            'msg' : 'Posting success'
+            'result': 'success',
+            'msg': 'Posting success'
         })
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for('home'))
+
+
+
+
+
+
+
+
+
+
+
+
+# @app.route('/posting', methods=['POST'])
+# def posting():
+#     token_receive = request.cookies.get(TOKEN_KEY)
+#     try:
+#         payload =jwt.decode(
+#             token_receive,
+#             SECRET_KEY,
+#             algorithms=['HS256']
+#         )
+#         user_info = db.users.find_one({"username": payload["id"]})
+#         alamat = request.form["alamat"]
+#         provinsi = request.form["provinsi"]
+#         kotakab = request.form["kotakab"]
+#         kecamatan  = request.form["kecamatan"]
+#         deskripsi = request.form["deskripsi"]
+        
+#         date_receive = request.form["date_give"]
+#         doc = {
+#             "username": user_info["username"],
+#             "profile_name": user_info["profile_name"],
+#             "profile_pic_real": user_info["profile_pic_real"],
+#             "alamat": alamat,
+#             "provinsi": provinsi,
+#             "kotakab": kotakab,
+#             "kecamatan": kecamatan,
+#             "deskripsi": deskripsi,
+            
+#             "date": date_receive,
+#         }
+#         db.posts.insert_one(doc)
+#         return jsonify({
+#             'result' : 'success',
+#             'msg' : 'Posting success'
+#         })
+#     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+#         return redirect(url_for('home'))
     
     
 @app.route('/get_posts', methods = ['GET'])
