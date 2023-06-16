@@ -16,14 +16,13 @@ app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['UPLOAD_FOLDER'] = './static/profile_pics'
 
-SECRET_KEY = 'secret_pass'
-
 MONGODB_URI = os.environ.get("MONGODB_URI")
 DB_NAME =  os.environ.get("DB_NAME")
-
 client = MongoClient(MONGODB_URI)
 db = client[DB_NAME]
+
 TOKEN_KEY = 'mytoken'
+SECRET_KEY = 'secret_pass'
 
 @app.route('/', methods=['GET'])
 def home():
