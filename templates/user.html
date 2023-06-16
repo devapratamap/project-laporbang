@@ -9,7 +9,9 @@
     <!-- Bulma CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" />
     <!-- Font Awesome CSS -->
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&family=Noto+Serif+Display:wght@100;300&display=swap"
+        rel="stylesheet">
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -54,6 +56,8 @@
                 },
             });
         }
+
+
     </script>
 </head>
 <!-- navbar -->
@@ -61,11 +65,11 @@
 <body class="has-navbar-fixed-top">
     <nav class="navbar is-fixed-top custom-navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-            <a class="navbar-item" href="/">
+            <a class="navbar-item is-black" href="/">
                 <img src="{{ url_for('static', filename='logo.png') }}" />
             </a>
 
-            <a class="navbar-burger" id="burger">
+            <a class="navbar-burger is-white" id="burger">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
@@ -118,8 +122,8 @@
                 </div>
             </article>
         </div>
-        <nav id="btns-me has-text-centered is-centered" class="level is-mobile" style="width: 200px;">
-            <a class="button level-item has-text-centered " aria-label="edit"
+        <nav id="btns-me has-text-centered" class="level is-fullwidth" style="margin-top: 2rem">
+            <a class="button level-item has-text-centered is-sparta" aria-label="edit"
                 onclick='$("#modal-edit").addClass("is-active")'>
                 Edit Profil&nbsp;&nbsp;&nbsp;<span class="icon is-small"><i class="fa fa-pencil"
                         aria-hidden="true"></i></span>
@@ -218,8 +222,8 @@
                                                     placeholder="Kota/Kab">
                                                 <input class="input" type="text" style="width: 184px;" id="kecamatan"
                                                     placeholder="Kecamatan">
-                                                <textarea class="textarea" placeholder="Deskripsi"
-                                                    id="deskripsi"></textarea>
+                                                <textarea id="deskripsi" class="textarea"
+                                                    placeholder="Deskripsi"></textarea>
                                             </p>
                                             <div class="file has-name is-fullwidth">
                                                 <label class="file-label">
@@ -229,12 +233,10 @@
                                                             <i class="fa fa-upload"></i>
                                                         </span>
                                                         <span class="file-label">
-                                                            Pilih File
+                                                            Pilih file
                                                         </span>
                                                     </span>
-                                                    <span class="file-name">
-
-                                                    </span>
+                                                    <span class="file-name"></span>
                                                 </label>
                                             </div>
                                         </div>
