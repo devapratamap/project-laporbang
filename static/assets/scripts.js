@@ -288,7 +288,7 @@ function sign_up() {
         },
         success: function (response) {
             Swal.fire({
-                title: 'Anda sudah mendaftar!',
+                title: 'Berhasil mendaftar!',
                 text: 'Silakan masuk!',
                 icon: 'success'
             }).then((result) => {

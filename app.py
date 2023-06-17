@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 import jwt
 import hashlib
-import requets
+# import requets
 from flask import (Flask, render_template, jsonify, request, redirect, url_for)
 from flask_pymongo import PyMongo
 from pymongo import MongoClient
