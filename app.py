@@ -19,12 +19,13 @@ app.config['UPLOAD_FOLDER'] = './static/profile_pics'
 app.config['UPLOAD_POST'] = './static/post'
 
 MONGODB_URI = os.environ.get("MONGODB_URI")
-DB_NAME =  os.environ.get("DB_NAME")
+DB_NAME = os.environ.get("DB_NAME")
 client = MongoClient(MONGODB_URI)
 db = client[DB_NAME]
 
 TOKEN_KEY = 'mytoken'
 SECRET_KEY = 'secret_pass'
+
 
 @app.route('/', methods=['GET'])
 def home():
@@ -46,7 +47,8 @@ def home():
     except jwt.exceptions.DecodeError:
         msg = 'There was a problem logging you in'
         return redirect(url_for('login', msg=msg))
-    
+
+
 @app.route('/login', methods=['GET'])
 def login():
     msg = request.args.get('msg')
@@ -78,8 +80,8 @@ def user(username):
         )
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for('home'))
-    
-    
+
+
 @app.route('/sign_in', methods=['POST'])
 def sign_in():
     # Mendapatkan username dan password yang dikirimkan dalam permintaan POST
@@ -124,7 +126,8 @@ def sign_up():
     username_receive = request.form.get('username_give')
     password_receive = request.form.get('password_give')
     # Melakukan hashing pada password
-    password_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
+    password_hash = hashlib.sha256(
+        password_receive.encode('utf-8')).hexdigest()
     # Membuat dokumen baru yang akan disimpan ke dalam database
     doc = {
         "username": username_receive,
@@ -176,7 +179,6 @@ def save_img():
         return redirect(url_for("home"))
 
 
-
 @app.route('/posting', methods=['POST'])
 def posting():
     token_receive = request.cookies.get(TOKEN_KEY)
@@ -221,8 +223,8 @@ def posting():
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for('home'))
 
-    
-@app.route('/get_posts', methods = ['GET'])
+
+@app.route('/get_posts', methods=['GET'])
 def get_posts():
     token_receive = request.cookies.get(TOKEN_KEY)
     try:
@@ -236,7 +238,8 @@ def get_posts():
             posts = list(db.posts.find({}).sort("date", -1).limit(20))
         else:
             posts = list(
-                db.posts.find({"username": username_receive}).sort("date", -1).limit(20)
+                db.posts.find({"username": username_receive}
+                              ).sort("date", -1).limit(20)
             )
 
         for post in posts:
@@ -252,32 +255,36 @@ def get_posts():
             )
             post["heart_by_me"] = bool(
                 db.likes.find_one(
-                    {"post_id": post["_id"], "type": "heart", "username": payload["id"]}
+                    {"post_id": post["_id"], "type": "heart",
+                        "username": payload["id"]}
                 )
             )
             post["star_by_me"] = bool(
                 db.likes.find_one(
-                    {"post_id": post["_id"], "type": "star", "username": payload["id"]}
+                    {"post_id": post["_id"], "type": "star",
+                        "username": payload["id"]}
                 )
             )
             post["thumbsup_by_me"] = bool(
                 db.likes.find_one(
-                    {"post_id": post["_id"], "type": "thumbsup", "username": payload["id"]}
+                    {"post_id": post["_id"], "type": "thumbsup",
+                        "username": payload["id"]}
                 )
             )
         return jsonify({
-            'result' : 'success',
-            'msg' : 'Success fetched all post',
+            'result': 'success',
+            'msg': 'Success fetched all post',
             "posts": posts
         })
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for('home'))
 
+
 @app.route('/about', methods=['GET'])
 def about():
     # Mendapatkan token dari cookie
     token_receive = request.cookies.get(TOKEN_KEY)
-    
+
     # Mendekode token menggunakan SECRET_KEY
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
@@ -295,12 +302,13 @@ def about():
     else:
         # Tangani jika user tidak ditemukan
         return redirect('/login')
-    
+
+
 @app.route('/news', methods=['GET'])
 def news():
     # Mendapatkan token dari cookie
     token_receive = request.cookies.get(TOKEN_KEY)
-    
+
     # Mendekode token menggunakan SECRET_KEY
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
@@ -318,6 +326,7 @@ def news():
     else:
         # Tangani jika user tidak ditemukan
         return redirect('/login')
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
