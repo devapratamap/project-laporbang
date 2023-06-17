@@ -1,147 +1,106 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <title>About Me | LaporBang</title>
+    <head>
+        <title>About Me | LaporBang</title>
 
-    <!-- Bulma CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" />
-    <!-- Font Awesome CSS -->
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    {% include 'meta.html' %}
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </head>
 
-    <!-- JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-    <script src="{{ url_for('static', filename='myjs.js') }}"></script>
-    <link href="{{ url_for('static', filename='mystyle.css') }}" rel="stylesheet">
+    {% include 'navbar.html' %}
 
-</head>
-
-<!-- navbar -->
-
-<body class="has-navbar-fixed-top">
-    <nav class="navbar is-fixed-top custom-navbar" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-            <a class="navbar-item" href="/">
-                <img src="{{ url_for('static', filename='logo.png') }}" />
-            </a>
-
-            <a class="navbar-burger is-white" id="burger">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-            </a>
-        </div>
-
-        <div id="navbarMenu" class="navbar-menu">
-            <div class="navbar-start">
-                <a class="navbar-item" href="/">Beranda</a>
-                <a class="navbar-item" href="/news">Berita</a>
-                <a class="navbar-item" href="/about">Tentang Kami</a>
-            </div>
-
-            <div class="navbar-end">
-                <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link">
-                        <img src="{{ url_for('static', filename=user_info.profile_pic_real )
-                    }}" class="avatar-image" />
-                    </a>
-
-                    <div class="navbar-dropdown is-right has-dropdown">
-                        <a class="navbar-item" href="/user/{{ user_info.username }}">Profil</a>
-                        <a class="navbar-item" onclick="sign_out()">Keluar</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <!-- navbar end -->
-
-    <section class="section">
-        <div class="container">
-            <div class="card">
-                <div class="card-content">
-                    <h1 class="subtitle">Kelompok 3</h1>
-                    <h3 class="text">LaporBang! merupakan sebuah website untuk pelaporan,
-                        mengenai jalan berlubang. User dapat membagikan pengalaman dan keluh kesah,
-                        dan saling berinteraksi kepada sesama user. Website ini ditujukan kepada masyarakat Indonesia
-                        agar pengalaman perjalan menjadi lebih nyaman dan aman</h3>
-                    <br>
-                    <div class="columns">
-                        <div class="column is-one-third">
-                            <div class="card">
-                                <div class="card-image">
-                                    <figure class="image is-4by3">
-                                        <img src="/static/about/dharma.jpg">
-                                    </figure>
-                                </div>
-                                <div class="card-content">
-                                    <div class="media">
-                                        <div class="media-content">
-                                            <p class="title is-5">Darmaji</p>
-                                            <p class="subtitle is-6">@darmaji</p>
-                                        </div>
+        <section class="section">
+            <div class="container">
+                <div class="card">
+                    <div class="card-content">
+                        <h1 class="subtitle">Kelompok 3</h1>
+                        <h3 class="text">LaporBang! merupakan sebuah website
+                            untuk pelaporan,
+                            mengenai jalan berlubang. User dapat membagikan
+                            pengalaman dan keluh kesah,
+                            dan saling berinteraksi kepada sesama user. Website
+                            ini ditujukan kepada masyarakat Indonesia
+                            agar pengalaman perjalan menjadi lebih nyaman dan
+                            aman</h3>
+                        <br>
+                        <div class="columns">
+                            <div class="column is-one-third">
+                                <div class="card">
+                                    <div class="card-image">
+                                        <figure class="image is-4by3">
+                                            <img src="/static/about/dharma.jpg">
+                                        </figure>
                                     </div>
-                                    <div class="content">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        Phasellus nec iaculis mauris.
+                                    <div class="card-content">
+                                        <div class="media">
+                                            <div class="media-content">
+                                                <p class="title is-5">Darmaji</p>
+                                                <p class="subtitle is-6">@darmaji</p>
+                                            </div>
+                                        </div>
+                                        <div class="content">
+                                            Lorem ipsum dolor sit amet,
+                                            consectetur adipiscing elit.
+                                            Phasellus nec iaculis mauris.
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="column is-one-third">
-                            <div class="card">
-                                <div class="card-image">
-                                    <figure class="image is-4by3">
-                                        <img src="/static/about/deva.jpg">
-                                    </figure>
-                                </div>
-                                <div class="card-content">
-                                    <div class="media">
-                                        <div class="media-content">
-                                            <p class="title is-5">Deva Pratama</p>
-                                            <p class="subtitle is-6">@deva</p>
-                                        </div>
+                            <div class="column is-one-third">
+                                <div class="card">
+                                    <div class="card-image">
+                                        <figure class="image is-4by3">
+                                            <img src="/static/about/deva.jpg">
+                                        </figure>
                                     </div>
-                                    <div class="content">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        Phasellus nec iaculis mauris.
+                                    <div class="card-content">
+                                        <div class="media">
+                                            <div class="media-content">
+                                                <p class="title is-5">Deva
+                                                    Pratama</p>
+                                                <p class="subtitle is-6">@deva</p>
+                                            </div>
+                                        </div>
+                                        <div class="content">
+                                            Lorem ipsum dolor sit amet,
+                                            consectetur adipiscing elit.
+                                            Phasellus nec iaculis mauris.
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="column is-one-third">
-                            <div class="card">
-                                <div class="card-image">
-                                    <figure class="image is-4by3">
-                                        <img src="/static/about/dimas.jpg">
-                                    </figure>
-                                </div>
-                                <div class="card-content">
-                                    <div class="media">
-                                        <div class="media-content">
-                                            <p class="title is-5">Dimas budiman</p>
-                                            <p class="subtitle is-6">@dimas</p>
-                                        </div>
+                            <div class="column is-one-third">
+                                <div class="card">
+                                    <div class="card-image">
+                                        <figure class="image is-4by3">
+                                            <img src="/static/about/dimas.jpg">
+                                        </figure>
                                     </div>
-                                    <div class="content">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        Phasellus nec iaculis mauris.
+                                    <div class="card-content">
+                                        <div class="media">
+                                            <div class="media-content">
+                                                <p class="title is-5">Dimas
+                                                    budiman</p>
+                                                <p class="subtitle is-6">@dimas</p>
+                                            </div>
+                                        </div>
+                                        <div class="content">
+                                            Lorem ipsum dolor sit amet,
+                                            consectetur adipiscing elit.
+                                            Phasellus nec iaculis mauris.
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
+        </section>
 
-        </div>
-    </section>
-
-    <script>
+        <script>
         document.addEventListener('DOMContentLoaded', () => {
             (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
                 const $notification = $delete.parentNode;
@@ -160,6 +119,6 @@
         });
         
     </script>
-</body>
+    </body>
 
 </html>
