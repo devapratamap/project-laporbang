@@ -26,6 +26,11 @@ db = client[DB_NAME]
 
 TOKEN_KEY = 'mytoken'
 SECRET_KEY = 'secret_pass'
+CORS_HEADERS = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'OPTIONS,HEAD,GET,POST,PUT,PATCH,DELETE'
+}
 
 
 @app.route('/', methods=['GET'])
@@ -220,9 +225,9 @@ def posting():
         return jsonify({
             'result': 'success',
             'msg': 'Posting success'
-        })
+        }), 200, CORS_HEADERS
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return redirect(url_for('home'))
+        return redirect(url_for('home')), 200, CORS_HEADERS
 
 
 @app.route('/get_posts', methods=['GET'])
