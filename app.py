@@ -15,7 +15,7 @@ load_dotenv(dotenv_path)
 
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
-app.config['UPLOAD_FOLDER'] = './static/profile_pics'
+app.config['UPLOAD_FOLDER'] = './static/profile'
 app.config['UPLOAD_POST'] = './static/post'
 
 MONGODB_URI = os.environ.get("MONGODB_URI")
@@ -134,7 +134,7 @@ def sign_up():
         "password": password_hash,
         "profile_name": username_receive,
         "profile_pic": "",
-        "profile_pic_real": "profile_pics/default.png",
+        "profile_pic_real": "assets/default-profile.png",
         "profile_info": ""
     }
     db.users.insert_one(doc)
