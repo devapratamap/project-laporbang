@@ -57,8 +57,7 @@ function post() {
     });
 }
 
-// Mengambil posting-posting terkait pengguna tertentu dengan melakukan permintaan AJAX GET
-// ke server dan memperbarui tampilan halaman dengan hasil respons.
+
 function get_posts(username) {
     if (username == undefined) {
         username = "";
@@ -69,70 +68,70 @@ function get_posts(username) {
         url: `/get_posts?username_give=${username}`,
         data: {},
         success: function (response) {
-        if (response["result"] === "success") {
-            let posts = response["posts"];
-            for (let i = 0; i < posts.length; i++) {
-            let post = posts[i];
-            let time_post = new Date(post["date"]);
-            let time_before = time2str(time_post);
-            let class_heart = post["heart_by_me"] ? "fa-heart" : "fa-heart-o";
-            let class_star = post["star_by_me"] ? "fa-star" : "fa-star-o";
-            let class_thumbsup = post["thumbsup_by_me"]
-                ? "fa-thumbs-up"
-                : "fa-thumbs-o-up";
-                let html_temp = `
-                    <div class="card" id="${post["_id"]}">
-                        <div class="card-image">
-                            <figure class="image is-4by3">
-                                <img src="/static/post/${post["image_filename"]}" alt="">
-                            </figure>
-                        </div>
-                        <div class="card-content">
-                            <div class="media">
-                                <div class="media-left">
-                                    <figure class="image is-48x48">
-                                        <img src="/static/${post["profile_pic_real"]}">
+            if (response["result"] === "success") {
+                let posts = response["posts"];
+                for (let i = 0; i < posts.length; i++) {
+                    let post = posts[i];
+                    let time_post = new Date(post["date"]);
+                    let time_before = time2str(time_post);
+                    let class_heart = post['heart_by_me'] ? "fa-heart" : "fa-heart-o";
+                    let class_star = post['star_by_me'] ? "fa-star" : "fa-star-o";
+                    let class_thumbsup = post['thumbsup_by_me'] ? "fa-thumbs-up" : "fa-thumbs-o-up";
+                    let html_temp = `
+                            <div class="card" id="${post["_id"]}">
+                                <div class="card-image">
+                                    <figure class="image is-4by3">
+                                        <img src="/static/post/${post["image_filename"]}" alt="">
                                     </figure>
                                 </div>
-                                <div class="media-content">
-                                    <p class="title is-4">${post["profile_name"]}</p>
-                                    <p class="subtitle is-6">${post["username"]}</p>
-                                </div>
-                            </div>
+                                <div class="card-content">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <figure class="image is-48x48">
+                                                <img src="/static/${post["profile_pic_real"]}">
+                                            </figure>
+                                        </div>
+                                        <div class="media-content">
+                                            <p class="title is-4">${post["profile_name"]}</p>
+                                            <p class="subtitle is-6">${post["username"]}</p>
+                                        </div>
+                                    </div>
 
-                            <div class="content">
-                                ${post["alamat"]}
-                                <br>
-                                ${post["provinsi"]}, ${post["kotakab"]}, ${post["kecamatan"]}
-                                <br>
-                                <div class="box">
-                                    <b>${post["deskripsi"]}</b>
+                                    <div class="content">
+                                        ${post["alamat"]}
+                                        <br>
+                                        ${post["provinsi"]}, ${post["kotakab"]}, ${post["kecamatan"]}
+                                        <br>
+                                        <div class="box">
+                                            <b>${post["deskripsi"]}</b>
+                                        </div>
+                                        <time datetime="2016-1-1">${time_before}</time>
+                                    </div>
+                                    <nav class="level is-mobile">
+                                        <div class="level-left">
+                                            <a class="level-item is-sparta" aria-label="heart" onclick="toggle_like('${post["_id"]}', 'heart')">
+                                                <span class="icon is-small"><i class="fa ${class_heart}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post["count_heart"])}</span>
+                                            </a>
+                                            <a class="level-item is-sparta" aria-label="star" onclick="toggle_star('${post["_id"]}', 'star')">
+                                                <span class="icon is-small"><i class="fa ${class_star}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post["count_star"])}</span>
+                                            </a>
+                                            <a class="level-item is-sparta" aria-label="thumbsup" onclick="toggle_thumbsup('${post["_id"]}', 'thumbsup')">
+                                                <span class="icon is-small"><i class="fa ${class_thumbsup}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post["count_thumbsup"])}</span>
+                                            </a>
+                                        </div>
+                                    </nav>
                                 </div>
-                                <time datetime="2016-1-1">${time_before}</time>
                             </div>
-                            <nav class="level is-mobile">
-                                <div class="level-left">
-                                    <a class="level-item is-sparta" aria-label="heart" onclick="toggle_like('${post["_id"]}', 'heart')">
-                                        <span class="icon is-small"><i class="fa ${class_heart}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post["count_heart"])}</span>
-                                    </a>
-                                    <a class="level-item is-sparta" aria-label="star" onclick="toggle_star('${post["_id"]}', 'star')">
-                                        <span class="icon is-small"><i class="fa ${class_star}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post["count_star"])}</span>
-                                    </a>
-                                    <a class="level-item is-sparta" aria-label="thumbsup" onclick="toggle_thumbsup('${post["_id"]}', 'thumbsup')">
-                                        <span class="icon is-small"><i class="fa ${class_thumbsup}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post["count_thumbsup"])}</span>
-                                    </a>
-                                </div>
-                            </nav>
-                        </div>
-                    </div>
-                    <br>
-                    `;
-            ("#post-box").append(html_temp);
+                            <br>
+                    
+                            `;
+                    $("#post-box").append(html_temp);
+                }
             }
-        }
         },
     });
 }
+
 
 // Fungsi hapus cookie dan logout
 function sign_out() {
