@@ -272,40 +272,7 @@ def get_posts():
         })
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for('home'))
-    
-    
-# @app.route('/post', methods=['POST'])
-# def post():
-#     alamat = request.form.get('alamat')
-#     provinsi = request.form.get('provinsi')
-#     kotakab = request.form.get('kotakab')
-#     kecamatan = request.form.get('kecamatan')
-#     deskripsi = request.form.get('deskripsi')
-#     file = request.files['resume']
 
-#     # Simpan file jika diperlukan
-#     # file.save('path/to/save/file')
-
-#     # Buat data postingan
-#     posting_data = {
-#         'alamat': alamat,
-#         'provinsi': provinsi,
-#         'kotakab': kotakab,
-#         'kecamatan': kecamatan,
-#         'deskripsi': deskripsi,
-#         # Jika Anda menyimpan file, tambahkan path file ke dalam data postingan
-#         # 'file_path': 'path/to/save/file'
-#     }
-
-#     # Simpan data postingan ke dalam MongoDB
-#     result = collection.insert_one(posting_data)
-
-#     return jsonify({'message': 'Postingan berhasil disimpan', 'post_id': str(result.inserted_id)})
-
-    
-    
-    
-    
 @app.route('/about', methods=['GET'])
 def about():
     # Mendapatkan token dari cookie

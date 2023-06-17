@@ -1,0 +1,38 @@
+<!-- navbar -->
+<body class="has-navbar-fixed-top">
+    <nav class="navbar is-fixed-top custom-navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/">
+                <img src="{{ url_for('static', filename='logo.png') }}" />
+            </a>
+
+            <a class="navbar-burger is-white" id="burger">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarMenu" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="/">Beranda</a>
+                <a class="navbar-item" href="/news">Berita</a>
+                <a class="navbar-item" href="/about">Tentang Kami</a>
+            </div>
+
+            <div class="navbar-end">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        <img src="{{ url_for('static', filename=user_info.profile_pic_real )
+                    }}" class="avatar-image" />
+                    </a>
+
+                    <div class="navbar-dropdown is-right has-dropdown">
+                        <a class="navbar-item" href="/user/{{ user_info.username }}">Profil</a>
+                        <a class="navbar-item" onclick="sign_out()">Keluar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- navbar end -->
