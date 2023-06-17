@@ -168,7 +168,7 @@ def save_img():
             file = request.files["file_give"]
             filename = secure_filename(file.filename)
             extension = filename.split(".")[-1]
-            file_path = f"profile_pics/{username}.{extension}"
+            file_path = f"profile/{username}.{extension}"
             file.save("./static/" + file_path)
             new_doc["profile_pic"] = filename
             new_doc["profile_pic_real"] = file_path
