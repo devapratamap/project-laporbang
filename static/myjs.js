@@ -24,32 +24,38 @@ function sign_out() {
 
 }
 
-// Mengirimkan permintaan AJAX POST untuk mengirim komentar dan tanggal posting ke server,
-// lalu memperbarui halaman setelah berhasil.
-function post() {
-    let alamat = $("#alamat").val()
-    let provinsi = $("#provinsi").val()
-    let kotakab = $("#kotakab").val()
-    let kecamatan = $("#kecamatan").val()
-    let deskripsi = $("#deskripsi").val()
 
-    let today = new Date().toISOString()
+function post() {
+    let alamat = $("#alamat").val();
+    let provinsi = $("#provinsi").val();
+    let kotakab = $("#kotakab").val();
+    let kecamatan = $("#kecamatan").val();
+    let deskripsi = $("#deskripsi").val();
+
+    let today = new Date().toISOString();
+    let fileInput = document.getElementById('imageInput');
+    let file = fileInput.files[0];
+
+    let formData = new FormData();
+    formData.append('alamat', alamat);
+    formData.append('provinsi', provinsi);
+    formData.append('kotakab', kotakab);
+    formData.append('kecamatan', kecamatan);
+    formData.append('deskripsi', deskripsi);
+    formData.append('date_give', today);
+    formData.append('image', file);
+
     $.ajax({
         type: "POST",
         url: "/posting",
-        data: {
-            alamat: alamat,
-            provinsi: provinsi,
-            kotakab: kotakab,
-            kecamatan: kecamatan,
-            deskripsi: deskripsi,
-            date_give: today
-        },
+        data: formData,
+        contentType: false,
+        processData: false,
         success: function (response) {
-            $("#modal-post").removeClass("is-active")
-            window.location.reload()
+            $("#modal-post").removeClass("is-active");
+            window.location.reload();
         }
-    })
+    });
 }
 
 
@@ -113,7 +119,7 @@ function get_posts(username) {
                     let html_temp = `<div class="card" id="${post["_id"]}">
                     <div class="card-image">
                         <figure class="image is-4by3">
-                            <img src="/static/${post["profile_pic_real"]}" alt="Placeholder image">
+                            <img src="/static/post/${post["image_filename"]}" alt="">
                         </figure>
                     </div>
                     <div class="card-content">
