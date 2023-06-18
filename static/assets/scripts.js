@@ -3,24 +3,30 @@ function time2str(date) {
     let today = new Date();
     let time = (today - date) / 1000 / 60; // minutes
     if (time < 60) {
-        return parseInt(time) + " minutes ago";}
+        return parseInt(time) + " minutes ago";
+    }
     time = time / 60; // hours
     if (time < 24) {
-        return parseInt(time) + " hours ago";}
+        return parseInt(time) + " hours ago";
+    }
     time = time / 24; // days
     if (time < 7) {
-        return parseInt(time) + " days ago";}
+        return parseInt(time) + " days ago";
+    }
     return `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`;
 }
 
 // Mengkonversi angka menjadi string dengan format yang lebih singkat.
 function num2str(count) {
     if (count > 10000) {
-        return parseInt(count / 1000) + "k";}
+        return parseInt(count / 1000) + "k";
+    }
     if (count > 500) {
-        return parseInt(count / 100) / 10 + "k";}
+        return parseInt(count / 100) / 10 + "k";
+    }
     if (count == 0) {
-        return "";}
+        return "";
+    }
     return count;
 }
 
@@ -51,8 +57,8 @@ function post() {
         contentType: false,
         processData: false,
         success: function (response) {
-        $("#modal-post").removeClass("is-active");
-        window.location.reload();
+            $("#modal-post").removeClass("is-active");
+            window.location.reload();
         },
     });
 }
@@ -132,28 +138,100 @@ function get_posts(username) {
     });
 }
 
+function news_post() {
+    let judul = $("#judul").val();
+    let news_deskripsi = $("#news_deskripsi").val();
+
+    let today = new Date().toISOString();
+    // let fileInput = document.getElementById("imageInput");
+    // let file = fileInput.files[0];
+
+    let formData = new FormData();
+    formData.append("judul", judul);
+    formData.append("news_deskripsi", news_deskripsi);
+    formData.append("date_give", today);
+    // formData.append("image", file);
+
+    $.ajax({
+        type: "POST",
+        url: "/news_posting",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            $("#modal-post").removeClass("is-active");
+            window.location.reload();
+        },
+    });
+}
+
+function get_news_posts(username) {
+    if (username == undefined) {
+        username = "";
+    }
+    $("#post-box").empty();
+    $.ajax({
+        type: "GET",
+        url: `/get_news_posts?username_give=${username}`,
+        data: {},
+        success: function (response) {
+            if (response["result"] === "success") {
+                let posts = response["posts"];
+                for (let i = 0; i < posts.length; i++) {
+                    let post = posts[i];
+                    let time_post = new Date(post["date"]);
+                    let time_before = time2str(time_post);
+                    let html_temp = `
+                    <div class="card" id="${post["_id"]} style="margin-bottom: 20px;">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                                <img src="${post["image_filename"]}">
+                            </figure>
+                        </div>
+                        <button class="button is-danger">Delete</button>
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-content">
+                                    <p class="title is-4">${post["judul"]}</p>
+                                </div>
+                            </div>
+                            <div class="content">
+                                ${post["news_deskripsi"]}
+                                <time datetime="2016-1-1">${time_before}</time>
+                            <br>
+                            </div>
+                        </div>
+                    </div>
+                            `;
+                    $("#post-box").append(html_temp);
+                }
+            }
+        },
+    });
+}
+
 
 // Fungsi hapus cookie dan logout
 function sign_out() {
-  // Menghapus cookie mytoken saat sign out
-  // $.removeCookie("mytoken", { path: "/" });
-Swal.fire({
-    title: "Apakah Anda yakin?",
-    text: "Anda akan logout dari akun ini!",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "OK!",
-    cancelButtonText: "Batal",
-}).then((result) => {
-    if (result.isConfirmed) {
-    $.removeCookie("mytoken", { path: "/" });
-    window.location.href = "/login";
-      // Kode JavaScript yang dieksekusi saat tombol "OK" diklik
-      // Atau panggil fungsi lain di sini
-    }
-});
+    // Menghapus cookie mytoken saat sign out
+    // $.removeCookie("mytoken", { path: "/" });
+    Swal.fire({
+        title: "Apakah Anda yakin?",
+        text: "Anda akan logout dari akun ini!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "OK!",
+        cancelButtonText: "Batal",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.removeCookie("mytoken", { path: "/" });
+            window.location.href = "/login";
+            // Kode JavaScript yang dieksekusi saat tombol "OK" diklik
+            // Atau panggil fungsi lain di sini
+        }
+    });
 }
 
 function sign_in() {
