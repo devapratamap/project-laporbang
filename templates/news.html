@@ -4,6 +4,47 @@
 <head>
     <title>Berita | LaporBang</title>
 
+    <script>
+        // function news_post() {
+        //     const judul = $("#judul").val();
+        //     const news_deskripsi = $("#news_deskripsi").val();
+        //     const today = new Date().toISOString();
+        //     const fileInput = document.getElementById("imageInput");
+        //     const file = fileInput.files[0];
+        //     const formData = new FormData();
+        //     formData.append("judul", judul);
+        //     formData.append("news_deskripsi", news_deskripsi);
+        //     formData.append("date_give", today);
+        //     formData.append("image", file);
+        //     $.ajax({
+        //         type: "POST",
+        //         url: "/posting",
+        //         data: formData,
+        //         contentType: false,
+        //         processData: false,
+        //         success: function (response) {
+        //             $("#modal-post").removeClass("is-active");
+        //             window.location.reload();
+        //         },
+        //     });
+        // }
+
+        // $(document).ready(function () {
+        //     getProvinces();
+        //     $('#provinsi').on('change', function () {
+        //         const provinceId = $(this).val();
+        //         if (provinceId) {
+        //             getRegencies(provinceId);
+        //         }
+        //     });
+        //     $('#kotakab').on('change', function () {
+        //         const cityId = $(this).val();
+        //         if (cityId) {
+        //             getDistricts(cityId);
+        //         }
+        //     });
+        // });
+    </script>
 </head>
 
 {% include 'meta.html' %}
@@ -35,9 +76,8 @@
                                         <div class="field">
                                             <p class="control is-expanded">
                                                 <input class="input" type="text" id="judul" placeholder="Judul">
-                                                <textarea id="news_deskripsi"
-                                                        class="textarea"
-                                                        placeholder="Deskripsi"></textarea>
+                                                <textarea id="news_deskripsi" class="textarea"
+                                                    placeholder="Deskripsi"></textarea>
                                             </p>
                                             <div class="file has-name is-fullwidth">
                                                 <label class="file-label">
@@ -83,6 +123,14 @@
         </article>
     </section>
 
+    <!-- content -->
+    <section class="section">
+        <div id="post-box" class="container">
+            <!-- isi-content -->
+        </div>
+    </section>
+    <!-- end content -->
+
     <section class="section">
         <div class="container">
             <div class="columns">
@@ -125,7 +173,7 @@
                             <button class="button is-success">Update</button>
                         </div>
                     </div>
-                    <div class="card" style="margin-bottom: 20px;">
+                    <!-- <div class="card" style="margin-bottom: 20px;">
                         <div class="card-image">
                             <figure class="image is-4by3">
                                 <img src="/static/news/news2.jpeg">
@@ -547,7 +595,7 @@
                                 Sabtu (4/3/2023).
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

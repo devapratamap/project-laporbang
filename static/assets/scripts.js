@@ -138,77 +138,77 @@ function get_posts(username) {
     });
 }
 
-function news_post() {
-    let judul = $("#judul").val();
-    let news_deskripsi = $("#news_deskripsi").val();
+// function news_post() {
+//     let judul = $("#judul").val();
+//     let news_deskripsi = $("#news_deskripsi").val();
 
-    let today = new Date().toISOString();
-    // let fileInput = document.getElementById("imageInput");
-    // let file = fileInput.files[0];
+//     let today = new Date().toISOString();
+//     let fileInput = document.getElementById("imageInput");
+//     let file = fileInput.files[0];
 
-    let formData = new FormData();
-    formData.append("judul", judul);
-    formData.append("news_deskripsi", news_deskripsi);
-    formData.append("date_give", today);
-    // formData.append("image", file);
+//     let formData = new FormData();
+//     formData.append("judul", judul);
+//     formData.append("news_deskripsi", news_deskripsi);
+//     formData.append("date_give", today);
+//     formData.append("image", file);
 
-    $.ajax({
-        type: "POST",
-        url: "/news_posting",
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function (response) {
-            $("#modal-post").removeClass("is-active");
-            window.location.reload();
-        },
-    });
-}
+//     $.ajax({
+//         type: "POST",
+//         url: "/news_posting",
+//         data: formData,
+//         contentType: false,
+//         processData: false,
+//         success: function (response) {
+//             $("#modal-post").removeClass("is-active");
+//             window.location.reload();
+//         },
+//     });
+// }
 
-function get_news_posts(username) {
-    if (username == undefined) {
-        username = "";
-    }
-    $("#post-box").empty();
-    $.ajax({
-        type: "GET",
-        url: `/get_news_posts?username_give=${username}`,
-        data: {},
-        success: function (response) {
-            if (response["result"] === "success") {
-                let posts = response["posts"];
-                for (let i = 0; i < posts.length; i++) {
-                    let post = posts[i];
-                    let time_post = new Date(post["date"]);
-                    let time_before = time2str(time_post);
-                    let html_temp = `
-                    <div class="card" id="${post["_id"]} style="margin-bottom: 20px;">
-                        <div class="card-image">
-                            <figure class="image is-4by3">
-                                <img src="${post["image_filename"]}">
-                            </figure>
-                        </div>
-                        <button class="button is-danger">Delete</button>
-                        <div class="card-content">
-                            <div class="media">
-                                <div class="media-content">
-                                    <p class="title is-4">${post["judul"]}</p>
-                                </div>
-                            </div>
-                            <div class="content">
-                                ${post["news_deskripsi"]}
-                                <time datetime="2016-1-1">${time_before}</time>
-                            <br>
-                            </div>
-                        </div>
-                    </div>
-                            `;
-                    $("#post-box").append(html_temp);
-                }
-            }
-        },
-    });
-}
+// function get_news_posts(username) {
+//     if (username == undefined) {
+//         username = "";
+//     }
+//     $("#post-box").empty();
+//     $.ajax({
+//         type: "GET",
+//         url: `/get_news_posts?username_give=${username}`,
+//         data: {},
+//         success: function (response) {
+//             if (response["result"] === "success") {
+//                 let posts = response["posts"];
+//                 for (let i = 0; i < posts.length; i++) {
+//                     let post = posts[i];
+//                     let time_post = new Date(post["date"]);
+//                     let time_before = time2str(time_post);
+//                     let html_temp = `
+//                     <div class="card" id="${post["_id"]} style="margin-bottom: 20px;">
+//                         <div class="card-image">
+//                             <figure class="image is-4by3">
+//                                 <img src="${post["image_filename"]}">
+//                             </figure>
+//                         </div>
+//                         <button class="button is-danger">Delete</button>
+//                         <div class="card-content">
+//                             <div class="media">
+//                                 <div class="media-content">
+//                                     <p class="title is-4">${post["judul"]}</p>
+//                                 </div>
+//                             </div>
+//                             <div class="content">
+//                                 ${post["news_deskripsi"]}
+//                                 <time datetime="2016-1-1">${time_before}</time>
+//                             <br>
+//                             </div>
+//                         </div>
+//                     </div>
+//                             `;
+//                     $("#post-box").append(html_temp);
+//                 }
+//             }
+//         },
+//     });
+// }
 
 
 // Fungsi hapus cookie dan logout
