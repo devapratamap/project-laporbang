@@ -81,7 +81,7 @@ function get_posts(username) {
                     let time_post = new Date(post["date"]);
                     let time_before = time2str(time_post);
                     let class_heart = post['heart_by_me'] ? "fa-heart" : "fa-heart-o";
-                    let class_star = post['star_by_me'] ? "fa-star" : "fa-star-o";
+                    let class_star = post['star_by_me'] ? "fa-heart" : "fa-heart-o";
                     let class_thumbsup = post['thumbsup_by_me'] ? "fa-thumbs-up" : "fa-thumbs-o-up";
                     let html_temp = `
                             <div class="card" id="${post["_id"]}">
@@ -115,14 +115,14 @@ function get_posts(username) {
                                     </div>
                                     <nav class="level is-mobile">
                                         <div class="level-left">
-                                            <a class="level-item is-sparta" aria-label="heart" onclick="toggle_like('${post["_id"]}', 'heart')">
-                                                <span class="icon is-small"><i class="fa ${class_heart}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post["count_heart"])}</span>
+                                            <a class="level-item is-blue" aria-label="heart" onclick="toggle_like('${post["_id"]}', 'heart')">
+                                                <span class="icon is-blue"><i class="fa ${class_heart}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post["count_heart"])}</span>
                                             </a>
-                                            <a class="level-item is-sparta" aria-label="star" onclick="toggle_star('${post["_id"]}', 'star')">
+                                            <a class="level-item is-blue" aria-label="star" onclick="toggle_star('${post["_id"]}', 'star')">
                                                 <span class="icon is-small"><i class="fa ${class_star}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post["count_star"])}</span>
                                             </a>
-                                            <a class="level-item is-sparta" aria-label="thumbsup" onclick="toggle_thumbsup('${post["_id"]}', 'thumbsup')">
-                                                <span class="icon is-small"><i class="fa ${class_thumbsup}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post["count_thumbsup"])}</span>
+                                            <a class="level-item is-blue" aria-label="thumbsup" onclick="toggle_thumbsup('${post["_id"]}', 'thumbsup')">
+                                                <span class="icon is-blue"><i class="fa ${class_thumbsup}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post["count_thumbsup"])}</span>
                                             </a>
                                         </div>
                                     </nav>
