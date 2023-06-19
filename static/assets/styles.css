@@ -7,6 +7,14 @@ body {
     min-height: 100vh;
 }
 
+/* .avatar-image {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px; 
+  object-fit: cover;
+  object-position: center;
+} */
+
 .custom-navbar {
     background-color: #004ABA;
 }
