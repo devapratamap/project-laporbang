@@ -50,23 +50,23 @@
             });
         }
 
-        function getDistricts(cityId) {
-        axios.get(`https://kodepos-2.now.sh/subdistrict?city=${cityId}`)
-            .then(response => {
-            const districts = response.data.data;
-            const selectKecamatan = document.getElementById('kecamatan');
-            selectKecamatan.innerHTML = '<option value="" selected disabled>Pilih Kecamatan</option>';
-            districts.forEach(district => {
-                const option = document.createElement('option');
-                option.value = district.subdistrict_id;
-                option.textContent = district.subdistrict_name;
-                selectKecamatan.appendChild(option);
-            });
-            })
-            .catch(error => {
-            console.error(error);
-            });
-        }
+        // function getDistricts(cityId) {
+        // axios.get(`https://kodepos-2.now.sh/subdistrict?city=${cityId}`)
+        //     .then(response => {
+        //     const districts = response.data.data;
+        //     const selectKecamatan = document.getElementById('kecamatan');
+        //     selectKecamatan.innerHTML = '<option value="" selected disabled>Pilih Kecamatan</option>';
+        //     districts.forEach(district => {
+        //         const option = document.createElement('option');
+        //         option.value = district.subdistrict_id;
+        //         option.textContent = district.subdistrict_name;
+        //         selectKecamatan.appendChild(option);
+        //     });
+        //     })
+        //     .catch(error => {
+        //     console.error(error);
+        //     });
+        // }
 
         function post() {
         const alamat = $("#alamat").val();
@@ -81,7 +81,7 @@
         formData.append("alamat", alamat);
         formData.append("provinsi", provinsiId);
         formData.append("kotakab", kotakabId);
-        formData.append("kecamatan", kecamatanId);
+        // formData.append("kecamatan", kecamatanId);
         formData.append("deskripsi", deskripsi);
         formData.append("date_give", today);
         formData.append("image", file);
@@ -106,12 +106,12 @@
             getRegencies(provinceId);
             }
         });
-        $('#kotakab').on('change', function () {
-            const cityId = $(this).val();
-            if (cityId) {
-            getDistricts(cityId);
-            }
-        });
+        // $('#kotakab').on('change', function () {
+        //     const cityId = $(this).val();
+        //     if (cityId) {
+        //     getDistricts(cityId);
+        //     }
+        // });
         });
 
     </script>
@@ -164,13 +164,13 @@
                                                                 disabled>Pilih
                                                                 Kabupaten/Kota</option>
                                                         </select>
-                                                        <select id="kecamatan"
+                                                        <!-- <select id="kecamatan"
                                                             class="input">
                                                             <option value
                                                                 selected
                                                                 disabled>Pilih
                                                                 Kecamatan</option>
-                                                        </select>
+                                                        </select> -->
                                                         <textarea id="deskripsi"
                                                             class="textarea"
                                                             placeholder="Deskripsi"></textarea>
