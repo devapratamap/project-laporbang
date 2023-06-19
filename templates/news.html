@@ -4,7 +4,7 @@
 <head>
     <title>Berita | LaporBang</title>
 
-    <script>
+    <!-- <script>
         $(document).ready(function () {
             // Ketika dokumen siap, panggil fungsi get_posts dengan parameter username dari user_info
             get_news_posts("{{user_info.username}}");
@@ -33,7 +33,7 @@
                 },
             });
         }
-    </script>
+    </script> -->
 </head>
 
 {% include 'meta.html' %}
@@ -43,7 +43,7 @@
 {% include 'navbar.html' %}
 
 <body>
-    <section class="section">
+    <!-- <section class="section">
         <article class="media">
             <figure class="media-left" style="align-self: center">
                 <a class="image is-32x32" href="/user/{{ user_info.username }}">
@@ -121,17 +121,16 @@
                 </div>
             </div>
         </article>
-    </section>
+    </section> -->
 
     <!-- content -->
-    <section class="section">
+    <!-- <section class="section">
         <div id="post-box" class="container">
-            <!-- isi-content -->
         </div>
-    </section>
+    </section> -->
     <!-- end content -->
 
-    <!-- <section class="section">
+     <section class="section">
         <div class="container">
             <div class="columns">
                 <div class="column is-full is-offset-one">
@@ -169,11 +168,12 @@
                                 waspada.
                                 <br>
                             </div>
-                            <button class="button is-danger">Delete</button>
-                            <button class="button is-success">Update</button>
+                            <!-- <button class="button is-danger">Delete</button>
+                            <button class="button is-success">Update</button> -->
                         </div>
-                    </div> -->
-                    <!-- <div class="card" style="margin-bottom: 20px;">
+                    </div>
+
+                    <div class="card" style="margin-bottom: 20px;">
                         <div class="card-image">
                             <figure class="image is-4by3">
                                 <img src="/static/news/news2.jpeg">
@@ -595,7 +595,7 @@
                                 Sabtu (4/3/2023).
                             </div>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </div>
