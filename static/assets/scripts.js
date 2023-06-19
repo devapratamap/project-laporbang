@@ -45,7 +45,7 @@ function post() {
     formData.append("alamat", alamat);
     formData.append("provinsi", provinsi);
     formData.append("kotakab", kotakab);
-    // formData.append("kecamatan", kecamatan);
+    formData.append("kecamatan", kecamatan);
     formData.append("deskripsi", deskripsi);
     formData.append("date_give", today);
     formData.append("image", file);
@@ -106,7 +106,7 @@ function get_posts(username) {
                                     <div class="content">
                                         ${post["alamat"]}
                                         <br>
-                                        ${post["provinsi"]}, ${post["kotakab"]}
+                                        ${post["provinsi"]}, ${post["kotakab"]}, ${post["kecamatan"]}
                                         <br>
                                         <div class="box">
                                             <b>${post["deskripsi"]}</b>

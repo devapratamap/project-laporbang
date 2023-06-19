@@ -18,6 +18,7 @@ app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['UPLOAD_FOLDER'] = './static/profile'
 app.config['UPLOAD_POST'] = './static/post'
+app.config['UPLOAD_NEWS'] = './static/news'
 
 MONGODB_URI = os.environ.get("MONGODB_URI")
 DB_NAME = os.environ.get("DB_NAME")
@@ -198,7 +199,7 @@ def posting():
         alamat = request.form["alamat"]
         provinsi = request.form["provinsi"]
         kotakab = request.form["kotakab"]
-        # kecamatan = request.form["kecamatan"]
+        kecamatan = request.form["kecamatan"]
         deskripsi = request.form["deskripsi"]
         date_receive = request.form["date_give"]
 
@@ -216,7 +217,7 @@ def posting():
             "alamat": alamat,
             "provinsi": provinsi,
             "kotakab": kotakab,
-            # "kecamatan": kecamatan,
+            "kecamatan": kecamatan,
             "deskripsi": deskripsi,
             "date": date_receive,
             "image_filename": filename
@@ -304,7 +305,7 @@ def news_posting():
         filename = image.filename
 
     # Save the image file to the specified folder
-        image_path = os.path.join(app.config['UPLOAD_POST'], filename)
+        image_path = os.path.join(app.config['UPLOAD_NEWS'], filename)
         image.save(image_path)
 
         doc = {
@@ -322,7 +323,7 @@ def news_posting():
             'msg': 'Posting Berita Success'
         }), 200, CORS_HEADERS
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return redirect(url_for('home')), 200, CORS_HEADERS
+        return redirect(url_for('news')), 200, CORS_HEADERS
 
 
 @app.route('/get_news_posts', methods=['GET'])
@@ -373,10 +374,8 @@ def get_news_posts():
                 )
             )
 
-        return render_template('news.html', posts=posts)
-
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return redirect(url_for('home'))
+        return redirect(url_for('news'))
 
     
 # @app.route('/news_posting/<post_id>', methods=['DELETE'])
