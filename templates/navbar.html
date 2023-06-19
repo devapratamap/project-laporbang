@@ -1,13 +1,14 @@
 <!-- navbar -->
+
 <body class="has-navbar-fixed-top">
-    <nav class="navbar is-fixed-top custom-navbar" role="navigation"
-        aria-label="main navigation">
+    <!-- <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-            <a class="navbar-item" href="/">
-                <img src="{{ url_for('static', filename='assets/logo.png') }}" />
+            <a class="navbar-item" href="https://bulma.io">
+                <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
             </a>
 
-            <a class="navbar-burger is-white" id="burger">
+            <a role="button" class="navbar-burger" id="burger" aria-label="menu" aria-expanded="false"
+                data-target="navbarMenu">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
@@ -16,27 +17,108 @@
 
         <div id="navbarMenu" class="navbar-menu">
             <div class="navbar-start">
+                <a class="navbar-item">
+                    Home
+                </a>
+
+                <a class="navbar-item">
+                    Documentation
+                </a>
+
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        More
+                    </a>
+
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item">
+                            About
+                        </a>
+                        <a class="navbar-item">
+                            Jobs
+                        </a>
+                        <a class="navbar-item">
+                            Contact
+                        </a>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item">
+                            Report an issue
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <a class="button is-primary">
+                            <strong>Sign up</strong>
+                        </a>
+                        <a class="button is-light">
+                            Log in
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav> -->
+
+    <nav class="navbar is-fixed-top custom-navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/">
+                <img src="{{ url_for('static', filename='assets/logo.png') }}" />
+            </a>
+    
+            <a role="button" class="navbar-burger is-white" id="burger" aria-label="menu" aria-expanded="false"
+                data-target="navbarMenu">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+    
+        <div id="navbarMenu" class="navbar-menu">
+            <div class="navbar-start">
                 <a class="navbar-item" href="/">Beranda</a>
                 <a class="navbar-item" href="/news">Berita</a>
                 <a class="navbar-item" href="/about">Tentang Kami</a>
             </div>
-
+    
             <div class="navbar-end">
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">
-                        <img
-                            src="{{ url_for('static', filename=user_info.profile_pic_real )
-                    }}" class="avatar-image" />
+                        <img src="{{ url_for('static', filename=user_info.profile_pic_real) }}" class="avatar-image" />
                     </a>
-
+    
                     <div class="navbar-dropdown is-right has-dropdown">
-                        <a class="navbar-item"
-                            href="/user/{{ user_info.username }}">Profil</a>
+                        <a class="navbar-item" href="/user/{{ user_info.username }}">Profil</a>
                         <a class="navbar-item" onclick="sign_out()">Keluar</a>
                     </div>
                 </div>
             </div>
         </div>
     </nav>
+    
     <br>
-    <!-- navbar end -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+                const $notification = $delete.parentNode;
+
+                $delete.addEventListener('click', () => {
+                    $notification.parentNode.removeChild($notification);
+                });
+            });
+        });
+
+        var burgerIcon = document.querySelector('#burger');
+        var navbarMenu = document.querySelector('#navbarMenu');
+
+        burgerIcon.addEventListener('click', () => {
+            navbarMenu.classList.toggle('is-active');
+        });
+
+    </script>
+</body>
+<!-- navbar end -->

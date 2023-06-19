@@ -243,25 +243,7 @@
         </section>
         <!-- end content -->
 
-        <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
-                const $notification = $delete.parentNode;
-
-                $delete.addEventListener('click', () => {
-                    $notification.parentNode.removeChild($notification);
-                });
-            });
-        });
-
-        var burgerIcon = document.querySelector('#burger');
-        var navbarMenu = document.querySelector('#navbarMenu');
-
-        burgerIcon.addEventListener('click', () => {
-            navbarMenu.classList.toggle('is-active');
-        });
-
-    </script>
+        
 
     </body>
 

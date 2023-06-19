@@ -5,45 +5,34 @@
     <title>Berita | LaporBang</title>
 
     <script>
-        // function news_post() {
-        //     const judul = $("#judul").val();
-        //     const news_deskripsi = $("#news_deskripsi").val();
-        //     const today = new Date().toISOString();
-        //     const fileInput = document.getElementById("imageInput");
-        //     const file = fileInput.files[0];
-        //     const formData = new FormData();
-        //     formData.append("judul", judul);
-        //     formData.append("news_deskripsi", news_deskripsi);
-        //     formData.append("date_give", today);
-        //     formData.append("image", file);
-        //     $.ajax({
-        //         type: "POST",
-        //         url: "/posting",
-        //         data: formData,
-        //         contentType: false,
-        //         processData: false,
-        //         success: function (response) {
-        //             $("#modal-post").removeClass("is-active");
-        //             window.location.reload();
-        //         },
-        //     });
-        // }
+        $(document).ready(function () {
+            // Ketika dokumen siap, panggil fungsi get_posts dengan parameter username dari user_info
+            get_news_posts("{{user_info.username}}");
+        });
 
-        // $(document).ready(function () {
-        //     getProvinces();
-        //     $('#provinsi').on('change', function () {
-        //         const provinceId = $(this).val();
-        //         if (provinceId) {
-        //             getRegencies(provinceId);
-        //         }
-        //     });
-        //     $('#kotakab').on('change', function () {
-        //         const cityId = $(this).val();
-        //         if (cityId) {
-        //             getDistricts(cityId);
-        //         }
-        //     });
-        // });
+        function news_post() {
+            const judul = $("#judul").val();
+            const news_deskripsi = $("#news_deskripsi").val();
+            const today = new Date().toISOString();
+            const fileInput = document.getElementById("imageInput");
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append("judul", judul);
+            formData.append("news_deskripsi", news_deskripsi);
+            formData.append("date_give", today);
+            formData.append("image", file);
+            $.ajax({
+                type: "POST",
+                url: "/news_posting",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    $("#modal-post").removeClass("is-active");
+                    window.location.reload();
+                },
+            });
+        }
     </script>
 </head>
 
@@ -79,22 +68,33 @@
                                                 <textarea id="news_deskripsi" class="textarea"
                                                     placeholder="Deskripsi"></textarea>
                                             </p>
-                                            <div class="file has-name is-fullwidth">
-                                                <label class="file-label">
-                                                    <input class="file-input" type="file" name="resume">
-                                                    <span class="file-cta">
-                                                        <span class="file-icon">
-                                                            <i class="fa fa-upload"></i>
+                                            <div
+                                                    class="file has-name is-fullwidth">
+                                                    <label
+                                                        class="file-label">
+                                                        <input
+                                                            class="file-input"
+                                                            type="file"
+                                                            name="image"
+                                                            id="imageInput"
+                                                            accept="image/*">
+                                                        <span
+                                                            class="file-cta">
+                                                            <span
+                                                                class="file-icon">
+                                                                <i
+                                                                    class="fa fa-upload"></i>
+                                                            </span>
+                                                            <span
+                                                                class="file-label">
+                                                                Upload
+                                                                Gambar
+                                                            </span>
                                                         </span>
-                                                        <span class="file-label">
-                                                            Pilih File
-                                                        </span>
-                                                    </span>
-                                                    <span class="file-name">
-
-                                                    </span>
-                                                </label>
-                                            </div>
+                                                        <span
+                                                            class="file-name"></span>
+                                                    </label>
+                                                </div>
                                         </div>
                                         <nav class="level is-mobile">
                                             <div class="level-left">
@@ -131,7 +131,7 @@
     </section>
     <!-- end content -->
 
-    <section class="section">
+    <!-- <section class="section">
         <div class="container">
             <div class="columns">
                 <div class="column is-full is-offset-one">
@@ -172,7 +172,7 @@
                             <button class="button is-danger">Delete</button>
                             <button class="button is-success">Update</button>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- <div class="card" style="margin-bottom: 20px;">
                         <div class="card-image">
                             <figure class="image is-4by3">
@@ -600,25 +600,6 @@
             </div>
         </div>
     </section>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
-                const $notification = $delete.parentNode;
-
-                $delete.addEventListener('click', () => {
-                    $notification.parentNode.removeChild($notification);
-                });
-            });
-        });
-
-        var burgerIcon = document.querySelector('#burger');
-        var navbarMenu = document.querySelector('#navbarMenu');
-
-        burgerIcon.addEventListener('click', () => {
-            navbarMenu.classList.toggle('is-active');
-        });
-
-    </script>
 </body>
 
 </html>

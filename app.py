@@ -285,98 +285,98 @@ def get_posts():
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for('home'))
 
-# @app.route('/news_posting', methods=['POST'])
-# def news_posting():
-#     token_receive = request.cookies.get(TOKEN_KEY)
-#     try:
-#         payload = jwt.decode(
-#             token_receive,
-#             SECRET_KEY,
-#             algorithms=['HS256']
-#         )
-#         user_info = db.users.find_one({"username": payload["id"]})
-#         judul = request.form["judul"]
-#         news_deskripsi = request.form["news_deskripsi"]
-#         date_receive = request.form["date_give"]
+@app.route('/news_posting', methods=['POST'])
+def news_posting():
+    token_receive = request.cookies.get(TOKEN_KEY)
+    try:
+        payload = jwt.decode(
+            token_receive,
+            SECRET_KEY,
+            algorithms=['HS256']
+        )
+        user_info = db.users.find_one({"username": payload["id"]})
+        judul = request.form["judul"]
+        news_deskripsi = request.form["news_deskripsi"]
+        date_receive = request.form["date_give"]
 
-#         image = request.files['image']
-#         filename = image.filename
+        image = request.files['image']
+        filename = image.filename
 
     # Save the image file to the specified folder
-#         image_path = os.path.join(app.config['UPLOAD_POST'], filename)
-#         image.save(image_path)
+        image_path = os.path.join(app.config['UPLOAD_POST'], filename)
+        image.save(image_path)
 
-#         doc = {
-#             "username": user_info["username"],
-#             "profile_name": user_info["profile_name"],
-#             "profile_pic_real": user_info["profile_pic_real"],
-#             "judul": judul,
-#             "news_deskripsi": news_deskripsi,
-#             "date": date_receive,
-#             "image_filename": filename
-#         }
-#         db.news_posts.insert_one(doc)
-#         return jsonify({
-#             'result': 'success',
-#             'msg': 'Posting Berita Success'
-#         }), 200, CORS_HEADERS
-#     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-#         return redirect(url_for('news.html')), 200, CORS_HEADERS
+        doc = {
+            "username": user_info["username"],
+            "profile_name": user_info["profile_name"],
+            "profile_pic_real": user_info["profile_pic_real"],
+            "judul": judul,
+            "news_deskripsi": news_deskripsi,
+            "date": date_receive,
+            "image_filename": filename
+        }
+        db.news_posts.insert_one(doc)
+        return jsonify({
+            'result': 'success',
+            'msg': 'Posting Berita Success'
+        }), 200, CORS_HEADERS
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for('home')), 200, CORS_HEADERS
     
-# @app.route('/get_news_posts', methods=['GET'])
-# def get_news_posts():
-#     token_receive = request.cookies.get(TOKEN_KEY)
-#     try:
-#         payload = jwt.decode(
-#             token_receive,
-#             SECRET_KEY,
-#             algorithms=['HS256']
-#         )
-#         username_receive = request.args.get("username_give")
-#         if username_receive == "":
-#             posts = list(db.posts.find({}).sort("date", -1).limit(20))
-#         else:
-#             posts = list(
-#                 db.posts.find({"username": username_receive}
-#                               ).sort("date", -1).limit(20)
-#             )
+@app.route('/get_news_posts', methods=['GET'])
+def get_news_posts():
+    token_receive = request.cookies.get(TOKEN_KEY)
+    try:
+        payload = jwt.decode(
+            token_receive,
+            SECRET_KEY,
+            algorithms=['HS256']
+        )
+        username_receive = request.args.get("username_give")
+        if username_receive == "":
+            posts = list(db.news_posts.find({}).sort("date", -1).limit(20))
+        else:
+            posts = list(
+                db.news_posts.find({"username": username_receive}
+                              ).sort("date", -1).limit(20)
+            )
 
-#         for post in posts:
-#             post["_id"] = str(post["_id"])
-#             post["count_heart"] = db.likes.count_documents(
-#                 {"post_id": post["_id"], "type": "heart"}
-#             )
-#             post["count_star"] = db.likes.count_documents(
-#                 {"post_id": post["_id"], "type": "star"}
-#             )
-#             post["count_thumbsup"] = db.likes.count_documents(
-#                 {"post_id": post["_id"], "type": "thumbsup"}
-#             )
-#             post["heart_by_me"] = bool(
-#                 db.likes.find_one(
-#                     {"post_id": post["_id"], "type": "heart",
-#                         "username": payload["id"]}
-#                 )
-#             )
-#             post["star_by_me"] = bool(
-#                 db.likes.find_one(
-#                     {"post_id": post["_id"], "type": "star",
-#                         "username": payload["id"]}
-#                 )
-#             )
-#             post["thumbsup_by_me"] = bool(
-#                 db.likes.find_one(
-#                     {"post_id": post["_id"], "type": "thumbsup",
-#                         "username": payload["id"]}
-#                 )
-#             )
-#         return jsonify({
-#             'result': 'success',
-#             'msg': 'Success fetched all post',
-#             "posts": posts
-#         })
-#     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-#         return redirect(url_for('news.html'))
+        for post in posts:
+            post["_id"] = str(post["_id"])
+            post["count_heart"] = db.likes.count_documents(
+                {"post_id": post["_id"], "type": "heart"}
+            )
+            post["count_star"] = db.likes.count_documents(
+                {"post_id": post["_id"], "type": "star"}
+            )
+            post["count_thumbsup"] = db.likes.count_documents(
+                {"post_id": post["_id"], "type": "thumbsup"}
+            )
+            post["heart_by_me"] = bool(
+                db.likes.find_one(
+                    {"post_id": post["_id"], "type": "heart",
+                        "username": payload["id"]}
+                )
+            )
+            post["star_by_me"] = bool(
+                db.likes.find_one(
+                    {"post_id": post["_id"], "type": "star",
+                        "username": payload["id"]}
+                )
+            )
+            post["thumbsup_by_me"] = bool(
+                db.likes.find_one(
+                    {"post_id": post["_id"], "type": "thumbsup",
+                        "username": payload["id"]}
+                )
+            )
+        return jsonify({
+            'result': 'success',
+            'msg': 'Success fetched all post',
+            "posts": posts
+        })
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for('home'))
     
 # @app.route('/hapus_news', methods=['POST'])
 # def hapus_news():
