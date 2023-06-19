@@ -341,7 +341,7 @@ def get_news_posts():
         else:
             posts = list(
                 db.news_posts.find({"username": username_receive}
-                                   ).sort("date", -1).limit(20)
+                              ).sort("date", -1).limit(20)
             )
 
         for post in posts:
@@ -373,7 +373,11 @@ def get_news_posts():
                         "username": payload["id"]}
                 )
             )
-
+        return jsonify({
+            'result': 'success',
+            'msg': 'Success fetched all post',
+            "posts": posts
+        })
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for('news'))
 
@@ -442,24 +446,23 @@ def about():
 def news():
     # Mendapatkan token dari cookie
     token_receive = request.cookies.get(TOKEN_KEY)
-
-    # Mendekode token menggunakan SECRET_KEY
     try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-    except jwt.ExpiredSignatureError:
-        # Tangani jika token sudah kadaluwarsa
-        return redirect('/login')
-    except jwt.InvalidTokenError:
-        # Tangani jika token tidak valid
-        return redirect('/login')
-
-    # Mendapatkan informasi user dari database berdasarkan username pada payload
-    user_info = db.users.find_one({"username": payload["id"]})
-    if user_info:
+        # Mendekode token menggunakan SECRET_KEY
+        payload = jwt.decode(
+            token_receive,
+            SECRET_KEY,
+            algorithms=['HS256']
+        )
+        # Mendapatkan informasi user dari database berdasarkan username pada payload
+        user_info = db.users.find_one({"username": payload["id"]})
         return render_template('news.html', user_info=user_info)
-    else:
-        # Tangani jika user tidak ditemukan
-        return redirect('/login')
+    except jwt.ExpiredSignatureError:
+        msg = 'Your token has expired'
+        return redirect(url_for('login', msg=msg))
+    except jwt.exceptions.DecodeError:
+        msg = 'There was a problem logging you in'
+        return redirect(url_for('login', msg=msg))
+
 
 
 if __name__ == '__main__':
