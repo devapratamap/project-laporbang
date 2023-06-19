@@ -370,39 +370,47 @@ def get_news_posts():
                         "username": payload["id"]}
                 )
             )
-        return jsonify({
-            'result': 'success',
-            'msg': 'Success fetched all post',
-            "posts": posts
-        })
+
+        return render_template('news.html', posts=posts)
+
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for('home'))
+
     
-# @app.route('/hapus_news', methods=['POST'])
-# def hapus_news():
+# @app.route('/news_posting/<post_id>', methods=['DELETE'])
+# def delete_news_posting(post_id):
 #     token_receive = request.cookies.get(TOKEN_KEY)
-#     if not token_receive:
-#         return jsonify({'message': 'Token tidak valid'}), 401
-    
 #     try:
 #         payload = jwt.decode(
 #             token_receive,
 #             SECRET_KEY,
 #             algorithms=['HS256']
 #         )
-        
-#         # Menghapus data dari MongoDB
-#         result = db.news_post.delete_one({'_id': payload['id']})
+#         user_info = db.users.find_one({"username": payload["id"]})
 
-#         if result.deleted_count > 0:
-#             return jsonify({'message': 'Data berhasil dihapus'})
-#         else:
-#             return jsonify({'message': 'Data tidak ditemukan'}), 404
+#         # Check if the user has permission to delete the post
+#         post = db.news_posts.find_one({"_id": ObjectId(post_id)})
+#         if post["username"] != user_info["username"]:
+#             return jsonify({
+#                 'result': 'error',
+#                 'msg': 'Unauthorized'
+#             }), 401, CORS_HEADERS
 
-#     except jwt.ExpiredSignatureError:
-#         return jsonify({'message': 'Token kedaluwarsa'}), 401
-#     except jwt.InvalidTokenError:
-#         return jsonify({'message': 'Token tidak valid'}), 401
+#         # Delete the post and remove the associated image file
+#         db.news_posts.delete_one({"_id": ObjectId(post_id)})
+#         image_filename = post["image_filename"]
+#         image_path = os.path.join(app.config['UPLOAD_POST'], image_filename)
+#         if os.path.exists(image_path):
+#             os.remove(image_path)
+
+#         return jsonify({
+#             'result': 'success',
+#             'msg': 'Posting Berita Deleted'
+#         }), 200, CORS_HEADERS
+
+#     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+#         return redirect(url_for('home')), 200, CORS_HEADERS
+
 
 @app.route('/about', methods=['GET'])
 def about():
