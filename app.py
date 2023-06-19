@@ -198,7 +198,7 @@ def posting():
         alamat = request.form["alamat"]
         provinsi = request.form["provinsi"]
         kotakab = request.form["kotakab"]
-        kecamatan = request.form["kecamatan"]
+        # kecamatan = request.form["kecamatan"]
         deskripsi = request.form["deskripsi"]
         date_receive = request.form["date_give"]
 
@@ -216,7 +216,7 @@ def posting():
             "alamat": alamat,
             "provinsi": provinsi,
             "kotakab": kotakab,
-            "kecamatan": kecamatan,
+            # "kecamatan": kecamatan,
             "deskripsi": deskripsi,
             "date": date_receive,
             "image_filename": filename
@@ -285,6 +285,7 @@ def get_posts():
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for('home'))
 
+
 @app.route('/news_posting', methods=['POST'])
 def news_posting():
     token_receive = request.cookies.get(TOKEN_KEY)
@@ -322,7 +323,8 @@ def news_posting():
         }), 200, CORS_HEADERS
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for('home')), 200, CORS_HEADERS
-    
+
+
 @app.route('/get_news_posts', methods=['GET'])
 def get_news_posts():
     token_receive = request.cookies.get(TOKEN_KEY)
@@ -338,7 +340,7 @@ def get_news_posts():
         else:
             posts = list(
                 db.news_posts.find({"username": username_receive}
-                              ).sort("date", -1).limit(20)
+                                   ).sort("date", -1).limit(20)
             )
 
         for post in posts:
@@ -410,6 +412,7 @@ def get_news_posts():
 
 #     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
 #         return redirect(url_for('home')), 200, CORS_HEADERS
+
 
 
 @app.route('/about', methods=['GET'])
