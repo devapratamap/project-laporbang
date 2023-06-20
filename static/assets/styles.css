@@ -204,7 +204,7 @@ input::-webkit-calendar-picker-indicator {
     flex-shrink: 0;
   }
   
-  .media-content {
+  /* .media-content {
     font-weight: bold;
     font-size: 1.25rem;
     text-transform: capitalize;
@@ -213,4 +213,16 @@ input::-webkit-calendar-picker-indicator {
     text-overflow: ellipsis;
     overflow: hidden;
     flex-grow: 1;
-  }
+  } */
+
+.text-hidden {
+    visibility: hidden;
+}
+
+.skeleton.skeleton-text .text-hidden {
+    visibility: visible;
+}
+
+.skeleton.skeleton-text .text-hidden::after {
+    content: attr(data-text);
+}
