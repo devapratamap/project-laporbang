@@ -84,50 +84,50 @@ function get_posts(username) {
                     let class_star = post['star_by_me'] ? "fa-heart" : "fa-heart-o";
                     let class_thumbsup = post['thumbsup_by_me'] ? "fa-thumbs-up" : "fa-thumbs-o-up";
                     let html_temp = `
-                            <div class="card" id="${post["_id"]}">
-                                <div class="card-image">
-                                    <figure class="image is-4by3">
-                                        <img src="/static/post/${post["image_filename"]}" alt="">
+                    <div class="card" id="${post["_id"]}">
+                        <div class="card-image">
+                            <figure class="image is-4by3 skeleton">
+                                <img src="/static/post/${post["image_filename"]}" alt="">
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-left">
+                                    <figure class="image is-48x48 skeleton">
+                                        <img src="/static/${post["profile_pic_real"]}">
                                     </figure>
                                 </div>
-                                <div class="card-content">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <figure class="image is-48x48">
-                                                <img src="/static/${post["profile_pic_real"]}">
-                                            </figure>
-                                        </div>
-                                        <div class="media-content">
-                                            <p class="title is-4">${post["profile_name"]}</p>
-                                            <p class="subtitle is-6">${post["username"]}</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="content">
-                                        ${post["alamat"]}
-                                        <br>
-                                        ${post["provinsi"]}, ${post["kotakab"]}, ${post["kecamatan"]}
-                                        <br>
-                                        <div class="box">
-                                            <b>${post["deskripsi"]}</b>
-                                        </div>
-                                        <time datetime="2016-1-1">${time_before}</time>
-                                    </div>
-                                    <nav class="level is-mobile">
-                                        <div class="level-left">
-                                            <a class="level-item is-blue" aria-label="heart" onclick="toggle_like('${post["_id"]}', 'heart')">
-                                                <span class="icon is-blue"><i class="fa ${class_heart}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post["count_heart"])}</span>
-                                            </a>
-                                            <a class="level-item is-blue" aria-label="star" onclick="toggle_star('${post["_id"]}', 'star')">
-                                                <span class="icon is-small"><i class="fa ${class_star}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post["count_star"])}</span>
-                                            </a>
-                                            <a class="level-item is-blue" aria-label="thumbsup" onclick="toggle_thumbsup('${post["_id"]}', 'thumbsup')">
-                                                <span class="icon is-blue"><i class="fa ${class_thumbsup}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post["count_thumbsup"])}</span>
-                                            </a>
-                                        </div>
-                                    </nav>
+                                <div class="media-content" data-title>
+                                    <p class="skeleton skeleton-text title is-4">${post["profile_name"]}</p>
+                                    <p class="skeleton skeleton-text subtitle is-6">${post["username"]}</p>
                                 </div>
                             </div>
+                
+                            <div class="content skeleton skeleton-text" data-body>
+                                ${post["alamat"]}
+                                <br>
+                                ${post["provinsi"]}, ${post["kotakab"]}, ${post["kecamatan"]}
+                                <br>
+                                <div class="box skeleton skeleton-text">
+                                    <b>${post["deskripsi"]}</b>
+                                </div>
+                                <time datetime="2016-1-1">${time_before}</time>
+                            </div>
+                            <nav class="level is-mobile skeleton skeleton-text">
+                                <div class="level-left">
+                                    <a class="level-item is-blue" aria-label="heart" onclick="toggle_like('${post["_id"]}', 'heart')">
+                                        <span class="icon is-blue"><i class="fa ${class_heart}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post["count_heart"])}</span>
+                                    </a>
+                                    <a class="level-item is-blue" aria-label="star" onclick="toggle_star('${post["_id"]}', 'star')">
+                                        <span class="icon is-small"><i class="fa ${class_star}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post["count_star"])}</span>
+                                    </a>
+                                    <a class="level-item is-blue" aria-label="thumbsup" onclick="toggle_thumbsup('${post["_id"]}', 'thumbsup')">
+                                        <span class="icon is-blue"><i class="fa ${class_thumbsup}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post["count_thumbsup"])}</span>
+                                    </a>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
                             <br>
                     
                             `;
@@ -464,3 +464,24 @@ function clearInputs() {
     $('#input-password').val('');
     $('#input-password2').val('');
 }
+
+
+// pagination
+    // import React from 'react';
+    // import Pagination from 'bulma-pagination-react';
+
+    // const POSTS_PER_PAGE = 10;
+
+    // const Pager = ({ posts, currentPage, perPage = POSTS_PER_PAGE }) => {
+    // const pages = Math.ceil(posts.length / perPage);
+
+    // return (
+    //     <Pagination
+    //     pages={pages}
+    //     currentPage={currentPage}
+    //     onChange={page => console.log(`/news?page=${page}`)}
+    //     />
+    // );
+    // };
+
+    // export default Pager;

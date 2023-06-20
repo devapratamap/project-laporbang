@@ -53,6 +53,28 @@
 
     <section class="hero is-white">
         <div class="hero-body" style="padding-bottom:1rem;margin:auto;min-width: 400px">
+            <!-- <article class="media-profile">
+
+                <figure class="media-left" style="align-self: center">
+                    <a class="image is-96x96" href="#">
+                        <img class="is-rounded" src="{{ url_for('static', filename=user_info.profile_pic_real) }}">
+                    </a>
+                </figure>
+                <div class="media-content">
+                    <div class="content is-black">
+                        <p>
+                            <strong>{{ user_info.profile_name }}</strong>
+                            <small>@{{ user_info.username }}</small>
+                            <br>
+                            <div class="box">
+                            {{ user_info.profile_info }}
+                            </div>
+                        </p>
+                    </div>
+
+                </div>
+            </article> -->
+
             <div class="box">
                 <article class="media">
                     <div class="media-left">
@@ -198,36 +220,17 @@
                                     <article class="media">
                                         <div class="media-content is-black">
                                             <div class="field">
-                                                <p
-                                                    class="control is-expanded">
-                                                    <input class="input"
-                                                        type="text"
-                                                        id="alamat"
-                                                        placeholder="Alamat">
-                                                    <select id="provinsi"
-                                                        class="input">
-                                                        <option value
-                                                            selected
-                                                            disabled>Pilih
-                                                            Provinsi</option>
-                                                    </select>
-                                                    <select id="kotakab"
-                                                        class="input">
-                                                        <option value
-                                                            selected
-                                                            disabled>Pilih
-                                                            Kabupaten/Kota</option>
-                                                    </select>
-                                                    <select id="kecamatan"
-                                                        class="input">
-                                                        <option value
-                                                            selected
-                                                            disabled>Pilih
-                                                            Kecamatan</option>
-                                                    </select>
-                                                    <textarea id="deskripsi"
-                                                        class="textarea"
-                                                        placeholder="Deskripsi"></textarea>
+                                                <p class="control is-expanded">
+                                                    <input class="input" type="text" id="alamat" placeholder="Alamat">
+                                                    <input class="input" type="text" style="width: 184px;" id="provinsi"
+                                                        placeholder="Provinsi">
+                                                    <input class="input" type="text" style="width: 184px;" id="kotakab"
+                                                        placeholder="Kota/Kab">
+                                                    <input class="input" type="text" style="width: 184px;" id="kecamatan"
+                                                        placeholder="Kecamatan">
+                                                    <textarea id="deskripsi" class="textarea"
+                                                        placeholder="Deskripsi">
+                                                    </textarea>
                                                 </p>
                                                 <div
                                                     class="file has-name is-fullwidth">
@@ -303,6 +306,7 @@
     </div>
 
     </section>
+    {% include 'page.html' %}
 
     {% include 'footer.html' %}
 
