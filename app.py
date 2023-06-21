@@ -18,6 +18,7 @@ app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['UPLOAD_FOLDER'] = './static/profile'
 app.config['UPLOAD_POST'] = './static/post'
+app.config['UPLOAD_UPDATE_POST'] = './static/post'
 app.config['UPLOAD_NEWS'] = './static/news'
 
 MONGODB_URI = os.environ.get("MONGODB_URI")
@@ -285,105 +286,55 @@ def get_posts():
         })
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for('home'))
-
-
-@app.route('/news_posting', methods=['POST'])
-def news_posting():
-    token_receive = request.cookies.get(TOKEN_KEY)
-    try:
-        payload = jwt.decode(
-            token_receive,
-            SECRET_KEY,
-            algorithms=['HS256']
-        )
-        user_info = db.users.find_one({"username": payload["id"]})
-        judul = request.form["judul"]
-        news_deskripsi = request.form["news_deskripsi"]
-        date_receive = request.form["date_give"]
-
-        image = request.files['image']
-        filename = image.filename
-
-    # Save the image file to the specified folder
-        image_path = os.path.join(app.config['UPLOAD_NEWS'], filename)
-        image.save(image_path)
-
-        doc = {
-            "username": user_info["username"],
-            "profile_name": user_info["profile_name"],
-            "profile_pic_real": user_info["profile_pic_real"],
-            "judul": judul,
-            "news_deskripsi": news_deskripsi,
-            "date": date_receive,
-            "image_filename": filename
-        }
-        db.news_posts.insert_one(doc)
-        return jsonify({
-            'result': 'success',
-            'msg': 'Posting Berita Success'
-        }), 200, CORS_HEADERS
-    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return redirect(url_for('news')), 200, CORS_HEADERS
-
-
-@app.route('/get_news_posts', methods=['GET'])
-def get_news_posts():
-    token_receive = request.cookies.get(TOKEN_KEY)
-    try:
-        payload = jwt.decode(
-            token_receive,
-            SECRET_KEY,
-            algorithms=['HS256']
-        )
-        username_receive = request.args.get("username_give")
-        if username_receive == "":
-            posts = list(db.news_posts.find({}).sort("date", -1).limit(20))
-        else:
-            posts = list(
-                db.news_posts.find({"username": username_receive}
-                              ).sort("date", -1).limit(20)
-            )
-
-        for post in posts:
-            post["_id"] = str(post["_id"])
-            post["count_heart"] = db.likes.count_documents(
-                {"post_id": post["_id"], "type": "heart"}
-            )
-            post["count_star"] = db.likes.count_documents(
-                {"post_id": post["_id"], "type": "star"}
-            )
-            post["count_thumbsup"] = db.likes.count_documents(
-                {"post_id": post["_id"], "type": "thumbsup"}
-            )
-            post["heart_by_me"] = bool(
-                db.likes.find_one(
-                    {"post_id": post["_id"], "type": "heart",
-                        "username": payload["id"]}
-                )
-            )
-            post["star_by_me"] = bool(
-                db.likes.find_one(
-                    {"post_id": post["_id"], "type": "star",
-                        "username": payload["id"]}
-                )
-            )
-            post["thumbsup_by_me"] = bool(
-                db.likes.find_one(
-                    {"post_id": post["_id"], "type": "thumbsup",
-                        "username": payload["id"]}
-                )
-            )
-        return jsonify({
-            'result': 'success',
-            'msg': 'Success fetched all post',
-            "posts": posts
-        })
-    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return redirect(url_for('news'))
-
     
-# @app.route('/news_posting/<post_id>', methods=['DELETE'])
-# def delete_news_posting(post_id):
+# @app.route('/update_post', methods=['POST'])
+# def update_post():
+#     # Mendapatkan token dari cookie
+#     token_receive = request.cookies.get("mytoken")
+#     try:
+#         # Mendekode token menggunakan SECRET_KEY
+#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
+#         username = payload["id"]
+#         # Mendapatkan data yang dikirimkan dalam permintaan POST
+#         alamat_receive = request.form["alamat_give"]
+#         provinsi_receive = request.form["provinsi_give"]
+#         kotakab_receive = request.form["kotakab_give"]
+#         kecamatan_receive = request.form["kecamatan_give"]
+#         deskripsi_receive = request.form["deskripsi_give"]
+#         new_doc = {
+#             "alamat": alamat_receive,
+#             "provinsi": provinsi_receive,
+#             "kotakab": kotakab_receive,
+#             "kecamatan": kecamatan_receive,
+#             "deskripsi": deskripsi_receive}
+#         if "file_give" in request.files:
+#             # Jika ada file yang dikirimkan, menyimpannya dan memperbarui path gambar profil
+#             file = request.files["file_give"]
+#             filename = secure_filename(file.filename)
+#             extension = filename.split(".")[-1]
+#             file_path = f"profile/{username}.{extension}"
+#             file.save("./static/" + file_path)
+#             new_doc["profile_pic"] = filename
+#             new_doc["profile_pic_real"] = file_path
+#         # Memperbarui informasi profil user dalam database
+#         db.posts.update_one({"username": payload["id"]}, {"$set": new_doc})
+#         return jsonify({"result": "success"})
+#     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+#         return redirect(url_for("home"))
+    
+# @app.route('/delete_post', methods=['DELETE'])
+# def delete_post():
+#     # Cek apakah post_id valid dan ada dalam database
+#     post = db.posts.find_one({"_id"})
+#     if post:
+#         # Hapus data dari database
+#         db.posts.delete_one({"_id"})
+#         return jsonify({'result': 'success',})
+#     else:
+#         return jsonify({'result': 'failure',})
+
+# @app.route('/news_posting', methods=['POST'])
+# def news_posting():
 #     token_receive = request.cookies.get(TOKEN_KEY)
 #     try:
 #         payload = jwt.decode(
@@ -392,29 +343,91 @@ def get_news_posts():
 #             algorithms=['HS256']
 #         )
 #         user_info = db.users.find_one({"username": payload["id"]})
+#         judul = request.form["judul"]
+#         news_deskripsi = request.form["news_deskripsi"]
+#         date_receive = request.form["date_give"]
 
-#         # Check if the user has permission to delete the post
-#         post = db.news_posts.find_one({"_id": ObjectId(post_id)})
-#         if post["username"] != user_info["username"]:
-#             return jsonify({
-#                 'result': 'error',
-#                 'msg': 'Unauthorized'
-#             }), 401, CORS_HEADERS
+#         image = request.files['image']
+#         filename = image.filename
 
-#         # Delete the post and remove the associated image file
-#         db.news_posts.delete_one({"_id": ObjectId(post_id)})
-#         image_filename = post["image_filename"]
-#         image_path = os.path.join(app.config['UPLOAD_POST'], image_filename)
-#         if os.path.exists(image_path):
-#             os.remove(image_path)
+#     # Save the image file to the specified folder
+#         image_path = os.path.join(app.config['UPLOAD_NEWS'], filename)
+#         image.save(image_path)
 
+#         doc = {
+#             "username": user_info["username"],
+#             "profile_name": user_info["profile_name"],
+#             "profile_pic_real": user_info["profile_pic_real"],
+#             "judul": judul,
+#             "news_deskripsi": news_deskripsi,
+#             "date": date_receive,
+#             "image_filename": filename
+#         }
+#         db.news_posts.insert_one(doc)
 #         return jsonify({
 #             'result': 'success',
-#             'msg': 'Posting Berita Deleted'
+#             'msg': 'Posting Berita Success'
 #         }), 200, CORS_HEADERS
-
 #     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-#         return redirect(url_for('home')), 200, CORS_HEADERS
+#         return redirect(url_for('news')), 200, CORS_HEADERS
+
+
+# @app.route('/get_news_posts', methods=['GET'])
+# def get_news_posts():
+#     token_receive = request.cookies.get(TOKEN_KEY)
+#     try:
+#         payload = jwt.decode(
+#             token_receive,
+#             SECRET_KEY,
+#             algorithms=['HS256']
+#         )
+#         username_receive = request.args.get("username_give")
+#         if username_receive == "":
+#             posts = list(db.news_posts.find({}).sort("date", -1).limit(20))
+#         else:
+#             posts = list(
+#                 db.news_posts.find({"username": username_receive}
+#                               ).sort("date", -1).limit(20)
+#             )
+
+#         for post in posts:
+#             post["_id"] = str(post["_id"])
+#             post["count_heart"] = db.likes.count_documents(
+#                 {"post_id": post["_id"], "type": "heart"}
+#             )
+#             post["count_star"] = db.likes.count_documents(
+#                 {"post_id": post["_id"], "type": "star"}
+#             )
+#             post["count_thumbsup"] = db.likes.count_documents(
+#                 {"post_id": post["_id"], "type": "thumbsup"}
+#             )
+#             post["heart_by_me"] = bool(
+#                 db.likes.find_one(
+#                     {"post_id": post["_id"], "type": "heart",
+#                         "username": payload["id"]}
+#                 )
+#             )
+#             post["star_by_me"] = bool(
+#                 db.likes.find_one(
+#                     {"post_id": post["_id"], "type": "star",
+#                         "username": payload["id"]}
+#                 )
+#             )
+#             post["thumbsup_by_me"] = bool(
+#                 db.likes.find_one(
+#                     {"post_id": post["_id"], "type": "thumbsup",
+#                         "username": payload["id"]}
+#                 )
+#             )
+#         return jsonify({
+#             'result': 'success',
+#             'msg': 'Success fetched all post',
+#             "posts": posts
+#         })
+#     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+#         return redirect(url_for('news'))
+
+    
 
 
 

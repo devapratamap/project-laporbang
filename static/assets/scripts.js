@@ -80,52 +80,41 @@ function get_posts(username) {
                     let post = posts[i];
                     let time_post = new Date(post["date"]);
                     let time_before = time2str(time_post);
-                    let class_heart = post['heart_by_me'] ? "fa-heart" : "fa-heart-o";
-                    let class_star = post['star_by_me'] ? "fa-heart" : "fa-heart-o";
-                    let class_thumbsup = post['thumbsup_by_me'] ? "fa-thumbs-up" : "fa-thumbs-o-up";
+                    // let class_heart = post['heart_by_me'] ? "fa-heart" : "fa-heart-o";
+                    // let class_star = post['star_by_me'] ? "fa-heart" : "fa-heart-o";
+                    // let class_thumbsup = post['thumbsup_by_me'] ? "fa-thumbs-up" : "fa-thumbs-o-up";
                     let html_temp = `
                     <div class="card" id="${post["_id"]}">
                         <div class="card-image">
-                            <figure class="image is-4by3 skeleton">
+                            <figure class="image is-4by3">
                                 <img src="/static/post/${post["image_filename"]}" alt="">
                             </figure>
                         </div>
                         <div class="card-content">
                             <div class="media">
                                 <div class="media-left">
-                                    <figure class="image is-48x48 skeleton">
+                                    <figure class="image is-48x48">
                                         <img src="/static/${post["profile_pic_real"]}">
                                     </figure>
                                 </div>
                                 <div class="media-content" data-title>
-                                    <p class="skeleton skeleton-text title is-4">${post["profile_name"]}</p>
-                                    <p class="skeleton skeleton-text subtitle is-6">${post["username"]}</p>
+                                    <p class="title is-4">${post["profile_name"]}</p>
+                                    <p class="subtitle is-6">${post["username"]}</p>
                                 </div>
                             </div>
                 
-                            <div class="content skeleton skeleton-text" data-body>
+                            <div class="content" data-body>
                                 ${post["alamat"]}
                                 <br>
                                 ${post["provinsi"]}, ${post["kotakab"]}, ${post["kecamatan"]}
                                 <br>
-                                <div class="box skeleton skeleton-text">
+                                <div class="box">
                                     <b>${post["deskripsi"]}</b>
                                 </div>
                                 <time datetime="2016-1-1">${time_before}</time>
+                                <br>
+                                <br>
                             </div>
-                            <nav class="level is-mobile skeleton skeleton-text">
-                                <div class="level-left">
-                                    <a class="level-item is-blue" aria-label="heart" onclick="toggle_like('${post["_id"]}', 'heart')">
-                                        <span class="icon is-blue"><i class="fa ${class_heart}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post["count_heart"])}</span>
-                                    </a>
-                                    <a class="level-item is-blue" aria-label="star" onclick="toggle_star('${post["_id"]}', 'star')">
-                                        <span class="icon is-small"><i class="fa ${class_star}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post["count_star"])}</span>
-                                    </a>
-                                    <a class="level-item is-blue" aria-label="thumbsup" onclick="toggle_thumbsup('${post["_id"]}', 'thumbsup')">
-                                        <span class="icon is-blue"><i class="fa ${class_thumbsup}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(post["count_thumbsup"])}</span>
-                                    </a>
-                                </div>
-                            </nav>
                         </div>
                     </div>
                             <br>
@@ -138,77 +127,110 @@ function get_posts(username) {
     });
 }
 
-function news_post() {
-    let judul = $("#judul").val();
-    let news_deskripsi = $("#news_deskripsi").val();
+// function delete_post(postId) {
+//     Swal.fire({
+//         title: 'Apa anda yakin?',
+//         text: "Anda akan menghapus postingan ini!",
+//         icon: 'warning',
+//         showCancelButton: true,
+//         confirmButtonColor: '#3085d6',
+//         cancelButtonColor: '#d33',
+//         cancelButtonText: 'Kembali',
+//         confirmButtonText: 'Hapus'
+//     }).then((result) => {
+//         if (result.isConfirmed) {
+//             Swal.fire(
+//                 'Dihapus!',
+//                 'Postingan anda telah dihapus',
+//                 'success'
+//             );
+//             $.ajax({
+//                 type: "POST",
+//                 url: "/delete_post",
+//                 data: { post_id: postId },
+//                 success: function (response) {
+//                     if (response["result"] === "success") {
+//                         // Panggil fungsi untuk mendapatkan postingan terbaru setelah penghapusan
+//                         get_posts();
+//                     }
+//                 },
+//             });
+//         }
+//     });
+// }
 
-    let today = new Date().toISOString();
-    let fileInput = document.getElementById("imageInput");
-    let file = fileInput.files[0];
 
-    let formData = new FormData();
-    formData.append("judul", judul);
-    formData.append("news_deskripsi", news_deskripsi);
-    formData.append("date_give", today);
-    formData.append("image", file);
+// function news_post() {
+//     let judul = $("#judul").val();
+//     let news_deskripsi = $("#news_deskripsi").val();
 
-    $.ajax({
-        type: "POST",
-        url: "/news_posting",
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function (response) {
-            $("#modal-post").removeClass("is-active");
-            window.location.reload();
-        },
-    });
-}
+//     let today = new Date().toISOString();
+//     let fileInput = document.getElementById("imageInput");
+//     let file = fileInput.files[0];
 
-function get_news_posts(username) {
-    if (username == undefined) {
-        username = "";
-    }
-    $("#post-box").empty();
-    $.ajax({
-        type: "GET",
-        url: `/get_news_posts?username_give=${username}`,
-        data: {},
-        success: function (response) {
-            if (response["result"] === "success") {
-                let posts = response["posts"];
-                for (let i = 0; i < posts.length; i++) {
-                    let post = posts[i];
-                    let time_post = new Date(post["date"]);
-                    let time_before = time2str(time_post);
-                    let html_temp = `
-                    <div class="card" id="${post["_id"]} style="margin-bottom: 20px;">
-                        <div class="card-image">
-                            <figure class="image is-4by3">
-                                <img src="${post["image_filename"]}">
-                            </figure>
-                        </div>
-                        <button class="button is-danger">Delete</button>
-                        <div class="card-content">
-                            <div class="media">
-                                <div class="media-content">
-                                    <p class="title is-4">${post["judul"]}</p>
-                                </div>
-                            </div>
-                            <div class="content">
-                                ${post["news_deskripsi"]}
-                                <time datetime="2016-1-1">${time_before}</time>
-                            <br>
-                            </div>
-                        </div>
-                    </div>
-                            `;
-                    $("#post-box").append(html_temp);
-                }
-            }
-        },
-    });
-}
+//     let formData = new FormData();
+//     formData.append("judul", judul);
+//     formData.append("news_deskripsi", news_deskripsi);
+//     formData.append("date_give", today);
+//     formData.append("image", file);
+
+//     $.ajax({
+//         type: "POST",
+//         url: "/news_posting",
+//         data: formData,
+//         contentType: false,
+//         processData: false,
+//         success: function (response) {
+//             $("#modal-post").removeClass("is-active");
+//             window.location.reload();
+//         },
+//     });
+// }
+
+// function get_news_posts(username) {
+//     if (username == undefined) {
+//         username = "";
+//     }
+//     $("#post-box").empty();
+//     $.ajax({
+//         type: "GET",
+//         url: `/get_news_posts?username_give=${username}`,
+//         data: {},
+//         success: function (response) {
+//             if (response["result"] === "success") {
+//                 let posts = response["posts"];
+//                 for (let i = 0; i < posts.length; i++) {
+//                     let post = posts[i];
+//                     let time_post = new Date(post["date"]);
+//                     let time_before = time2str(time_post);
+//                     let html_temp = `
+//                     <div class="card" id="${post["_id"]} style="margin-bottom: 20px;">
+//                         <div class="card-image">
+//                             <figure class="image is-4by3">
+//                                 <img src="${post["image_filename"]}">
+//                             </figure>
+//                         </div>
+//                         <button class="button is-danger">Delete</button>
+//                         <div class="card-content">
+//                             <div class="media">
+//                                 <div class="media-content">
+//                                     <p class="title is-4">${post["judul"]}</p>
+//                                 </div>
+//                             </div>
+//                             <div class="content">
+//                                 ${post["news_deskripsi"]}
+//                                 <time datetime="2016-1-1">${time_before}</time>
+//                             <br>
+//                             </div>
+//                         </div>
+//                     </div>
+//                             `;
+//                     $("#post-box").append(html_temp);
+//                 }
+//             }
+//         },
+//     });
+// }
 
 
 // Fungsi hapus cookie dan logout
