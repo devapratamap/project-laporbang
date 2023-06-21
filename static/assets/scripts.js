@@ -80,6 +80,7 @@ function get_posts(username) {
                     let post = posts[i];
                     let time_post = new Date(post["date"]);
                     let time_before = time2str(time_post);
+                    console.log(post);
                     // let class_heart = post['heart_by_me'] ? "fa-heart" : "fa-heart-o";
                     // let class_star = post['star_by_me'] ? "fa-heart" : "fa-heart-o";
                     // let class_thumbsup = post['thumbsup_by_me'] ? "fa-thumbs-up" : "fa-thumbs-o-up";

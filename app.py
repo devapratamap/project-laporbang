@@ -7,6 +7,7 @@ import hashlib
 # import requets
 from flask import (Flask, render_template, jsonify, request, redirect, url_for)
 from flask_pymongo import PyMongo
+from bson import ObjectId
 from pymongo import MongoClient
 from datetime import datetime, timedelta
 from werkzeug.utils import secure_filename
@@ -159,6 +160,34 @@ def check_dup():
     return jsonify({'result': 'success', 'exists': exists})
 
 
+# @app.route('/update_profile', methods=['POST'])
+# def save_img():
+#     # Mendapatkan token dari cookie
+#     token_receive = request.cookies.get("mytoken")
+#     try:
+#         # Mendekode token menggunakan SECRET_KEY
+#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
+#         username = payload["id"]
+#         # Mendapatkan data yang dikirimkan dalam permintaan POST
+#         name_receive = request.form["name_give"]
+#         about_receive = request.form["about_give"]
+#         if "file_give" in request.files:
+#             # Jika ada file yang dikirimkan, menyimpannya dan memperbarui path gambar profil
+#             file = request.files["file_give"]
+#             filename = secure_filename(file.filename)
+#             extension = filename.split(".")[-1]
+#             file_path = f"profile/{username}.{extension}"
+#             file.save("./static/" + file_path)
+#             new_doc["profile_pic"] = filename
+#             new_doc["profile_pic_real"] = file_path
+#         # Memperbarui informasi profil user dalam database
+#         new_doc = {"profile_name": name_receive, "profile_info": about_receive}
+#         db.users.update_one({"username": payload["id"]}, {"$set": new_doc})
+#         return jsonify({"result": "success"})
+#     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+#         return redirect(url_for("home"))
+
+
 @app.route('/update_profile', methods=['POST'])
 def save_img():
     # Mendapatkan token dari cookie
@@ -170,7 +199,6 @@ def save_img():
         # Mendapatkan data yang dikirimkan dalam permintaan POST
         name_receive = request.form["name_give"]
         about_receive = request.form["about_give"]
-        new_doc = {"profile_name": name_receive, "profile_info": about_receive}
         if "file_give" in request.files:
             # Jika ada file yang dikirimkan, menyimpannya dan memperbarui path gambar profil
             file = request.files["file_give"]
@@ -178,10 +206,16 @@ def save_img():
             extension = filename.split(".")[-1]
             file_path = f"profile/{username}.{extension}"
             file.save("./static/" + file_path)
-            new_doc["profile_pic"] = filename
-            new_doc["profile_pic_real"] = file_path
-        # Memperbarui informasi profil user dalam database
-        db.users.update_one({"username": payload["id"]}, {"$set": new_doc})
+            # Memperbarui informasi gambar profil dalam dokumen MongoDB
+            db.users.update_one({"username": username}, {"$set": {
+                "profile_pic": filename,
+                "profile_pic_real": file_path
+            }})
+        # Memperbarui informasi profil pengguna dalam dokumen MongoDB
+        db.users.update_one({"username": username}, {"$set": {
+            "profile_name": name_receive,
+            "profile_info": about_receive
+        }})
         return jsonify({"result": "success"})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
@@ -286,7 +320,7 @@ def get_posts():
         })
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for('home'))
-    
+
 # @app.route('/update_post', methods=['POST'])
 # def update_post():
 #     # Mendapatkan token dari cookie
@@ -321,7 +355,7 @@ def get_posts():
 #         return jsonify({"result": "success"})
 #     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
 #         return redirect(url_for("home"))
-    
+
 # @app.route('/delete_post', methods=['DELETE'])
 # def delete_post():
 #     # Cek apakah post_id valid dan ada dalam database
@@ -427,9 +461,6 @@ def get_posts():
 #     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
 #         return redirect(url_for('news'))
 
-    
-
-
 
 @app.route('/about', methods=['GET'])
 def about():
@@ -475,7 +506,6 @@ def news():
     except jwt.exceptions.DecodeError:
         msg = 'There was a problem logging you in'
         return redirect(url_for('login', msg=msg))
-
 
 
 if __name__ == '__main__':
