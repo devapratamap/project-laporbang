@@ -212,7 +212,7 @@ def save_img():
             file = request.files["file_give"]
             filename = secure_filename(file.filename)
             extension = filename.split(".")[-1]
-            file_path = f"profile/{username}.{extension}"
+            file_path = f"profile/{username}.jpg"
             file.save("./static/" + file_path)
             # Memperbarui informasi gambar profil dalam dokumen MongoDB
             db.users.update_one({"username": username}, {"$set": {
@@ -232,6 +232,9 @@ def save_img():
 @app.route('/posting', methods=['POST'])
 def posting():
     token_receive = request.cookies.get(TOKEN_KEY)
+    if token_receive is None:
+        # Pengguna belum login, kembalikan ke halaman login
+        return redirect(url_for('login'))
     try:
         payload = jwt.decode(
             token_receive,
@@ -271,7 +274,7 @@ def posting():
             'msg': 'Posting success'
         }), 200, CORS_HEADERS
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return redirect(url_for('home')), 200, CORS_HEADERS
+        return redirect(url_for('login')), 200, CORS_HEADERS
 
 
 @app.route('/get_posts_all', methods=['GET'])
@@ -291,9 +294,11 @@ def get_posts_all():
             "date": postingan["date"],
             "image_filename": postingan["image_filename"]
         })
-    return jsonify(
-        post_list
-    ), 200
+    
+    post_list = sorted(post_list, key=lambda postingan: postingan["date"], reverse=True)
+
+    return jsonify(post_list), 200
+
 
 @app.route('/get_posts', methods=['GET'])
 def get_posts():
@@ -396,43 +401,43 @@ def get_posts():
 #     else:
 #         return jsonify({'result': 'failure',})
 
-# @app.route('/news_posting', methods=['POST'])
-# def news_posting():
-#     token_receive = request.cookies.get(TOKEN_KEY)
-#     try:
-#         payload = jwt.decode(
-#             token_receive,
-#             SECRET_KEY,
-#             algorithms=['HS256']
-#         )
-#         user_info = db.users.find_one({"username": payload["id"]})
-#         judul = request.form["judul"]
-#         news_deskripsi = request.form["news_deskripsi"]
-#         date_receive = request.form["date_give"]
+@app.route('/news_posting', methods=['POST'])
+def news_posting():
+    token_receive = request.cookies.get(TOKEN_KEY)
+    try:
+        payload = jwt.decode(
+            token_receive,
+            SECRET_KEY,
+            algorithms=['HS256']
+        )
+        user_info = db.users.find_one({"username": payload["id"]})
+        judul = request.form["judul"]
+        news_deskripsi = request.form["news_deskripsi"]
+        date_receive = request.form["date_give"]
 
-#         image = request.files['image']
-#         filename = image.filename
+        image = request.files['image']
+        filename = image.filename
 
-#     # Save the image file to the specified folder
-#         image_path = os.path.join(app.config['UPLOAD_NEWS'], filename)
-#         image.save(image_path)
+    # Save the image file to the specified folder
+        image_path = os.path.join(app.config['UPLOAD_NEWS'], filename)
+        image.save(image_path)
 
-#         doc = {
-#             "username": user_info["username"],
-#             "profile_name": user_info["profile_name"],
-#             "profile_pic_real": user_info["profile_pic_real"],
-#             "judul": judul,
-#             "news_deskripsi": news_deskripsi,
-#             "date": date_receive,
-#             "image_filename": filename
-#         }
-#         db.news_posts.insert_one(doc)
-#         return jsonify({
-#             'result': 'success',
-#             'msg': 'Posting Berita Success'
-#         }), 200, CORS_HEADERS
-#     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-#         return redirect(url_for('news')), 200, CORS_HEADERS
+        doc = {
+            "username": user_info["username"],
+            "profile_name": user_info["profile_name"],
+            "profile_pic_real": user_info["profile_pic_real"],
+            "judul": judul,
+            "news_deskripsi": news_deskripsi,
+            "date": date_receive,
+            "image_filename": filename
+        }
+        db.news_posts.insert_one(doc)
+        return jsonify({
+            'result': 'success',
+            'msg': 'Posting Berita Success'
+        }), 200, CORS_HEADERS
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for('news')), 200, CORS_HEADERS
 
 
 # @app.route('/get_news_posts', methods=['GET'])

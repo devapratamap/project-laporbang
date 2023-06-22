@@ -31,6 +31,7 @@ function num2str(count) {
 }
 
 function post() {
+    // Mendapatkan data dari input pengguna
     let alamat = $("#alamat").val();
     let provinsi = $("#provinsi").val();
     let kotakab = $("#kotakab").val();
@@ -60,6 +61,12 @@ function post() {
             $("#modal-post").removeClass("is-active");
             window.location.reload();
         },
+        error: function (xhr, status, error) {
+            if (xhr.status === 401) {
+                // Pengguna belum login, arahkan ke halaman login
+                window.location.href = "/login";
+            }
+        }
     });
 }
 
@@ -219,32 +226,32 @@ function get_posts(username) {
 // }
 
 
-// function news_post() {
-//     let judul = $("#judul").val();
-//     let news_deskripsi = $("#news_deskripsi").val();
+function news_post() {
+    let judul = $("#judul").val();
+    let news_deskripsi = $("#news_deskripsi").val();
 
-//     let today = new Date().toISOString();
-//     let fileInput = document.getElementById("imageInput");
-//     let file = fileInput.files[0];
+    let today = new Date().toISOString();
+    let fileInput = document.getElementById("imageInput");
+    let file = fileInput.files[0];
 
-//     let formData = new FormData();
-//     formData.append("judul", judul);
-//     formData.append("news_deskripsi", news_deskripsi);
-//     formData.append("date_give", today);
-//     formData.append("image", file);
+    let formData = new FormData();
+    formData.append("judul", judul);
+    formData.append("news_deskripsi", news_deskripsi);
+    formData.append("date_give", today);
+    formData.append("image", file);
 
-//     $.ajax({
-//         type: "POST",
-//         url: "/news_posting",
-//         data: formData,
-//         contentType: false,
-//         processData: false,
-//         success: function (response) {
-//             $("#modal-post").removeClass("is-active");
-//             window.location.reload();
-//         },
-//     });
-// }
+    $.ajax({
+        type: "POST",
+        url: "/news_posting",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            $("#modal-post").removeClass("is-active");
+            window.location.reload();
+        },
+    });
+}
 
 // function get_news_posts(username) {
 //     if (username == undefined) {
