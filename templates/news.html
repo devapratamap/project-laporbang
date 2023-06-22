@@ -7,7 +7,12 @@
     <script>
         $(document).ready(function () {
             // Ketika dokumen siap, panggil fungsi get_posts dengan parameter username dari user_info
-            get_news_posts();
+            {% if logged_in %}
+            get_news_post();
+            {% else %}
+            get_news_post_all();
+            {% endif %}
+            
         });
 
         // function news_post() {
@@ -43,14 +48,16 @@
 {% include 'navbar.html' %}
 
 <body>
-    <!-- <section class="section">
+    <section class="section">
         <article class="media">
+            {% if logged_in %}
             <figure class="media-left" style="align-self: center">
                 <a class="image is-32x32" href="/user/{{ user_info.username }}">
                     <img class="is-rounded" src="{{ url_for('static', filename=user_info.profile_pic_real )
                         }}">
                 </a>
             </figure>
+            {% endif %}
             <div class="media-content">
                 <div class="field">
                     <p class="control">
@@ -121,7 +128,7 @@
                 </div>
             </div>
         </article>
-    </section> -->
+    </section>
 
     <!-- content -->
     <section class="section">

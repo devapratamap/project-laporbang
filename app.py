@@ -38,24 +38,30 @@ CORS_HEADERS = {
 
 @app.route('/', methods=['GET'])
 def home():
-    # Mendapatkan token dari cookie
+    # Get token from browser cookie
     token_receive = request.cookies.get(TOKEN_KEY)
+    # if token_receive is None:
+    #     # Redirect user to login page if token is not present
+    #     return redirect(url_for('home'))
+
     try:
-        # Mendekode token menggunakan SECRET_KEY
+        # Decode token using SECRET_KEY
         payload = jwt.decode(
             token_receive,
             SECRET_KEY,
             algorithms=['HS256']
         )
-        # Mendapatkan informasi user dari database berdasarkan username pada payload
+        # Get user info from database based on username in payload
         user_info = db.users.find_one({"username": payload["id"]})
-        return render_template('index.html', user_info=user_info)
+        logged_in = True
+        return render_template('index.html', logged_in=logged_in, user_info=user_info)
     except jwt.ExpiredSignatureError:
         msg = 'Your token has expired'
-        return redirect(url_for('login', msg=msg))
+        # return redirect(url_for('home', msg=msg))
     except jwt.exceptions.DecodeError:
         msg = 'There was a problem logging you in'
-        return redirect(url_for('login', msg=msg))
+    return render_template('index.html', msg=msg)
+        # return redirect(url_for('home', msg=msg))
 
 
 @app.route('/login', methods=['GET'])
@@ -82,8 +88,10 @@ def user(username):
             {'username': username},
             {'_id': False}
         )
+        logged_in = True
         return render_template(
             'user.html',
+            logged_in=logged_in,
             user_info=user_info,
             status=status
         )
@@ -265,6 +273,27 @@ def posting():
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for('home')), 200, CORS_HEADERS
 
+
+@app.route('/get_posts_all', methods=['GET'])
+def get_posts_all():
+    post = db.posts.find()
+    post_list = []
+    for postingan in post:
+        post_list.append({
+            "username": postingan["username"],
+            "profile_name": postingan["profile_name"],
+            "profile_pic_real": postingan["profile_pic_real"],
+            "alamat": postingan["alamat"],
+            "provinsi": postingan["provinsi"],
+            "kotakab": postingan["kotakab"],
+            "kecamatan": postingan["kecamatan"],
+            "deskripsi": postingan["deskripsi"],
+            "date": postingan["date"],
+            "image_filename": postingan["image_filename"]
+        })
+    return jsonify(
+        post_list
+    ), 200
 
 @app.route('/get_posts', methods=['GET'])
 def get_posts():
@@ -466,24 +495,25 @@ def get_posts():
 def about():
     # Mendapatkan token dari cookie
     token_receive = request.cookies.get(TOKEN_KEY)
-
-    # Mendekode token menggunakan SECRET_KEY
     try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        # Mendekode token menggunakan SECRET_KEY
+        payload = jwt.decode(
+            token_receive,
+            SECRET_KEY,
+            algorithms=['HS256']
+        )
+        # Mendapatkan informasi user dari database berdasarkan username pada payload
+        user_info = db.users.find_one({"username": payload["id"]})
+        logged_in = True
+        # logged_out = False
+        return render_template('about.html', logged_in=logged_in, user_info=user_info)
     except jwt.ExpiredSignatureError:
-        # Tangani jika token sudah kadaluwarsa
-        return redirect('/login')
-    except jwt.InvalidTokenError:
-        # Tangani jika token tidak valid
-        return redirect('/login')
-
-    # Mendapatkan informasi user dari database berdasarkan username pada payload
-    user_info = db.users.find_one({"username": payload["id"]})
-    if user_info:
-        return render_template('about.html', user_info=user_info)
-    else:
-        # Tangani jika user tidak ditemukan
-        return redirect('/login')
+        msg = 'Your token has expired'
+        # return redirect(url_for('home', msg=msg))
+    except jwt.exceptions.DecodeError:
+        msg = 'There was a problem logging you in'
+    return render_template('about.html', msg=msg)
+        # return redirect(url_for('home', msg=msg))
 
 
 @app.route('/news', methods=['GET'])
@@ -499,13 +529,16 @@ def news():
         )
         # Mendapatkan informasi user dari database berdasarkan username pada payload
         user_info = db.users.find_one({"username": payload["id"]})
-        return render_template('news.html', user_info=user_info)
+        logged_in = True
+        # logged_out = False
+        return render_template('news.html', logged_in=logged_in, user_info=user_info)
     except jwt.ExpiredSignatureError:
         msg = 'Your token has expired'
-        return redirect(url_for('login', msg=msg))
+        # return redirect(url_for('home', msg=msg))
     except jwt.exceptions.DecodeError:
         msg = 'There was a problem logging you in'
-        return redirect(url_for('login', msg=msg))
+    return render_template('news.html', msg=msg)
+        # return redirect(url_for('home', msg=msg))
 
 
 if __name__ == '__main__':

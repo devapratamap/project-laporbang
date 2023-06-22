@@ -10,7 +10,12 @@
 
         <script>
         $(document).ready(function () {
+            {% if logged_in %}
             get_posts();
+            {% else %}
+            get_posts_all();
+            {% endif %}
+
         });
 
         function update_post() {
@@ -159,9 +164,10 @@
     <body class="has-navbar-fixed-top">
 
         {% include 'navbar.html' %}
-
+        
         <section class="section">
             <article class="media">
+                {% if logged_in %}
                 <figure class="media-left" style="align-self: center">
                     <a class="image is-32x32"
                         href="/user/{{ user_info.username }}">
@@ -169,6 +175,7 @@
                             src="{{ url_for('static', filename=user_info.profile_pic_real ) }}">
                     </a>
                 </figure>
+                {% endif %}
                 <div class="media-content">
                     <div class="field">
                         <p class="control">

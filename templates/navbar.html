@@ -68,7 +68,7 @@
             <a class="navbar-item" href="/">
                 <img src="{{ url_for('static', filename='assets/logo.png') }}" />
             </a>
-    
+
             <a role="button" class="navbar-burger is-white" id="burger" aria-label="menu" aria-expanded="false"
                 data-target="navbarMenu">
                 <span aria-hidden="true"></span>
@@ -76,29 +76,36 @@
                 <span aria-hidden="true"></span>
             </a>
         </div>
-    
+
         <div id="navbarMenu" class="navbar-menu">
             <div class="navbar-start">
                 <a class="navbar-item" href="/">Beranda</a>
                 <a class="navbar-item" href="/news">Berita</a>
                 <a class="navbar-item" href="/about">Tentang Kami</a>
             </div>
-    
+
+            {% if logged_in %}
             <div class="navbar-end">
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">
                         <img src="{{ url_for('static', filename=user_info.profile_pic_real) }}" class="avatar-image" />
                     </a>
-    
+
                     <div class="navbar-dropdown is-right has-dropdown">
                         <a class="navbar-item" href="/user/{{ user_info.username }}">Profil</a>
                         <a class="navbar-item" onclick="sign_out()">Keluar</a>
                     </div>
                 </div>
             </div>
+            {% endif %}
+
+            {% if not logged_in %}
+            <div class="navbar-end">
+                <a class="navbar-item" href="/login">Masuk</a>
+            </div>
+            {% endif %}
         </div>
     </nav>
-    
     <br>
 
     <script>

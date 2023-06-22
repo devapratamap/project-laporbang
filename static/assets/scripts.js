@@ -63,6 +63,63 @@ function post() {
     });
 }
 
+function get_posts_all() {
+    $("#post-box").empty();
+    $.ajax({
+        type: "GET",
+        url: `/get_posts_all`,
+        data: {},
+        success: function (response) {
+            let postinganList = response
+            for (let i = 0; i < postinganList.length; i++){
+                let postingan = postinganList[i];
+                let time_post = new Date(postingan["date"]);
+                let time_before = time2str(time_post);
+                console.log(time_before)
+                let html_temp = `
+                <div class="card" id="">
+                    <div class="card-image">
+                        <figure class="image is-4by3">
+                            <img src="/static/post/${postingan["image_filename"]}" alt="">
+                        </figure>
+                    </div>
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-left">
+                                <figure class="image is-48x48">
+                                    <img src="/static/${postingan["profile_pic_real"]}">
+                                </figure>
+                            </div>
+                            <div class="media-content" data-title>
+                                <p class="title is-4">${postingan["profile_name"]}</p>
+                                <p class="subtitle is-6">${postingan["username"]}</p>
+                            </div>
+                        </div>
+            
+                        <div class="content" data-body>
+                            ${postingan["alamat"]}
+                            <br>
+                            ${postingan["provinsi"]}, ${postingan["kotakab"]}, ${postingan["kecamatan"]}
+                            <br>
+                            <div class="box">
+                                <b>${postingan["deskripsi"]}</b>
+                            </div>
+                            <time datetime="2016-1-1">${time_before}</time>
+                            <br>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+                        <br>
+                
+                        `;
+                    $("#post-box").append(html_temp);
+            }
+            console.log(response)
+
+        },
+    });
+}
 
 function get_posts(username) {
     if (username == undefined) {
@@ -127,6 +184,7 @@ function get_posts(username) {
         },
     });
 }
+
 
 // function delete_post(postId) {
 //     Swal.fire({
@@ -250,7 +308,7 @@ function sign_out() {
     }).then((result) => {
         if (result.isConfirmed) {
             $.removeCookie("mytoken", { path: "/" });
-            window.location.href = "/login";
+            window.location.href = "/";
             // Kode JavaScript yang dieksekusi saat tombol "OK" diklik
             // Atau panggil fungsi lain di sini
         }
