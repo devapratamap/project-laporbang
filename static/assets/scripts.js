@@ -78,7 +78,7 @@ function get_posts_all() {
         data: {},
         success: function (response) {
             let postinganList = response
-            for (let i = 0; i < postinganList.length; i++){
+            for (let i = 0; i < postinganList.length; i++) {
                 let postingan = postinganList[i];
                 let time_post = new Date(postingan["date"]);
                 let time_before = time2str(time_post);
@@ -120,7 +120,7 @@ function get_posts_all() {
                         <br>
                 
                         `;
-                    $("#post-box").append(html_temp);
+                $("#post-box").append(html_temp);
             }
             console.log(response)
 
@@ -276,50 +276,52 @@ function news_post() {
     });
 }
 
-// function get_news_posts(username) {
-//     if (username == undefined) {
-//         username = "";
-//     }
-//     $("#post-box").empty();
-//     $.ajax({
-//         type: "GET",
-//         url: `/get_news_posts?username_give=${username}`,
-//         data: {},
-//         success: function (response) {
-//             if (response["result"] === "success") {
-//                 let posts = response["posts"];
-//                 for (let i = 0; i < posts.length; i++) {
-//                     let post = posts[i];
-//                     let time_post = new Date(post["date"]);
-//                     let time_before = time2str(time_post);
-//                     let html_temp = `
-//                     <div class="card" id="${post["_id"]} style="margin-bottom: 20px;">
-//                         <div class="card-image">
-//                             <figure class="image is-4by3">
-//                                 <img src="${post["image_filename"]}">
-//                             </figure>
-//                         </div>
-//                         <button class="button is-danger">Delete</button>
-//                         <div class="card-content">
-//                             <div class="media">
-//                                 <div class="media-content">
-//                                     <p class="title is-4">${post["judul"]}</p>
-//                                 </div>
-//                             </div>
-//                             <div class="content">
-//                                 ${post["news_deskripsi"]}
-//                                 <time datetime="2016-1-1">${time_before}</time>
-//                             <br>
-//                             </div>
-//                         </div>
-//                     </div>
-//                             `;
-//                     $("#post-box").append(html_temp);
-//                 }
-//             }
-//         },
-//     });
-// }
+function get_news_post() {
+    $("#post-box").empty();
+    $.ajax({
+        type: "GET",
+        url: "/get_news_post",
+        success: function (response) {
+            let newsList = response;
+            for (let i = 0; i < newsList.length; i++) {
+                let news = newsList[i];
+                let time_post = new Date(news["date"]);
+                let time_before = time2str(time_post);
+                console.log(time_before);
+                let html_temp = `
+                    <div class="card" id="${i}" style="margin-bottom: 20px;">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                                <img src="${news["image_filename"]}">
+                            </figure>
+                        </div>
+
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-content">
+                                    <p class="title is-4">${news["judul"]}</p>
+                                </div>
+                            </div>
+                            <div class="content">
+                                ${news["news_deskripsi"]}
+                                <br>
+                                <br>
+                                <time datetime="2016-1-1">${time_before}</time>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                $("#post-box").append(html_temp);
+            }
+        },
+    });
+}
+
+
+
+
+
 
 
 // Fungsi hapus cookie dan logout

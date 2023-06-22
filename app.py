@@ -459,60 +459,11 @@ def delete_post(post_id):
         return redirect(url_for('home')), 200, CORS_HEADERS
 
 
-# @app.route('/get_news_posts', methods=['GET'])
-# def get_news_posts():
-#     token_receive = request.cookies.get(TOKEN_KEY)
-#     try:
-#         payload = jwt.decode(
-#             token_receive,
-#             SECRET_KEY,
-#             algorithms=['HS256']
-#         )
-#         username_receive = request.args.get("username_give")
-#         if username_receive == "":
-#             posts = list(db.news_posts.find({}).sort("date", -1).limit(20))
-#         else:
-#             posts = list(
-#                 db.news_posts.find({"username": username_receive}
-#                               ).sort("date", -1).limit(20)
-#             )
-
-#         for post in posts:
-#             post["_id"] = str(post["_id"])
-#             post["count_heart"] = db.likes.count_documents(
-#                 {"post_id": post["_id"], "type": "heart"}
-#             )
-#             post["count_star"] = db.likes.count_documents(
-#                 {"post_id": post["_id"], "type": "star"}
-#             )
-#             post["count_thumbsup"] = db.likes.count_documents(
-#                 {"post_id": post["_id"], "type": "thumbsup"}
-#             )
-#             post["heart_by_me"] = bool(
-#                 db.likes.find_one(
-#                     {"post_id": post["_id"], "type": "heart",
-#                         "username": payload["id"]}
-#                 )
-#             )
-#             post["star_by_me"] = bool(
-#                 db.likes.find_one(
-#                     {"post_id": post["_id"], "type": "star",
-#                         "username": payload["id"]}
-#                 )
-#             )
-#             post["thumbsup_by_me"] = bool(
-#                 db.likes.find_one(
-#                     {"post_id": post["_id"], "type": "thumbsup",
-#                         "username": payload["id"]}
-#                 )
-#             )
-#         return jsonify({
-#             'result': 'success',
-#             'msg': 'Success fetched all post',
-#             "posts": posts
-#         })
-#     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-#         return redirect(url_for('news'))
+@app.route('/get_news_post', methods=['GET'])
+def get_news_post():
+    news_list = list(db.news_posts.find({}, {'_id': 0}))
+    news_list = sorted(news_list, key=lambda news: news["date"], reverse=True)
+    return jsonify(news_list), 200
 
 
 @app.route('/about', methods=['GET'])
