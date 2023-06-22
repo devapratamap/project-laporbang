@@ -207,6 +207,7 @@ def save_img():
         # Mendapatkan data yang dikirimkan dalam permintaan POST
         name_receive = request.form["name_give"]
         about_receive = request.form["about_give"]
+        new_doc = {'profile_name': name_receive, 'profile_info': about_receive}
         if "file_give" in request.files:
             # Jika ada file yang dikirimkan, menyimpannya dan memperbarui path gambar profil
             file = request.files["file_give"]
@@ -214,16 +215,12 @@ def save_img():
             extension = filename.split(".")[-1]
             file_path = f"profile/{username}.jpg"
             file.save("./static/" + file_path)
+            new_doc['profile_pic'] = filename
+            new_doc['profile_pic_real'] = file_path
             # Memperbarui informasi gambar profil dalam dokumen MongoDB
-            db.users.update_one({"username": username}, {"$set": {
-                "profile_pic": filename,
-                "profile_pic_real": file_path
-            }})
-        # Memperbarui informasi profil pengguna dalam dokumen MongoDB
-        db.users.update_one({"username": username}, {"$set": {
-            "profile_name": name_receive,
-            "profile_info": about_receive
-        }})
+            db.posts.update_many({"username": payload['id']}, {"$set": {"profile_pic": file_path}})
+        db.users.update_one({"username": payload['id']}, {"$set": new_doc})
+        db.posts.update_many({"username": payload['id']}, {"$set": {'profile_name': name_receive}})
         return jsonify({"result": "success"})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
