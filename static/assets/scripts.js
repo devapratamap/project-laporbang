@@ -137,6 +137,7 @@ function get_posts(username) {
         type: "GET",
         url: `/get_posts?username_give=${username}`,
         data: {},
+        cache: false,
         success: function (response) {
             if (response["result"] === "success") {
                 let posts = response["posts"];
@@ -145,53 +146,75 @@ function get_posts(username) {
                     let time_post = new Date(post["date"]);
                     let time_before = time2str(time_post);
                     console.log(post);
-                    // let class_heart = post['heart_by_me'] ? "fa-heart" : "fa-heart-o";
-                    // let class_star = post['star_by_me'] ? "fa-heart" : "fa-heart-o";
-                    // let class_thumbsup = post['thumbsup_by_me'] ? "fa-thumbs-up" : "fa-thumbs-o-up";
                     let html_temp = `
-                    <div class="card" id="${post["_id"]}">
-                        <div class="card-image">
-                            <figure class="image is-4by3">
-                                <img src="/static/post/${post["image_filename"]}" alt="">
-                            </figure>
-                        </div>
-                        <div class="card-content">
-                            <div class="media">
-                                <div class="media-left">
-                                    <figure class="image is-48x48">
-                                        <img src="/static/${post["profile_pic_real"]}">
-                                    </figure>
-                                </div>
-                                <div class="media-content" data-title>
-                                    <p class="title is-4">${post["profile_name"]}</p>
-                                    <p class="subtitle is-6">${post["username"]}</p>
-                                </div>
+                        <div class="card" id="${post["_id"]}">
+                            <div class="card-image">
+                                <figure class="image is-4by3">
+                                    <img src="/static/post/${post["image_filename"]}" alt="">
+                                </figure>
                             </div>
-                
-                            <div class="content" data-body>
-                                ${post["alamat"]}
-                                <br>
-                                ${post["provinsi"]}, ${post["kotakab"]}, ${post["kecamatan"]}
-                                <br>
-                                <div class="box">
-                                    <b>${post["deskripsi"]}</b>
+                            <div class="card-content">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <figure class="image is-48x48">
+                                            <img src="/static/${post["profile_pic_real"]}">
+                                        </figure>
+                                    </div>
+                                    <div class="media-content" data-title>
+                                        <p class="title is-4">${post["profile_name"]}</p>
+                                        <p class="subtitle is-6">${post["username"]}</p>
+                                    </div>
                                 </div>
-                                <time datetime="2016-1-1">${time_before}</time>
-                                <br>
-                                <br>
-                            </div>
-                        </div>
-                    </div>
-                            <br>
                     
-                            `;
+                                <div class="content" data-body>
+                                    ${post["alamat"]}
+                                    <br>
+                                    ${post["provinsi"]}, ${post["kotakab"]}, ${post["kecamatan"]}
+                                    <br>
+                                    <div class="box">
+                                        <b>${post["deskripsi"]}</b>
+                                    </div>
+                                    <time datetime="2016-1-1">${time_before}</time>
+                                    <button class="button is-danger" onclick="deletePost('${post['_id']}')">Delete</button>
+                                    <br>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                    `;
                     $("#post-box").append(html_temp);
                 }
             }
-        },
+        }
     });
 }
 
+
+function deletePost(postId) {
+    Swal.fire({
+        title: 'Apaka Anda Yakin?',
+        text: 'Data akan dihapus permanen',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Jika tombol "Yes" diklik
+            $.ajax({
+                type: "DELETE",
+                url: `/delete_post/${postId}`,
+                success: function (response) {
+                    Swal.fire('Deleted!', 'Post berhasil dihapus.', 'success').then(() => {
+                        $("#modal-post").removeClass("is-active");
+                        window.location.reload();
+                    });
+                }
+            });
+        }
+    });
+}
 
 // function delete_post(postId) {
 //     Swal.fire({

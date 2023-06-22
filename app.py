@@ -61,7 +61,7 @@ def home():
     except jwt.exceptions.DecodeError:
         msg = 'There was a problem logging you in'
     return render_template('index.html', msg=msg)
-        # return redirect(url_for('home', msg=msg))
+    # return redirect(url_for('home', msg=msg))
 
 
 @app.route('/login', methods=['GET'])
@@ -218,9 +218,11 @@ def save_img():
             new_doc['profile_pic'] = filename
             new_doc['profile_pic_real'] = file_path
             # Memperbarui informasi gambar profil dalam dokumen MongoDB
-            db.posts.update_many({"username": payload['id']}, {"$set": {"profile_pic": file_path}})
+            db.posts.update_many({"username": payload['id']}, {
+                                 "$set": {"profile_pic": file_path}})
         db.users.update_one({"username": payload['id']}, {"$set": new_doc})
-        db.posts.update_many({"username": payload['id']}, {"$set": {'profile_name': name_receive}})
+        db.posts.update_many({"username": payload['id']}, {
+                             "$set": {'profile_name': name_receive}})
         return jsonify({"result": "success"})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
@@ -291,8 +293,9 @@ def get_posts_all():
             "date": postingan["date"],
             "image_filename": postingan["image_filename"]
         })
-    
-    post_list = sorted(post_list, key=lambda postingan: postingan["date"], reverse=True)
+
+    post_list = sorted(
+        post_list, key=lambda postingan: postingan["date"], reverse=True)
 
     return jsonify(post_list), 200
 
@@ -398,6 +401,7 @@ def get_posts():
 #     else:
 #         return jsonify({'result': 'failure',})
 
+
 @app.route('/news_posting', methods=['POST'])
 def news_posting():
     token_receive = request.cookies.get(TOKEN_KEY)
@@ -435,6 +439,24 @@ def news_posting():
         }), 200, CORS_HEADERS
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for('news')), 200, CORS_HEADERS
+
+
+@app.route('/delete_post/<post_id>', methods=['DELETE'])
+def delete_post(post_id):
+    token_receive = request.cookies.get(TOKEN_KEY)
+    try:
+        payload = jwt.decode(
+            token_receive,
+            SECRET_KEY,
+            algorithms=['HS256']
+        )
+        db.posts.delete_one({"_id": ObjectId(post_id)})
+        return jsonify({
+            'result': 'success',
+            'msg': 'Post deleted successfully'
+        }), 200, CORS_HEADERS
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for('home')), 200, CORS_HEADERS
 
 
 # @app.route('/get_news_posts', methods=['GET'])
@@ -515,7 +537,7 @@ def about():
     except jwt.exceptions.DecodeError:
         msg = 'There was a problem logging you in'
     return render_template('about.html', msg=msg)
-        # return redirect(url_for('home', msg=msg))
+    # return redirect(url_for('home', msg=msg))
 
 
 @app.route('/news', methods=['GET'])
@@ -540,7 +562,7 @@ def news():
     except jwt.exceptions.DecodeError:
         msg = 'There was a problem logging you in'
     return render_template('news.html', msg=msg)
-        # return redirect(url_for('home', msg=msg))
+    # return redirect(url_for('home', msg=msg))
 
 
 if __name__ == '__main__':
