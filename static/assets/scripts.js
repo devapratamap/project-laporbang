@@ -128,6 +128,70 @@ function get_posts_all() {
     });
 }
 
+// function get_posts(username) {
+//     if (username == undefined) {
+//         username = "";
+//     }
+//     $("#post-box").empty();
+//     $.ajax({
+//         type: "GET",
+//         url: `/get_posts?username_give=${username}`,
+//         data: {},
+//         cache: false,
+//         success: function (response) {
+//             if (response["result"] === "success") {
+//                 let posts = response["posts"];
+//                 for (let i = 0; i < posts.length; i++) {
+//                     let post = posts[i];
+//                     let time_post = new Date(post["date"]);
+//                     let time_before = time2str(time_post);
+//                     console.log(post);
+//                     let html_temp = `
+//                         <div class="card" id="${post["_id"]}">
+//                             <div class="card-image">
+//                                 <figure class="image is-4by3">
+//                                     <img src="/static/post/${post["image_filename"]}" alt="">
+//                                 </figure>
+//                             </div>
+//                             <div class="card-content">
+//                                 <div class="media">
+//                                     <div class="media-left">
+//                                         <figure class="image is-48x48">
+//                                             <img src="/static/${post["profile_pic_real"]}">
+//                                         </figure>
+//                                     </div>
+//                                     <div class="media-content" data-title>
+//                                         <p class="title is-4">${post["profile_name"]}</p>
+//                                         <p class="subtitle is-6">${post["username"]}</p>
+//                                     </div>
+//                                 </div>
+                    
+//                                 <div class="content" data-body>
+//                                     ${post["alamat"]}
+//                                     <br>
+//                                     ${post["provinsi"]}, ${post["kotakab"]}, ${post["kecamatan"]}
+//                                     <br>
+//                                     <div class="box">
+//                                         <b>${post["deskripsi"]}</b>
+//                                     </div>
+//                                     <time datetime="2016-1-1">${time_before}</time>
+//                                     <br>
+//                                     <br>
+//                                     <button class="button is-danger" onclick="deletePost('${post['_id']}')">Delete</button>
+//                                     <br>
+//                                     <br>
+//                                 </div>
+//                             </div>
+//                         </div>
+//                         <br>
+//                     `;
+//                     $("#post-box").append(html_temp);
+//                 }
+//             }
+//         }
+//     });
+// }
+
 function get_posts(username) {
     if (username == undefined) {
         username = "";
@@ -146,6 +210,10 @@ function get_posts(username) {
                     let time_post = new Date(post["date"]);
                     let time_before = time2str(time_post);
                     console.log(post);
+                    let deleteButton = "";
+                    if (username === post["username"] || username === "admlapor") {
+                        deleteButton = `<button class="button is-danger" onclick="deletePost('${post['_id']}')">Delete</button>`;
+                    }
                     let html_temp = `
                         <div class="card" id="${post["_id"]}">
                             <div class="card-image">
@@ -175,9 +243,9 @@ function get_posts(username) {
                                         <b>${post["deskripsi"]}</b>
                                     </div>
                                     <time datetime="2016-1-1">${time_before}</time>
-                                    <button class="button is-danger" onclick="deletePost('${post['_id']}')">Delete</button>
                                     <br>
                                     <br>
+                                    ${deleteButton}
                                 </div>
                             </div>
                         </div>

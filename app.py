@@ -218,8 +218,7 @@ def save_img():
             new_doc['profile_pic'] = filename
             new_doc['profile_pic_real'] = file_path
             # Memperbarui informasi gambar profil dalam dokumen MongoDB
-            db.posts.update_many({"username": payload['id']}, {
-                                 "$set": {"profile_pic": file_path}})
+            db.posts.update_many({"username": payload['id']}, {"$set": {"profile_pic": file_path}})
         db.users.update_one({"username": payload['id']}, {"$set": new_doc})
         db.posts.update_many({"username": payload['id']}, {
                              "$set": {'profile_name': name_receive}})
