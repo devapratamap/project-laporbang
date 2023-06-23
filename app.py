@@ -226,6 +226,21 @@ def save_img():
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
 
+@app.route('/check_login', methods=['GET'])
+def check_login():
+    token_receive = request.cookies.get(TOKEN_KEY)
+    if token_receive:
+        try:
+            jwt.decode(
+                token_receive,
+                SECRET_KEY,
+                algorithms=['HS256']
+            )
+            return jsonify(logged_in=True)
+        except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+            pass
+    # User does not have a valid token, redirect to the login page
+    return redirect(url_for('login'))
 
 @app.route('/posting', methods=['POST'])
 def posting():
@@ -436,6 +451,33 @@ def news_posting():
             'result': 'error',
             'msg': 'Token Expired or Invalid'
         }), 401
+
+@app.route('/delete_news/<news_id>', methods=['DELETE'])
+def delete_news(news_id):
+    token_receive = request.cookies.get(TOKEN_KEY)
+    try:
+        payload = jwt.decode(
+            token_receive,
+            SECRET_KEY,
+            algorithms=['HS256']
+        )
+        username = payload["id"]  # Mendapatkan username dari payload token
+        if username == "admlapor":
+            db.news_posts.delete_one({"_id": ObjectId(news_id)})
+            return jsonify({
+                'result': 'success',
+                'msg': 'Post deleted successfully'
+            }), 200, CORS_HEADERS
+        else:
+            return jsonify({
+                'result': 'error',
+                'msg': 'Access denied'
+            }), 403, CORS_HEADERS
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return jsonify({
+            'result': 'error',
+            'msg': 'Expired token'
+        }), 401, CORS_HEADERS
 
 
 

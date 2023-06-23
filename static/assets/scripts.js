@@ -379,6 +379,7 @@ function get_news_post() {
                                 <br>
                             </div>
                         </div>
+                        ${deleteButton}
                     </div>
                 `;
                 $("#post-box").append(html_temp);
@@ -386,6 +387,44 @@ function get_news_post() {
         },
     });
 }
+
+function deleteNews(newsId) {
+    Swal.fire({
+        title: 'Apakah Anda Yakin?',
+        text: 'Data akan dihapus permanen',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Jika tombol "Yes" diklik
+            $.ajax({
+                type: "DELETE",
+                url: `/delete_news/${newsId}`,
+                success: function (response) {
+                    if (response.result === 'success') {
+                        Swal.fire({
+                            title: 'Deleted!',
+                            text: 'Post berhasil dihapus.',
+                            icon: 'success',
+                            onClose: function () {
+                                $("#modal-post").removeClass("is-active");
+                                window.location.reload();
+                            }
+                        });
+                    } else {
+                        Swal.fire('Error!', 'Gagal menghapus post.', 'error');
+                    }
+                },
+                error: function () {
+                    Swal.fire('Error!', 'Gagal menghapus post.', 'error');
+                }
+            });
+        }
+    });
+}
+
 
 
 
