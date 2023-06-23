@@ -46,13 +46,12 @@
     <section class="section">
         <article class="media">
             {% if logged_in %}
+            {% if user_info.username == "admlapor" %}
             <figure class="media-left" style="align-self: center">
                 <a class="image is-32x32" href="/user/{{ user_info.username }}">
-                    <img class="is-rounded" src="{{ url_for('static', filename=user_info.profile_pic_real )
-                        }}">
+                    <img class="is-rounded" src="{{ url_for('static', filename=user_info.profile_pic_real ) }}">
                 </a>
             </figure>
-            {% endif %}
             <div class="media-content">
                 <div class="field">
                     <p class="control">
@@ -77,8 +76,8 @@
                                                         <input
                                                             class="file-input"
                                                             type="file"
-                                                            name="image"
-                                                            id="imageInput"
+                                                            name="file_name"
+                                                            id="file_name"
                                                             accept="image/*">
                                                         <span
                                                             class="file-cta">
@@ -122,6 +121,8 @@
                     </p>
                 </div>
             </div>
+            {% endif %}
+            {% endif %}
         </article>
     </section>
 

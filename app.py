@@ -389,17 +389,6 @@ def get_posts():
 #     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
 #         return redirect(url_for("home"))
 
-# @app.route('/delete_post', methods=['DELETE'])
-# def delete_post():
-#     # Cek apakah post_id valid dan ada dalam database
-#     post = db.posts.find_one({"_id"})
-#     if post:
-#         # Hapus data dari database
-#         db.posts.delete_one({"_id"})
-#         return jsonify({'result': 'success',})
-#     else:
-#         return jsonify({'result': 'failure',})
-
 
 @app.route('/news_posting', methods=['POST'])
 def news_posting():
@@ -411,14 +400,20 @@ def news_posting():
             algorithms=['HS256']
         )
         user_info = db.users.find_one({"username": payload["id"]})
+        if user_info["username"] != "admlapor":
+            return jsonify({
+                'result': 'error',
+                'msg': 'Unauthorized Access'
+            }), 401
+        
         judul = request.form["judul"]
         news_deskripsi = request.form["news_deskripsi"]
         date_receive = request.form["date_give"]
 
-        image = request.files['image']
-        filename = image.filename
+        image = request.files['file_name']
+        filename = secure_filename(image.filename)
 
-    # Save the image file to the specified folder
+        # Save the image file to the specified folder
         image_path = os.path.join(app.config['UPLOAD_NEWS'], filename)
         image.save(image_path)
 
@@ -435,9 +430,13 @@ def news_posting():
         return jsonify({
             'result': 'success',
             'msg': 'Posting Berita Success'
-        }), 200, CORS_HEADERS
+        }), 200
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return redirect(url_for('news')), 200, CORS_HEADERS
+        return jsonify({
+            'result': 'error',
+            'msg': 'Token Expired or Invalid'
+        }), 401
+
 
 
 @app.route('/delete_post/<post_id>', methods=['DELETE'])
@@ -462,6 +461,14 @@ def delete_post(post_id):
 def get_news_post():
     news_list = list(db.news_posts.find({}, {'_id': 0}))
     news_list = sorted(news_list, key=lambda news: news["date"], reverse=True)
+
+    # Menambahkan URL gambar ke setiap entri dalam news_list
+    for news in news_list:
+        image_filename = news.get("image_filename")
+        if image_filename:
+            image_url = f"{request.host_url}static/news/{image_filename}"
+            news["image_url"] = image_url
+
     return jsonify(news_list), 200
 
 

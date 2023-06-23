@@ -322,14 +322,14 @@ function news_post() {
     let news_deskripsi = $("#news_deskripsi").val();
 
     let today = new Date().toISOString();
-    let fileInput = document.getElementById("imageInput");
+    let fileInput = document.getElementById("file_name");
     let file = fileInput.files[0];
 
     let formData = new FormData();
     formData.append("judul", judul);
     formData.append("news_deskripsi", news_deskripsi);
     formData.append("date_give", today);
-    formData.append("image", file);
+    formData.append("file_name", file);
 
     $.ajax({
         type: "POST",
@@ -339,10 +339,11 @@ function news_post() {
         processData: false,
         success: function (response) {
             $("#modal-post").removeClass("is-active");
-            window.location.reload();
+            get_news_post(); // Memanggil fungsi get_news_post untuk memperbarui tampilan dengan berita terbaru
         },
     });
 }
+
 
 function get_news_post() {
     $("#post-box").empty();
@@ -360,7 +361,7 @@ function get_news_post() {
                     <div class="card" id="${i}" style="margin-bottom: 20px;">
                         <div class="card-image">
                             <figure class="image is-4by3">
-                                <img src="${news["image_filename"]}">
+                                <img src="${news["image_url"]}">
                             </figure>
                         </div>
 
@@ -385,6 +386,7 @@ function get_news_post() {
         },
     });
 }
+
 
 
 
