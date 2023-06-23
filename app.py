@@ -168,34 +168,6 @@ def check_dup():
     return jsonify({'result': 'success', 'exists': exists})
 
 
-# @app.route('/update_profile', methods=['POST'])
-# def save_img():
-#     # Mendapatkan token dari cookie
-#     token_receive = request.cookies.get("mytoken")
-#     try:
-#         # Mendekode token menggunakan SECRET_KEY
-#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
-#         username = payload["id"]
-#         # Mendapatkan data yang dikirimkan dalam permintaan POST
-#         name_receive = request.form["name_give"]
-#         about_receive = request.form["about_give"]
-#         if "file_give" in request.files:
-#             # Jika ada file yang dikirimkan, menyimpannya dan memperbarui path gambar profil
-#             file = request.files["file_give"]
-#             filename = secure_filename(file.filename)
-#             extension = filename.split(".")[-1]
-#             file_path = f"profile/{username}.{extension}"
-#             file.save("./static/" + file_path)
-#             new_doc["profile_pic"] = filename
-#             new_doc["profile_pic_real"] = file_path
-#         # Memperbarui informasi profil user dalam database
-#         new_doc = {"profile_name": name_receive, "profile_info": about_receive}
-#         db.users.update_one({"username": payload["id"]}, {"$set": new_doc})
-#         return jsonify({"result": "success"})
-#     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-#         return redirect(url_for("home"))
-
-
 @app.route('/update_profile', methods=['POST'])
 def save_img():
     # Mendapatkan token dari cookie
@@ -369,41 +341,6 @@ def get_posts():
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for('home'))
 
-# @app.route('/update_post', methods=['POST'])
-# def update_post():
-#     # Mendapatkan token dari cookie
-#     token_receive = request.cookies.get("mytoken")
-#     try:
-#         # Mendekode token menggunakan SECRET_KEY
-#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
-#         username = payload["id"]
-#         # Mendapatkan data yang dikirimkan dalam permintaan POST
-#         alamat_receive = request.form["alamat_give"]
-#         provinsi_receive = request.form["provinsi_give"]
-#         kotakab_receive = request.form["kotakab_give"]
-#         kecamatan_receive = request.form["kecamatan_give"]
-#         deskripsi_receive = request.form["deskripsi_give"]
-#         new_doc = {
-#             "alamat": alamat_receive,
-#             "provinsi": provinsi_receive,
-#             "kotakab": kotakab_receive,
-#             "kecamatan": kecamatan_receive,
-#             "deskripsi": deskripsi_receive}
-#         if "file_give" in request.files:
-#             # Jika ada file yang dikirimkan, menyimpannya dan memperbarui path gambar profil
-#             file = request.files["file_give"]
-#             filename = secure_filename(file.filename)
-#             extension = filename.split(".")[-1]
-#             file_path = f"profile/{username}.{extension}"
-#             file.save("./static/" + file_path)
-#             new_doc["profile_pic"] = filename
-#             new_doc["profile_pic_real"] = file_path
-#         # Memperbarui informasi profil user dalam database
-#         db.posts.update_one({"username": payload["id"]}, {"$set": new_doc})
-#         return jsonify({"result": "success"})
-#     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-#         return redirect(url_for("home"))
-
 
 @app.route('/news_posting', methods=['POST'])
 def news_posting():
@@ -451,34 +388,6 @@ def news_posting():
             'result': 'error',
             'msg': 'Token Expired or Invalid'
         }), 401
-
-@app.route('/delete_news/<news_id>', methods=['DELETE'])
-def delete_news(news_id):
-    token_receive = request.cookies.get(TOKEN_KEY)
-    try:
-        payload = jwt.decode(
-            token_receive,
-            SECRET_KEY,
-            algorithms=['HS256']
-        )
-        username = payload["id"]  # Mendapatkan username dari payload token
-        if username == "admlapor":
-            db.news_posts.delete_one({"_id": ObjectId(news_id)})
-            return jsonify({
-                'result': 'success',
-                'msg': 'Post deleted successfully'
-            }), 200, CORS_HEADERS
-        else:
-            return jsonify({
-                'result': 'error',
-                'msg': 'Access denied'
-            }), 403, CORS_HEADERS
-    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return jsonify({
-            'result': 'error',
-            'msg': 'Expired token'
-        }), 401, CORS_HEADERS
-
 
 
 @app.route('/delete_post/<post_id>', methods=['DELETE'])

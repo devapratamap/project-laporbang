@@ -7,13 +7,6 @@ body {
     min-height: 100vh;
 }
 
-/* .avatar-image {
-  border-radius: 50%;
-  width: 60px;
-  height: 60px; 
-  object-fit: cover;
-  object-position: center;
-} */
 
 .custom-navbar {
     background-color: #004ABA;
@@ -23,9 +16,6 @@ body {
     color: white;
 }
 
-/* .custom-navbar .navbar-start {
-    background-color: #004ABA;
-} */
 
 @media (max-width: 768px) {
     .navbar-start {
@@ -203,17 +193,6 @@ input::-webkit-calendar-picker-indicator {
     margin-right: 1rem;
     flex-shrink: 0;
   }
-  
-  /* .media-content {
-    font-weight: bold;
-    font-size: 1.25rem;
-    text-transform: capitalize;
-    word-wrap: none;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    flex-grow: 1;
-  } */
 
 .text-hidden {
     visibility: hidden;

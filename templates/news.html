@@ -6,35 +6,10 @@
     {% include 'meta.html' %}
     <script>
         $(document).ready(function () {
-            // Ketika dokumen siap, panggil fungsi get_posts dengan parameter username dari user_info
             get_news_post();
             
             
         });
-
-        // function news_post() {
-        //     const judul = $("#judul").val();
-        //     const news_deskripsi = $("#news_deskripsi").val();
-        //     const today = new Date().toISOString();
-        //     const fileInput = document.getElementById("imageInput");
-        //     const file = fileInput.files[0];
-        //     const formData = new FormData();
-        //     formData.append("judul", judul);
-        //     formData.append("news_deskripsi", news_deskripsi);
-        //     formData.append("date_give", today);
-        //     formData.append("image", file);
-        //     $.ajax({
-        //         type: "POST",
-        //         url: "/news_posting",
-        //         data: formData,
-        //         contentType: false,
-        //         processData: false,
-        //         success: function (response) {
-        //             $("#modal-post").removeClass("is-active");
-        //             window.location.reload();
-        //         },
-        //     });
-        // }
     </script>
     
 

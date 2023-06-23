@@ -5,7 +5,6 @@
     <title>Home | LaporBang</title>
 
     {% include 'meta.html' %}
-    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <script>
@@ -19,7 +18,6 @@
         });
 
         function update_post() {
-            // Mendapatkan nilai name, file, dan about dari input
             let alamat = $("#input-alamat").val();
             let provinsi = $("#input-provinsi").val();
             let kotakab = $("#input-kotakab").val();
@@ -38,7 +36,6 @@
 
             console.log(alamat, provinsi, kotakab, kecamatan, deskripsi, file, form_data);
 
-            // Mengirim permintaan POST menggunakan AJAX untuk memperbarui profil pengguna
             $.ajax({
                 type: "POST",
                 url: "/update_post",
@@ -48,8 +45,6 @@
                 processData: false,
                 success: function (response) {
                     if (response["result"] === "success") {
-                        // alert(response["msg"]);
-                        // Me-refresh halaman setelah berhasil memperbarui profil
                         window.location.reload();
                     }
                 },
@@ -57,16 +52,13 @@
         }
 
         function checkLoginStatusAndShowModal() {
-            // Send an AJAX request to the server to check login status
             $.ajax({
                 url: "/check_login",
                 type: "GET",
                 success: function (response) {
                     if (response.logged_in) {
-                        // User is logged in, show the modal for creating a post
                         $("#modal-post").addClass("is-active");
                     } else {
-                        // User is not logged in, display alert and redirect to login page
                         Swal.fire({
                             icon: "warning",
                             title: "Oops...",
@@ -79,108 +71,6 @@
                 }
             });
         }
-
-        // const API_KEY = "a301edf26c84eecc073508bc5b9cdf44";
-
-        // function getProvinces() {
-        // axios.get(`https://api.rajaongkir.com/starter/province?key=${API_KEY}`)
-        //     .then(response => {
-        //     const provinces = response.data.rajaongkir.results;
-        //     const selectProvinsi = document.getElementById('provinsi');
-        //     provinces.forEach(province => {
-        //         const option = document.createElement('option');
-        //         option.value = province.province_id;
-        //         option.textContent = province.province;
-        //         selectProvinsi.appendChild(option);
-        //     });
-        //     })
-        //     .catch(error => {
-        //     console.error(error);
-        //     });
-        // }
-
-        // function getRegencies(provinceId) {
-        // axios.get(`https://api.rajaongkir.com/starter/city?province=${provinceId}&key=${API_KEY}`)
-        //     .then(response => {
-        //     const regencies = response.data.rajaongkir.results;
-        //     const selectKotakab = document.getElementById('kotakab');
-        //     selectKotakab.innerHTML = '<option value="" selected disabled>Pilih Kabupaten/Kota</option>';
-        //     regencies.forEach(regency => {
-        //         const option = document.createElement('option');
-        //         option.value = regency.city_id;
-        //         option.textContent = regency.type + ' ' + regency.city_name;
-        //         selectKotakab.appendChild(option);
-        //     });
-        //     })
-        //     .catch(error => {
-        //     console.error(error);
-        //     });
-        // }
-
-        // function getDistricts(cityId) {
-        // axios.get(`https://kodepos-2.now.sh/subdistrict?city=${cityId}`)
-        //     .then(response => {
-        //     const districts = response.data.data;
-        //     const selectKecamatan = document.getElementById('kecamatan');
-        //     selectKecamatan.innerHTML = '<option value="" selected disabled>Pilih Kecamatan</option>';
-        //     districts.forEach(district => {
-        //         const option = document.createElement('option');
-        //         option.value = district.subdistrict_id;
-        //         option.textContent = district.subdistrict_name;
-        //         selectKecamatan.appendChild(option);
-        //     });
-        //     })
-        //     .catch(error => {
-        //     console.error(error);
-        //     });
-        // }
-
-        // function post() {
-        // const alamat = $("#alamat").val();
-        // const provinsiId = $("#provinsi").val();
-        // const kotakabId = $("#kotakab").val();
-        // const kecamatanId = $("#kecamatan").val();
-        // const deskripsi = $("#deskripsi").val();
-        // const today = new Date().toISOString();
-        // const fileInput = document.getElementById("imageInput");
-        // const file = fileInput.files[0];
-        // const formData = new FormData();
-        // formData.append("alamat", alamat);
-        // formData.append("provinsi", provinsiId);
-        // formData.append("kotakab", kotakabId);
-        // formData.append("kecamatan", kecamatanId);
-        // formData.append("deskripsi", deskripsi);
-        // formData.append("date_give", today);
-        // formData.append("image", file);
-        // $.ajax({
-        //     type: "POST",
-        //     url: "/posting",
-        //     data: formData,
-        //     contentType: false,
-        //     processData: false,
-        //     success: function (response) {
-        //     $("#modal-post").removeClass("is-active");
-        //     window.location.reload();
-        //     },
-        // });
-        // }
-
-        // $(document).ready(function () {
-        // getProvinces();
-        // $('#provinsi').on('change', function () {
-        //     const provinceId = $(this).val();
-        //     if (provinceId) {
-        //     getRegencies(provinceId);
-        //     }
-        // });
-        // $('#kotakab').on('change', function () {
-        //     const cityId = $(this).val();
-        //     if (cityId) {
-        //     getDistricts(cityId);
-        //     }
-        // });
-        // });
-
     </script>
 
 </head>
@@ -332,8 +222,6 @@
     <section class="section">
         <div id="post-box" class="container">
             <!-- isi-content -->
-            <!-- <button onclick="delete_post('${post["_id"]}')" class="button is-delete is-outlined">Hapus&nbsp;&nbsp;&nbsp;<span class="icon is-small"><i class="fa fa-trash" aria-hidden="true"></i></span></button>
-            <button onclick='$("#modal-editpost").addClass("is-active")' class="button is-link is-outlined">Edit&nbsp;&nbsp;&nbsp;<span class="icon is-small"><i class="fa fa-pencil" aria-hidden="true"></i></span></button> -->
         </div>
     </section>
 

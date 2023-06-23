@@ -9,12 +9,10 @@
     <script>
 
         $(document).ready(function () {
-            // Ketika dokumen siap, panggil fungsi get_posts dengan parameter username dari user_info
             get_posts("{{user_info.username}}");
         });
 
         function update_profile() {
-            // Mendapatkan nilai name, file, dan about dari input
             let name = $("#input-name").val();
             let file = $("#input-pic")[0].files[0];
             let about = $("#textarea-about").val();
@@ -23,10 +21,8 @@
             form_data.append("file_give", file);
             form_data.append("name_give", name);
             form_data.append("about_give", about);
-
             console.log(name, file, about, form_data);
 
-            // Mengirim permintaan POST menggunakan AJAX untuk memperbarui profil pengguna
             $.ajax({
                 type: "POST",
                 url: "/update_profile",
@@ -36,8 +32,6 @@
                 processData: false,
                 success: function (response) {
                     if (response["result"] === "success") {
-                        // alert(response["msg"]);
-                        // Me-refresh halaman setelah berhasil memperbarui profil
                         window.location.reload();
                     }
                 },
@@ -53,27 +47,6 @@
 
 <section class="hero is-white">
     <div class="hero-body" style="padding-bottom:1rem;margin:auto;min-width: 400px">
-        <!-- <article class="media-profile">
-
-                <figure class="media-left" style="align-self: center">
-                    <a class="image is-96x96" href="#">
-                        <img class="is-rounded" src="{{ url_for('static', filename=user_info.profile_pic_real) }}">
-                    </a>
-                </figure>
-                <div class="media-content">
-                    <div class="content is-black">
-                        <p>
-                            <strong>{{ user_info.profile_name }}</strong>
-                            <small>@{{ user_info.username }}</small>
-                            <br>
-                            <div class="box">
-                            {{ user_info.profile_info }}
-                            </div>
-                        </p>
-                    </div>
-
-                </div>
-            </article> -->
 
         <div class="box">
             <article class="media">
@@ -97,21 +70,6 @@
                     </div>
                     <nav class="level is-mobile">
                         <div class="level-left">
-                            <!-- <a class="level-item" aria-label="reply">
-                            <span class="icon is-small">
-                            <i class="fas fa-thumbs-up" aria-hidden="false"></i>
-                            </span>
-                        </a>
-                        <a class="level-item" aria-label="retweet">
-                            <span class="icon is-small">
-                            <i class="fas fa-thumbs-down"></i>
-                            </span>
-                        </a>
-                        <a class="level-item" aria-label="like">
-                            <span class="icon is-small">
-                                <i class="fa-sharp fa-solid fa-flag"></i>
-                            </span>
-                        </a> -->
                             <button onclick='$("#modal-edit").addClass("is-active")'
                                 class="button is-link is-outlined">Edit Profile&nbsp;&nbsp;&nbsp;<span
                                     class="icon is-small"><i class="fa fa-pencil"
